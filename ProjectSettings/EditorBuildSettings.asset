@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Cover.unity
+    guid: 7296414299dff6a4f9b3497e9ebbc3f1
+  - enabled: 1
+    path: Assets/Scenes/Camel.unity
+    guid: 9dc7e4b191662074883f2314e4c66079
+  m_configObjects: {}
