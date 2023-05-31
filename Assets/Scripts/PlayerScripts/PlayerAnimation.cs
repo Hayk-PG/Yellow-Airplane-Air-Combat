@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update() {
 
-        touchPosition = GetComponent<MovementController>().touchPosition;
+        //touchPosition = GetComponent<MovementController>()._mousePosition;
 
         Animate();
 
