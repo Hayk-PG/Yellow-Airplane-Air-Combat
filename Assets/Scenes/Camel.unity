@@ -643,6 +643,7 @@ GameObject:
   - component: {fileID: 227557808}
   - component: {fileID: 227557807}
   - component: {fileID: 227557806}
+  - component: {fileID: 227557809}
   m_Layer: 0
   m_Name: AirPlane
   m_TagString: Untagged
@@ -734,6 +735,18 @@ Transform:
   m_Father: {fileID: 975349081}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &227557809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227557805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e813f7e0937ec354093fec17a21da15c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &234346877
 GameObject:
   m_ObjectHideFlags: 0
@@ -12241,6 +12254,7 @@ GameObject:
   - component: {fileID: 975349082}
   - component: {fileID: 975349083}
   - component: {fileID: 975349088}
+  - component: {fileID: 975349085}
   - component: {fileID: 975349090}
   m_Layer: 8
   m_Name: AirPlane
@@ -12299,6 +12313,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 227557806}
+--- !u!114 &975349085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975349080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ca6c4e024365b468be06c0485a22bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _boxCollider: {fileID: 975349089}
+  _spriteRenderer: {fileID: 227557807}
+  _spriteRendererAnimationManager: {fileID: 227557809}
 --- !u!50 &975349087
 Rigidbody2D:
   serializedVersion: 4
