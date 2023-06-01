@@ -1,18 +1,29 @@
 ﻿using UnityEngine;
+using Pautik;
 
 
 public class MovementController : MonoBehaviour
 {
+    private enum AnimationState { Idle, TurnRight, TurnLeft, Dodge}
+
     [Header("Components")]
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private Animator _animator;
+    [SerializeField] private AirplaneAnimationManager _airplaneAnimationManager;
+
+    private Quaternion _previousRotation;
+    private Quaternion _currentRotation;
 
     [Header("Speed")]
     [SerializeField] private float _speed;
 
 
 
+
+    private void Start()
+    {
+        _previousRotation = transform.rotation;
+    }
 
     private void OnEnable()
     {
@@ -28,6 +39,7 @@ public class MovementController : MonoBehaviour
     private void OnInputController(InputController.InputType inputType, object[] data)
     {
         Rotate(inputType, data);
+        HandleJoystickRelease(inputType);
     }
 
     // Move the object
@@ -57,5 +69,59 @@ public class MovementController : MonoBehaviour
 
         // Smoothly rotate the object towards the calculated angle using Slerp
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, angle), 2 * Time.deltaTime);
+
+        UpdateRotationDirection();
+    }
+
+    // Handles the release of the joystick.
+    private void HandleJoystickRelease(InputController.InputType inputType)
+    {
+        if(inputType != InputController.InputType.ReleaseJoystick)
+        {
+            return;
+        }
+
+        SetAnimationState(AnimationState.Idle);
+    }
+
+    // Updates the rotation direction based on the current and previous rotations.
+    private void UpdateRotationDirection()
+    {
+        _currentRotation = transform.rotation;
+
+        float angleDifference = Converter.GetAngleDifference(_currentRotation.eulerAngles.z, _previousRotation.eulerAngles.z);
+
+        if(angleDifference > 0f)
+        {
+            SetAnimationState(AnimationState.TurnLeft);         
+        }
+
+        else if (angleDifference < 0f)
+        {
+            SetAnimationState(AnimationState.TurnRight);
+        }
+
+        _previousRotation = _currentRotation;
+    }
+
+    // Sets the animation state based on the specified animation state.
+    private void SetAnimationState(AnimationState animationState)
+    {
+        switch (animationState)
+        {
+            case AnimationState.Idle: UpdateAnimationStates(true, false, false, false); break;
+            case AnimationState.TurnRight: UpdateAnimationStates(false, true, false, false); break;
+            case AnimationState.TurnLeft: UpdateAnimationStates(false, false, true, false); break;
+            case AnimationState.Dodge: UpdateAnimationStates(false, false, false, true); break;
+        }
+    }
+
+    // Updates the animation states based on the specified values.
+    private void UpdateAnimationStates(bool playIdleAnimation, bool playRightTurnAnimation, bool playLeftTurnAnimation, bool playDodgeAnimation)
+    {
+        _airplaneAnimationManager.PlayIdleAnimation(playIdleAnimation);
+        _airplaneAnimationManager.PlayRightTurnAnimation(playRightTurnAnimation);
+        _airplaneAnimationManager.PlayLeftTurnAnimation(playLeftTurnAnimation);     
+        _airplaneAnimationManager.PlayDodgeAnimation(playDodgeAnimation);
     }
 }
