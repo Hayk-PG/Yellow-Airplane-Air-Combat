@@ -45,7 +45,7 @@ public class EnemyDamageScript : MonoBehaviour,IDamageScript
             explosion = Resources.Load("Explosion") as GameObject;
             GameObject explosionCopy = Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
-            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShakeScript>().canShake = true;
+            //GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShakeScript>().canShake = true;
 
             GameObject.Find("ScoreController").GetComponent<ScoreScript>().scorePoint += 25; // ADDING SCOREPOINT
             GameObject score = Instantiate(score25, transform.position, Quaternion.identity); // +25 ANIMATION

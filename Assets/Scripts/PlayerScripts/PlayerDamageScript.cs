@@ -43,7 +43,7 @@ public class PlayerDamageScript : MonoBehaviour,IDamageScript
             GameObject explosionCopy = Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
 
-            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShakeScript>().canShake = true;
+            //GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShakeScript>().canShake = true;
         }
 
         if(health > 100) {

@@ -7,8 +7,14 @@ public class Reference : MonoBehaviour
     [Header("HUD")]
     [SerializeField] private InputController _inputController;
 
+    [Header("Camera")]
+    [SerializeField] private CameraSizeController _cameraSizeController;
+
     // HUD
     public InputController InputController => Manager._inputController;
+
+    // Camera
+    public CameraSizeController CameraSizeController => Manager._cameraSizeController;
 
 
 

@@ -167,7 +167,22 @@ public class MovementController : MonoBehaviour
             _speed = Mathf.Lerp(_speed, _newSpeed, _speedChangeTime * Time.fixedDeltaTime);
             _externalSoundSource.Pitch = Mathf.Lerp(_externalSoundSource.Pitch, _propellerNewRate, _propellerRateChangeTime * Time.fixedDeltaTime);
 
+            bool resetCameraSize = _newSpeed == _defaultSpeed;
+
+            UpdateCameraSize(resetCameraSize);
+
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
+    }
+
+    private void UpdateCameraSize(bool reset = false)
+    {
+        if (reset)
+        {
+            Reference.Manager.CameraSizeController.ResetOrtographicSizeToDefault();
+            return;
+        }
+
+        Reference.Manager.CameraSizeController.UpdateOrtographicSize(10f, 0.2f);
     }
 }
