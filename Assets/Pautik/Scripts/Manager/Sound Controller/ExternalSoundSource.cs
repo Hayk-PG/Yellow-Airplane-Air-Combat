@@ -31,6 +31,11 @@ public class ExternalSoundSource : MonoBehaviour
         get => _audioSource.volume;
         set => _audioSource.volume = value;
     }
+    public float Pitch
+    {
+        get => _audioSource.pitch;
+        set => _audioSource.pitch = value;
+    }
 
 
     

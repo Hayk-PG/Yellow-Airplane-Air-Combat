@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Pautik;
-
+using System.Collections;
 
 public class MovementController : MonoBehaviour
 {
@@ -10,6 +10,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AirplaneAnimationManager _airplaneAnimationManager;
+    [SerializeField] private ExternalSoundSource _externalSoundSource;
 
     private Quaternion _previousRotation;
     private Quaternion _currentRotation;
@@ -17,12 +18,21 @@ public class MovementController : MonoBehaviour
     [Header("Speed")]
     [SerializeField] private float _speed;
 
+    private float _defaultSpeed;
+    private float _newSpeed;
+    private float _speedChangeTime;
+    private float _propellerDefaultRate;
+    private float _propellerNewRate;
+    private float _propellerRateChangeTime;
+
 
 
 
     private void Start()
     {
-        _previousRotation = transform.rotation;
+        InitializeSpeed();
+        InitializePreviousRotation();
+        StartCoroutine(UpdateSpeed());
     }
 
     private void OnEnable()
@@ -82,6 +92,12 @@ public class MovementController : MonoBehaviour
         }
 
         SetAnimationState(AnimationState.Idle);
+        SetSpeed(_defaultSpeed, 3f, _propellerDefaultRate, 1f);
+    }
+
+    private void InitializePreviousRotation()
+    {
+        _previousRotation = transform.rotation;
     }
 
     // Updates the rotation direction based on the current and previous rotations.
@@ -93,12 +109,14 @@ public class MovementController : MonoBehaviour
 
         if(angleDifference > 0f)
         {
-            SetAnimationState(AnimationState.TurnLeft);         
+            SetAnimationState(AnimationState.TurnLeft);
+            SetSpeed(_defaultSpeed * 1.5f, 1f, 1.5f, 0.2f);
         }
 
         else if (angleDifference < 0f)
         {
             SetAnimationState(AnimationState.TurnRight);
+            SetSpeed(_defaultSpeed * 1.5f, 1f, 1.5f, 0.2f);
         }
 
         _previousRotation = _currentRotation;
@@ -123,5 +141,33 @@ public class MovementController : MonoBehaviour
         _airplaneAnimationManager.PlayRightTurnAnimation(playRightTurnAnimation);
         _airplaneAnimationManager.PlayLeftTurnAnimation(playLeftTurnAnimation);     
         _airplaneAnimationManager.PlayDodgeAnimation(playDodgeAnimation);
+    }
+
+    // Initializes the default speed and propeller rate.
+    private void InitializeSpeed()
+    {
+        _defaultSpeed = _speed;
+        _propellerDefaultRate = _externalSoundSource.Pitch;
+    }
+
+    // Sets the new speed and propeller rate with the specified values and change times.
+    private void SetSpeed(float newSpeed, float speedChangeTime, float propellerRate, float propellerRateChangeTime)
+    {
+        _newSpeed = newSpeed;
+        _speedChangeTime = speedChangeTime;
+        _propellerNewRate = propellerRate;
+        _propellerRateChangeTime = propellerRateChangeTime;
+    }
+
+    // Coroutine that continuously updates the speed and propeller rate.
+    private IEnumerator UpdateSpeed()
+    {
+        while (true)
+        {
+            _speed = Mathf.Lerp(_speed, _newSpeed, _speedChangeTime * Time.fixedDeltaTime);
+            _externalSoundSource.Pitch = Mathf.Lerp(_externalSoundSource.Pitch, _propellerNewRate, _propellerRateChangeTime * Time.fixedDeltaTime);
+
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
     }
 }

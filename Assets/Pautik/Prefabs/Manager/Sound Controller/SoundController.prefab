@@ -473,7 +473,7 @@ MonoBehaviour:
   _clipsList:
   - _title: Airplane sounds
     _clips:
-    - {fileID: 8300000, guid: 73ebf716ae1b7fe45889a7856de40240, type: 3}
+    - {fileID: 8300000, guid: abc0b3b5807667e449b842436757de0e, type: 3}
 --- !u!114 &3539248528003138251
 MonoBehaviour:
   m_ObjectHideFlags: 0
