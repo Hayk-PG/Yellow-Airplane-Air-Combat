@@ -1,63 +1,71 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Pautik;
 
-public abstract class BaseEnemySenseManager : MonoBehaviour
+/// <summary>
+/// Abstract base class for managing the sensor behavior of an AI.
+/// </summary>
+public abstract class BaseAISensorManager  : MonoBehaviour
 {
-    protected IEnemyMovementManager _enemyMovementManager;
+    protected IAIMovementManager _aiMovementManager;
 
-    protected bool IsEnemyMovementManagerNull => _enemyMovementManager == null;
+    /// <summary>
+    /// Determines whether the AI movement manager is null.
+    /// </summary>
+    protected bool IsAIMovementManagerNull => _aiMovementManager == null;
+
 
 
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!IsEnemyMovementManagerNull)
+        if (!IsAIMovementManagerNull)
         {
             return;
         }
 
-        GetCollidedEnemyMovementManager(collision.gameObject);
-        SetTargetChasingConditions(false);
-        DetectCollision(true);
+        GetCollidedAIMovementManager(collision.gameObject);
+        DetectCollision();
     }
 
     protected virtual void OnTriggerExit2D(Collider2D collision)
     {
-        if (_enemyMovementManager != CollidedEnemyMovementManager(collision.gameObject))
+        if (_aiMovementManager != CollidedAIMovementManager(collision.gameObject))
         {
             return;
         }
 
-        SetTargetChasingConditions(true);
-        DetectCollision(false);
-        ReleaseCollidedEnemyMovementManager();
+        ReleaseCollidedAIMovementManager();
     }
 
-    protected virtual void GetCollidedEnemyMovementManager(GameObject gameObject)
+    /// <summary>
+    /// Retrieves the AI movement manager from the collided game object.
+    /// </summary>
+    /// <param name="gameObject">The game object of the collided AI.</param>
+    protected virtual void GetCollidedAIMovementManager(GameObject gameObject)
     {
-        _enemyMovementManager = CollidedEnemyMovementManager(gameObject);
+        _aiMovementManager = CollidedAIMovementManager(gameObject);
     }
 
-    protected virtual void SetTargetChasingConditions(bool isAllowedToChase)
+    /// <summary>
+    /// Releases the reference to the collided AI movement manager.
+    /// </summary>
+    protected virtual void ReleaseCollidedAIMovementManager()
     {
-        if(IsEnemyMovementManagerNull)
-        {
-            return;
-        }
-
-        _enemyMovementManager.CanChaseTarget = isAllowedToChase;
+        _aiMovementManager = null;
     }
 
-    protected virtual void ReleaseCollidedEnemyMovementManager()
+    /// <summary>
+    /// Retrieves the AI movement manager from the collided game object.
+    /// </summary>
+    /// <param name="gameObject">The game object of the collided ai.</param>
+    /// <returns>The enemy movement manager.</returns>
+    protected virtual IAIMovementManager CollidedAIMovementManager(GameObject gameObject)
     {
-        _enemyMovementManager = null;
+        return Get<IAIMovementManager>.From(gameObject);
     }
 
-    protected virtual IEnemyMovementManager CollidedEnemyMovementManager(GameObject gameObject)
-    {
-        return Get<IEnemyMovementManager>.From(gameObject);
-    }
-
-    protected abstract void DetectCollision(bool isCollision);
+    /// <summary>
+    /// Abstract method called when a collision with an AI is detected.
+    /// </summary>
+    protected abstract void DetectCollision();
 }

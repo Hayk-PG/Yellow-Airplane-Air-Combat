@@ -1,14 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class AISpawner : MonoBehaviour
 {
     [Header("Enemy Airplane Prefab")]
-    [SerializeField] private Transform _enemyAirplanePrefab;
+    [SerializeField] private Transform _aiAirplanePrefab;
 
     private Transform _playerAirplane;
-
-    public float EnemyRotationLerp { get; private set; }
 
 
 
@@ -30,8 +28,7 @@ public class EnemySpawner : MonoBehaviour
 
         while (!isSpawned)
         {
-            Transform enemyAirplane = Instantiate(_enemyAirplanePrefab, (Vector2)_playerAirplane.position + new Vector2(5f, 5f), Quaternion.identity);
-            EnemyRotationLerp += 0.001f;
+            Transform aiAirplane = Instantiate(_aiAirplanePrefab, (Vector2)_playerAirplane.position + new Vector2(5f, 5f), Quaternion.identity);
             isSpawned = true;
 
             yield return new WaitForSeconds(1f);

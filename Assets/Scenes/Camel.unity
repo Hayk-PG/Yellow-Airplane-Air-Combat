@@ -2711,10 +2711,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1056282529}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a35484b7dc11cd4abfa1cd683aa5fce, type: 3}
+  m_Script: {fileID: 11500000, guid: ebcc12e5e252e77478b1f0723c08faac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyAirplanePrefab: {fileID: 2687846551255317526, guid: 5358b369e97515044a70947f65bbe353,
+  _aiAirplanePrefab: {fileID: 2687846551255317526, guid: 5358b369e97515044a70947f65bbe353,
     type: 3}
 --- !u!1 &1078229089
 GameObject:
@@ -4023,7 +4023,7 @@ PrefabInstance:
     - target: {fileID: 2687846551255317522, guid: 5358b369e97515044a70947f65bbe353,
         type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: AI
       objectReference: {fileID: 0}
     - target: {fileID: 2687846551255317526, guid: 5358b369e97515044a70947f65bbe353,
         type: 3}
@@ -4079,11 +4079,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4836349065124763458, guid: 5358b369e97515044a70947f65bbe353,
-        type: 3}
-      propertyPath: _speed
-      value: 120
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5358b369e97515044a70947f65bbe353, type: 3}

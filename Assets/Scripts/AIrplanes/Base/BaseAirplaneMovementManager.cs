@@ -2,6 +2,9 @@
 using UnityEngine;
 using Pautik;
 
+/// <summary>
+/// Abstract base class for managing the movement of an airplane.
+/// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(AirplaneAnimationManager))]
 public abstract class BaseAirplaneMovementManager : MonoBehaviour
@@ -37,31 +40,56 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
         StartCoroutine(UpdateSpeed());
     }
 
+    /// <summary>
+    /// Moves the rigidbody based on the specified velocity.
+    /// </summary>
+    /// <param name="velocity">The velocity vector for movement.</param>
     protected virtual void Move(Vector2 velocity)
     {
         _rigidbody.velocity = velocity;
     }
 
+    /// <summary>
+    /// Rotates the airplane to the specified angle.
+    /// </summary>
+    /// <param name="angle">The target rotation angle.</param>
     protected virtual void Rotate(float angle)
     {
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, angle), _rotationSpeed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Calculates the velocity vector based on the given direction and speed.
+    /// </summary>
+    /// <param name="direction">The direction vector.</param>
+    /// <param name="speed">The speed value.</param>
+    /// <returns>The calculated velocity vector.</returns>
     protected Vector2 Velocity(Vector2 direction, float speed)
     {
         return direction * speed * Time.fixedDeltaTime;
     }
 
+    /// <summary>
+    /// Calculates the angle based on the given direction vector.
+    /// </summary>
+    /// <param name="direction">The direction vector.</param>
+    /// <returns>The calculated angle in degrees.</returns>
     protected virtual float Angle(Vector2 direction)
     {
         return Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
     }
 
+    /// <summary>
+    /// Initializes the previous rotation to the current rotation of the transform.
+    /// </summary>
     protected virtual void InitializePreviousRotation()
     {
         _previousRotation = transform.rotation;
     }
 
+    /// <summary>
+    /// Updates the current and previous rotation values and triggers animations based on the rotation direction.
+    /// </summary>
     protected virtual void UpdateRotationDirection()
     {
         _currentRotation = transform.rotation;
@@ -73,7 +101,6 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
             SetAnimationState(AnimationState.TurnLeft);
             SetSpeed(_defaultSpeed * 1.5f, 1f, 1.5f, 0.2f);
         }
-
         else if (angleDifference < 0f)
         {
             SetAnimationState(AnimationState.TurnRight);
@@ -82,6 +109,11 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
 
         _previousRotation = _currentRotation;
     }
+
+    /// <summary>
+    /// Sets the animation state of the airplane.
+    /// </summary>
+    /// <param name="animationState">The animation state to set.</param>
 
     protected virtual void SetAnimationState(AnimationState animationState)
     {
@@ -94,6 +126,13 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the animation states of the airplane.
+    /// </summary>
+    /// <param name="playIdleAnimation">Whether to play the idle animation.</param>
+    /// <param name="playRightTurnAnimation">Whether to play the right turn animation.</param>
+    /// <param name="playLeftTurnAnimation">Whether to play the left turn animation.</param>
+    /// <param name="playDodgeAnimation">Whether to play the dodge animation.</param>
     protected virtual void UpdateAnimationStates(bool playIdleAnimation, bool playRightTurnAnimation, bool playLeftTurnAnimation, bool playDodgeAnimation)
     {
         _airplaneAnimationManager.PlayIdleAnimation(playIdleAnimation);
@@ -102,12 +141,22 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
         _airplaneAnimationManager.PlayDodgeAnimation(playDodgeAnimation);
     }
 
+    /// <summary>
+    /// Initializes the default speed and propeller rate values.
+    /// </summary>
     protected virtual void InitializeSpeed()
     {
         _defaultSpeed = _speed;
         _propellerDefaultRate = _externalSoundSource?.Pitch ?? 0;
     }
 
+    /// <summary>
+    /// Sets the speed and propeller rate values for the movement manager.
+    /// </summary>
+    /// <param name="newSpeed">The new speed value.</param>
+    /// <param name="speedChangeTime">The time taken to change the speed.</param>
+    /// <param name="propellerRate">The new propeller rate value.</param>
+    /// <param name="propellerRateChangeTime">The time taken to change the propeller rate.</param>
     protected virtual void SetSpeed(float newSpeed, float speedChangeTime, float propellerRate, float propellerRateChangeTime)
     {
         _newSpeed = newSpeed;
@@ -116,6 +165,9 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
         _propellerRateChangeTime = propellerRateChangeTime;
     }
 
+    /// <summary>
+    /// Coroutine that continuously updates the speed of the airplane.
+    /// </summary>
     protected virtual IEnumerator UpdateSpeed()
     {
         while (true)
@@ -128,6 +180,10 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the camera size based on the current speed.
+    /// </summary>
+    /// <param name="reset">Whether to reset the camera size to default.</param>
     protected virtual void UpdateCameraSize(bool reset = false)
     {
         if (reset)
@@ -139,6 +195,9 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
         Reference.Manager.CameraSizeController.UpdateOrtographicSize(10f, 0.2f);
     }
 
+    /// <summary>
+    /// Controls the engine sound based on the propeller rate.
+    /// </summary>
     protected virtual void ControlEngineSound()
     {
         if(_externalSoundSource == null)
