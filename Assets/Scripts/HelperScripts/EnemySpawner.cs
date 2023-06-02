@@ -1,56 +1,40 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    private Transform player;
+    [Header("Enemy Airplane Prefab")]
+    [SerializeField] private Transform _enemyAirplanePrefab;
 
-    public Transform[] spawnPoints;
-    public GameObject enemies;
+    private Transform _playerAirplane;
 
-    private GameObject enemyCopy;
-   
-    public int pointIndex;
-    public int spawnCount = 1;
-    public int airPlaneCount;
-    public float enemyRotationLerp = 0;
-    private Quaternion direction;
+    public float EnemyRotationLerp { get; private set; }
 
-    private void Update() {
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        transform.position = new Vector3(player.position.x + Random.Range(-5, 5), player.position.y + Random.Range(-5, 5));
 
-        // NUMBER OF ENEMIES
 
-        airPlaneCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
-
-        //---------------------------------------------------------------------------
-
-        Spawn();
+    private void Start()
+    {
+        GetPlayerAirplane();
+        StartCoroutine(Spawn());
     }
 
-    private void Spawn() {
+    private void GetPlayerAirplane()
+    {
+        _playerAirplane = FindObjectOfType<MovementController>().transform;
+    }
 
-        if(airPlaneCount < 3) {
+    private IEnumerator Spawn()
+    {
+        bool isSpawned = false;
 
-            enemyRotationLerp += 0.001f;
+        while (!isSpawned)
+        {
+            Transform enemyAirplane = Instantiate(_enemyAirplanePrefab, (Vector2)_playerAirplane.position + new Vector2(5f, 5f), Quaternion.identity);
+            EnemyRotationLerp += 0.001f;
+            isSpawned = true;
 
-            for (pointIndex = 0; pointIndex < spawnPoints.Length; pointIndex++) {
-
-                switch (pointIndex) {
-
-                    case 0: direction = Quaternion.AngleAxis(0, Vector3.forward); break;
-                    case 1: direction = Quaternion.AngleAxis(0, Vector3.forward); break;
-                    case 2: direction = Quaternion.AngleAxis(0, Vector3.forward); break;
-                  
-                }
-
-                
-
-                enemyCopy = Instantiate(enemies, spawnPoints[pointIndex].position, direction);
-            }
+            yield return new WaitForSeconds(1f);
         }
     }
 }

@@ -5086,20 +5086,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2687846551255317522}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25673d6b5e557924c9a6830f40cbef3f, type: 3}
+  m_Script: {fileID: 11500000, guid: e19cd6cba03ae00459f4f90d2aec25af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  _rigidbody: {fileID: 2687846551255317520}
+  speed: 100
   direction: {fileID: 2687846552259425525}
-  frontCollisionDetected: 0
-  topCollisionDetected: 0
-  bottomCollisionDetected: 0
   zAxis: 0
   lerp: 0
-  angle: 0
-  magnitude: 0
-  tooMuchHitInFront: 0
-  playerChasing: 0
 --- !u!114 &1792818619671116221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5112,6 +5106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b1851503a80eae40acf783112c7a209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 0}
+  _colors: []
 --- !u!114 &804760915568703813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5216,12 +5212,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2687846551540086145}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0f0e0f4743fad24bb8808bdd0f62a9f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b8ba41ae9b662f4b8217b44d62ae7f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cantFollow: 0
-  frontCollisionCounter: 0
-  time: 5
 --- !u!1 &2687846552240033094
 GameObject:
   m_ObjectHideFlags: 0
