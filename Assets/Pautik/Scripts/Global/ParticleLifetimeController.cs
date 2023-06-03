@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DestroyByTime : MonoBehaviour
+public class ParticleLifetimeController  : MonoBehaviour
 {
     [Header("Destroy Time")]
     [SerializeField] private float _time;
@@ -8,7 +8,7 @@ public class DestroyByTime : MonoBehaviour
 
 
 
-    private void Awake()
+    private void OnParticleSystemStopped()
     {
         Invoke("DestroyAfterDelay", _time);
     }

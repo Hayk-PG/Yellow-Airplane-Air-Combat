@@ -490,6 +490,16 @@ MonoBehaviour:
   - _title: Machine guns
     _clips:
     - {fileID: 8300000, guid: 3bb9911a3d72c2044a169934de4763fb, type: 3}
+  - _title: Airplane Explosions
+    _clips:
+    - {fileID: 8300000, guid: 5eee5cf667d95bd468a1ad240da81c26, type: 3}
+  - _title: Metal Debris
+    _clips:
+    - {fileID: 8300000, guid: 4d354ba711bc43240a06c2274d8827bf, type: 3}
+    - {fileID: 8300000, guid: 4521e2be58fb4034980760c2649cd196, type: 3}
+    - {fileID: 8300000, guid: 6c5e22908ef455441aa264a9d1bc2d0d, type: 3}
+    - {fileID: 8300000, guid: 510ff4b3635d34444903353ebbd370f4, type: 3}
+    - {fileID: 8300000, guid: 9352a5c5ca356914f9b84c86c039cfc1, type: 3}
 --- !u!114 &1013790491299933693
 MonoBehaviour:
   m_ObjectHideFlags: 0
