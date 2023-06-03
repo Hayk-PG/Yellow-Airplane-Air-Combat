@@ -4801,7 +4801,7 @@ GameObject:
   - component: {fileID: 1513841646229747511}
   - component: {fileID: 1513841646229747468}
   - component: {fileID: 1513841646229747505}
-  - component: {fileID: 1513841646229747470}
+  - component: {fileID: 3154745285127633661}
   m_Layer: 8
   m_Name: AirPlane
   m_TagString: Player
@@ -4918,6 +4918,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _muzzleFlash: {fileID: 8154373516858613045}
+  _targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &1513841646229747505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4933,21 +4936,18 @@ MonoBehaviour:
   _boxCollider: {fileID: 1513841646229747469}
   _spriteRenderer: {fileID: 1513841646033540035}
   _spriteRendererAnimationManager: {fileID: 1513841646033540061}
---- !u!114 &1513841646229747470
+--- !u!114 &3154745285127633661
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513841646229747508}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6254549698b21a74191380c93884a0c8, type: 3}
+  m_Script: {fileID: 11500000, guid: f443e1cbe3f3a4e40979313be5b43677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  damage: 5
-  canDamage: 0
 --- !u!1 &1513841646442468885
 GameObject:
   m_ObjectHideFlags: 0
