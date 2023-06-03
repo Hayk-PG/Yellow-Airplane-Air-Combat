@@ -11,6 +11,7 @@ public class ShootController : MonoBehaviour
     [SerializeField] private LayerMask _targetLayerMask;
    
     private RaycastHit2D[] _raycastHits;
+    private RaycastHit2D _hit;
     private ContactFilter2D _contactFilter;
     private Collider2D _targetCollider;
     private IDamage _targetDamage;
@@ -100,6 +101,7 @@ public class ShootController : MonoBehaviour
 
         _targetDamage = Get<IDamage>.From(_targetCollider.gameObject);
         _targetDamage?.DealDamage(10);
+        _targetDamage.VisualizeHit(_hit.point);
     }
 
     /// <summary>
@@ -147,12 +149,22 @@ public class ShootController : MonoBehaviour
 
             if (isColliderValidAndNotTrigger)
             {
+                CacheRaycastHit(hit);
                 AssignTargetCollider(hit.collider);
                 Reference.Manager.ShootTargetUI.Activate(_targetCollider.transform.position);
                 Debug.DrawRay((Vector2)transform.position, (Vector2)transform.right * 10f, Color.red);
                 return;
             }
         }
+    }
+
+    /// <summary>
+    /// Caches the RaycastHit2D for later use.
+    /// </summary>
+    /// <param name="raycastHit">The RaycastHit2D to cache.</param>
+    private void CacheRaycastHit(RaycastHit2D raycastHit)
+    {
+        _hit = raycastHit;
     }
 
     /// <summary>

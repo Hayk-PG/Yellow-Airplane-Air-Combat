@@ -1,7 +1,13 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Manages the health of an entity and handles damage and healing.
+/// </summary>
 public class BaseHealthManager : MonoBehaviour, IDamage
 {
+    [Header("Components")]
+    [SerializeField] private ImpactManager _impactManager;
+
     [Header("Health")]
     [SerializeField] protected int _health = 100;
 
@@ -26,13 +32,14 @@ public class BaseHealthManager : MonoBehaviour, IDamage
         IncreaseHealth(hp);
     }
 
-    /// <summary>
-    /// Deals damage to the entity.
-    /// </summary>
-    /// <param name="damage">The amount of damage to deal.</param>
     public virtual void DealDamage(int damage)
     {
         DecreaseHealth(damage);
+    }
+
+    public void VisualizeHit(Vector2 position)
+    {
+        _impactManager?.PlayHitParticle(position);
     }
 
     /// <summary>

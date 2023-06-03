@@ -6,6 +6,7 @@ public class Reference : MonoBehaviour
 
     [Header("Game Manager")]
     [SerializeField] private AISpawner _enemySpawner;
+    [SerializeField] private MapBounds _mapBounds;
 
     [Header("HUD")]
     [SerializeField] private InputController _inputController;
@@ -16,6 +17,7 @@ public class Reference : MonoBehaviour
 
     //Game Manager
     public AISpawner EnemySpawner => Manager._enemySpawner;
+    public MapBounds MapBounds => Manager._mapBounds;
 
     // HUD
     public InputController InputController => Manager._inputController;

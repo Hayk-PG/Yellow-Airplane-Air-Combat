@@ -11,7 +11,7 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
 {
     protected enum AnimationState { Idle, TurnRight, TurnLeft, Dodge }
 
-    [Header("Components")]
+    [Header("Base Components")]
     [SerializeField] protected Rigidbody2D _rigidbody;
     [SerializeField] protected AirplaneAnimationManager _airplaneAnimationManager;
     [SerializeField] protected ExternalSoundSource _externalSoundSource;

@@ -4,17 +4,13 @@ using Pautik;
 
 public class AIMovementManager : BaseAirplaneMovementManager, IAIMovementManager
 {
-    private IEnumerator _avoidCollisionCoroutine;
-    
+    private IEnumerator _avoidCollisionCoroutine;   
     private Rigidbody2D _playerRigidbody;
-
     private Vector2 _lookDirection;
 
     private float _distanceFromPlayer;
 
-    [SerializeField] private bool _test;
-
-    public bool CanChaseTarget { get; set; } = true;
+    public bool CanChaseTarget { get; set; }
     public Vector2 CurrentPosition { get; set; }
 
 
@@ -33,6 +29,7 @@ public class AIMovementManager : BaseAirplaneMovementManager, IAIMovementManager
         TrackCurrentPosition();
         Move();
         Rotate();
+        CheckOutOfBounds();
     }
 
     /// <summary>
@@ -140,6 +137,20 @@ public class AIMovementManager : BaseAirplaneMovementManager, IAIMovementManager
 
         CanChaseTarget = true;
         _avoidCollisionCoroutine = null;
+    }
+
+    /// <summary>
+    /// Checks if the object is within the bounds of the map and sets the CanChaseTarget flag accordingly.
+    /// </summary>
+    private void CheckOutOfBounds()
+    {
+        bool isWithinHorizontalBounds = _rigidbody.position.x >= Reference.Manager.MapBounds.Min.x && _rigidbody.position.x < Reference.Manager.MapBounds.Max.x;
+        bool isWithinVerticalBounds = _rigidbody.position.y >= Reference.Manager.MapBounds.Min.y && _rigidbody.position.y < Reference.Manager.MapBounds.Max.y;
+
+        if(!isWithinHorizontalBounds || !isWithinVerticalBounds)
+        {
+            CanChaseTarget = true;
+        }
     }
 
     protected override void SetAnimationState(AnimationState animationState)
