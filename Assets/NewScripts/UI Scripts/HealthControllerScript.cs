@@ -32,7 +32,7 @@ public class HealthControllerScript : MonoBehaviour
 
     private void Update() {
 
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDamageScript>().health;
+        //playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDamageScript>().health;
 
         if (score >= 50 && playerHealth <= 70) {
 

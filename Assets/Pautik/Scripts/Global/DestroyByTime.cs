@@ -2,15 +2,18 @@
 
 public class DestroyByTime : MonoBehaviour
 {
-    [SerializeField] float time;
+    [Header("Destroy Time")]
+    [SerializeField] private float _time;
 
 
-    void Awake()
+
+
+    private void Awake()
     {
-        Invoke("Dest", time);
+        Invoke("DestroyAfterDelay", _time);
     }
 
-    void Dest()
+    private void DestroyAfterDelay()
     {
         Destroy(gameObject);
     }

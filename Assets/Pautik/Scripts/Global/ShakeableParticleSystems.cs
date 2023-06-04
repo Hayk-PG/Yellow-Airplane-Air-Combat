@@ -23,7 +23,9 @@ public class ShakeableParticleSystems : MonoBehaviour
         ToggleCameraShake();
     }
 
-    // Toggles camera shake using the CameraShaker component.
+    /// <summary>
+    /// Toggles camera shake using the CameraShaker component.
+    /// </summary>
     private void ToggleCameraShake()
     {
         // If CameraShaker component is not assigned, return

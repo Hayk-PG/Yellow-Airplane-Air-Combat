@@ -13,7 +13,7 @@ public class HealthBarScript : MonoBehaviour
 
     private void Update() {
 
-        health = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDamageScript>().health;
+        //health = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDamageScript>().health;
         image = GetComponent<Image>();
 
 

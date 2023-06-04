@@ -67,7 +67,7 @@ public class InputController : MonoBehaviour
     }
 
     // Handles the shoot button input.
-    private void OnShootButtonHold(bool isPointerDown)
+    public void OnShootButtonHold(bool isPointerDown)
     {
         _data[1] = isPointerDown;
 

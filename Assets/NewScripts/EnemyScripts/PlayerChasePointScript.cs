@@ -1,60 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Pautik;
 
-public class PlayerChasePointScript : MonoBehaviour
+public class PlayerChasePointScript : BaseAISensorManager
 {
-    [SerializeField] private bool playerChasing;
-   
-
-
-
-
-    private void Update() {
-
-        /*transform.parent.GetComponent<EnemyMovementController>().playerChasing = this.playerChasing;
-
-        if (this.playerChasing) {
-
-            GameObject.FindGameObjectWithTag("Player").GetComponent<MovementController>().speed = 20;
-        }
-        else if (!this.playerChasing) {
-
-            GameObject.FindGameObjectWithTag("Player").GetComponent<MovementController>().speed = 30;
-        }*/
-            
-
+    private void Awake()
+    {
+        RetrieveAIMovementManager();
     }
 
-
-
-
-
-
-    private void OnTriggerEnter2D(Collider2D collision) {
-
-        if(collision.gameObject.tag == "Player") {
-
-            playerChasing = true;
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            _aiMovementManager.DetectFronCollision(_aiMovementManager.CurrentPosition);
         }
+    }
+
+    protected override void OnTriggerExit2D(Collider2D collision)
+    {
         
-
     }
 
-
-    private void OnTriggerExit2D(Collider2D collision) {
-
-        if (collision.gameObject.tag == "Player") {
-
-            playerChasing = false;
-        }
-
+    /// <summary>
+    /// Retrieves the AIMovementManager component from the parent object.
+    /// </summary>
+    private void RetrieveAIMovementManager()
+    {
+        _aiMovementManager = Get<AIMovementManager>.From(transform.parent.gameObject);
     }
 
-
-
-
-
-
-
-} // CLASS
+    protected override void DetectCollision()
+    {
+        
+    }
+}
