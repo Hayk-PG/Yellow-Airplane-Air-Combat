@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AISpawner : MonoBehaviour
+public class AISpawnManager : MonoBehaviour
 {
     [Header("Enemy Airplane Prefab")]
     [SerializeField] private AIMovementManager _aiAirplanePrefab;
@@ -10,6 +10,8 @@ public class AISpawner : MonoBehaviour
     private Transform _playerAirplane;
 
     private List<AIMovementManager> _aiAirplanes = new List<AIMovementManager>();
+
+    public event System.Action<AISpawnManagerCommand, AIMovementManager> OnManageList;
 
 
 
@@ -74,20 +76,34 @@ public class AISpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Adds an AI airplane to the AI airplane list.
+    /// Adds an AI airplane to the list and raises the manage list event.
     /// </summary>
-    /// <param name="aIMovementManager">The AI airplane to add.</param>
+    /// <param name="aIMovementManager">The AI movement manager representing the airplane to add.</param>
     private void AddAirplaneToList(AIMovementManager aIMovementManager)
     {
         _aiAirplanes.Add(aIMovementManager);
+
+        RaiseManageListEvent(AISpawnManagerCommand.AddedToList, aIMovementManager);
     }
 
     /// <summary>
-    /// Removes an AI airplane from the AI airplane list.
+    /// Removes an AI airplane from the list and raises the manage list event.
     /// </summary>
-    /// <param name="aIMovementManager">The AI airplane to remove.</param>
+    /// <param name="aIMovementManager">The AI movement manager representing the airplane to remove.</param>
     public void RemoveAirplaneFromList(AIMovementManager aIMovementManager)
     {
         _aiAirplanes.Remove(aIMovementManager);
+
+        RaiseManageListEvent(AISpawnManagerCommand.RemovedFromList, aIMovementManager);
+    }
+
+    /// <summary>
+    /// Raises the manage list event with the specified command and AI movement manager.
+    /// </summary>
+    /// <param name="aISpawnManagerCommand">The command indicating whether the AI movement manager was added or removed.</param>
+    /// <param name="aIMovementManager">The AI movement manager that was added or removed.</param>
+    private void RaiseManageListEvent(AISpawnManagerCommand aISpawnManagerCommand, AIMovementManager aIMovementManager)
+    {
+        OnManageList?.Invoke(aISpawnManagerCommand, aIMovementManager);
     }
 }

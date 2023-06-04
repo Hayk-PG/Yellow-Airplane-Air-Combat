@@ -13,6 +13,6 @@ public class AirplaneRemovalController : MonoBehaviour
     /// </summary>
     public void RemoveFromSpawnerList()
     {
-        Reference.Manager.EnemySpawner.RemoveAirplaneFromList(_aiMovementManager);
+        Reference.Manager.AISpawnManager.RemoveAirplaneFromList(_aiMovementManager);
     }
 }

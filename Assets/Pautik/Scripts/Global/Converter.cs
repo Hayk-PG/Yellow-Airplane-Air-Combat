@@ -43,6 +43,63 @@ namespace Pautik
         }
 
         /// <summary>
+        /// Converts a direction vector to an angle in radians.
+        /// </summary>
+        /// <param name="direction">The direction vector.</param>
+        /// <returns>The angle in radians.</returns>
+        public static float RadianAngle(UnityEngine.Vector2 direction)
+        {
+            return UnityEngine.Mathf.Atan2(direction.y, direction.x) * UnityEngine.Mathf.Rad2Deg;
+        }
+
+        /// <summary>
+        /// Interpolates between two quaternions using spherical linear interpolation (SLERP).
+        /// </summary>
+        /// <param name="a">The starting quaternion.</param>
+        /// <param name="b">The target quaternion.</param>
+        /// <param name="speed">The speed of interpolation.</param>
+        /// <param name="time">The interpolation time.</param>
+        /// <returns>The interpolated quaternion.</returns>
+        public static UnityEngine.Quaternion QuaternionSlerp(UnityEngine.Quaternion a, UnityEngine.Quaternion b, float speed, float time)
+        {
+            return UnityEngine.Quaternion.Slerp(a, b, speed * time);
+        }
+
+        /// <summary>
+        /// Calculates the direction vector from 'from' to 'to'.
+        /// </summary>
+        /// <param name="to">The target position.</param>
+        /// <param name="from">The starting position.</param>
+        /// <returns>The direction vector.</returns>
+        public static UnityEngine.Vector2 Direction(UnityEngine.Vector2 to, UnityEngine.Vector2 from)
+        {
+            return to - from;
+        }
+
+        /// <summary>
+        /// Calculates the direction vector from 'from' to 'to'.
+        /// </summary>
+        /// <param name="to">The target position.</param>
+        /// <param name="from">The starting position.</param>
+        /// <returns>The direction vector.</returns>
+
+        public static UnityEngine.Vector3 Direction(UnityEngine.Vector3 to, UnityEngine.Vector3 from)
+        {
+            return to - from;
+        }
+
+        /// <summary>
+        /// Calculates the distance between two points in 3D space.
+        /// </summary>
+        /// <param name="a">The first point.</param>
+        /// <param name="b">The second point.</param>
+        /// <returns>The distance between the points.</returns>
+        public static float Distance(UnityEngine.Vector3 a, UnityEngine.Vector3 b)
+        {
+            return UnityEngine.Vector3.Distance(a, b);
+        }
+
+        /// <summary>
         /// Formats the provided time values into a string representation in the format "HH:MM:SS".
         /// </summary>
         /// <param name="hours">The hours value.</param>
