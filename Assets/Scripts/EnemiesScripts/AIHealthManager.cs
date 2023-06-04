@@ -2,8 +2,9 @@
 
 public class AIHealthManager : BaseHealthManager
 {
-    [Header("Explosion Particle")]
+    [Header("Particles")]
     [SerializeField] private ShakeableParticleSystems _explosion;
+    [SerializeField] private ParticleSystem _fireTrail;
 
     [Header("Entity Components")]
     [SerializeField] private AirplaneRemovalController _airplaneRemovalController;
@@ -15,15 +16,38 @@ public class AIHealthManager : BaseHealthManager
     {
         base.DealDamage(damage);
         PlayImpactSoundEffect();
+        SetFireTrailActive();
         IncrementKillScore(attackerScore);
         ExplodeAndDestroy(_explosion);
         RemoveFromSpawnerList();
     }
 
     /// <summary>
+    /// Sets the active state of the fire trail particle system based on the current health.
+    /// </summary>
+    private void SetFireTrailActive()
+    {
+        bool playParticle = _health <= 50;
+
+        if (_fireTrail.isPlaying == playParticle)
+        {
+            return;
+        }
+
+        if(playParticle)
+        {
+            _fireTrail.Play(true);
+        }
+        else
+        {
+            _fireTrail.Stop(true);
+        }
+    }
+
+    /// <summary>
     /// Removes the AI airplane from the spawner list.
     /// </summary>
-    protected void RemoveFromSpawnerList()
+    private void RemoveFromSpawnerList()
     {
         _airplaneRemovalController.RemoveFromSpawnerList();
     }
