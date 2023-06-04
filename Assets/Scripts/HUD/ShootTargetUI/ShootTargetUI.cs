@@ -8,8 +8,13 @@ public class ShootTargetUI : MonoBehaviour
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Image _shootTargetIcon;
 
+    [Header("Target Icon Animator Component")]
+    [SerializeField] private Animator _animator;
+
     [Header("Main Camera")]
     [SerializeField] private Camera _camera;
+
+    private const string _animationClipName = "TargetIconShakeAnim";
 
 
 
@@ -22,6 +27,14 @@ public class ShootTargetUI : MonoBehaviour
     {
         GlobalFunctions.CanvasGroupActivity(_canvasGroup, true);
         _shootTargetIcon.transform.position = CameraPoint.ScreenPoint(_camera, worldPosition);
+    }
+
+    /// <summary>
+    /// Plays the icon shake effect by triggering the specified animation clip on the animator component.
+    /// </summary>
+    public void PlayIconShakeEffect()
+    {
+        _animator.Play(_animationClipName, 0, 0);
     }
 
     /// <summary>

@@ -102,6 +102,8 @@ public class ShootController : MonoBehaviour
         _targetDamage = Get<IDamage>.From(_targetCollider.gameObject);
         _targetDamage?.DealDamage(10);
         _targetDamage.VisualizeHit(_hit.point);
+
+        Reference.Manager.ShootTargetUI.PlayIconShakeEffect();
     }
 
     /// <summary>

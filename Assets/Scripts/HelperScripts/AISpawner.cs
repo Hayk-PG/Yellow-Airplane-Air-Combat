@@ -50,9 +50,7 @@ public class AISpawner : MonoBehaviour
     /// <returns>An enumerator for the coroutine.</returns>
     private IEnumerator Spawn()
     {
-        bool canSpawnMoreAirplanes = _aiAirplanes.Count < 3;
-
-        while (canSpawnMoreAirplanes)
+        while (_aiAirplanes.Count < 3)
         {
             float randomX = Random.Range(10f, 20f);
             float randomY = Random.Range(10f, 20f);

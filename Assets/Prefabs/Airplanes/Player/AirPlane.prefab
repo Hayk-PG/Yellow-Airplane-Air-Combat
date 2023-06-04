@@ -4890,7 +4890,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 1513841646229747507}
   _airplaneAnimationManager: {fileID: 1513841646229747511}
   _externalSoundSource: {fileID: 7321057678076957349}
-  _speed: 150
+  _speed: 100
   _rotationSpeed: 2
 --- !u!114 &1513841646229747511
 MonoBehaviour:
@@ -4948,6 +4948,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f443e1cbe3f3a4e40979313be5b43677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _impactManager: {fileID: 0}
+  _health: 100
 --- !u!1 &1513841646442468885
 GameObject:
   m_ObjectHideFlags: 0
