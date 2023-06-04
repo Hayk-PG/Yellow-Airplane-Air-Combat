@@ -11,10 +11,11 @@ public class AIHealthManager : BaseHealthManager
 
 
 
-    public override void DealDamage(int damage)
+    public override void DealDamage(int damage, IScore attackerScore = default)
     {
         base.DealDamage(damage);
         PlayImpactSoundEffect();
+        IncrementKillScore(attackerScore);
         ExplodeAndDestroy(_explosion);
         RemoveFromSpawnerList();
     }

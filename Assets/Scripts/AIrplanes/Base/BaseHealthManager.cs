@@ -32,7 +32,7 @@ public class BaseHealthManager : MonoBehaviour, IDamage
         IncreaseHealth(hp);
     }
 
-    public virtual void DealDamage(int damage)
+    public virtual void DealDamage(int damage, IScore attackerScore = default)
     {
         DecreaseHealth(damage);
     }
@@ -92,6 +92,20 @@ public class BaseHealthManager : MonoBehaviour, IDamage
     protected virtual void PlayExplosionSoundEffect(int listIndex = 0, int clipIndex = 0)
     {
         ExplosionsSoundController.PlaySound(listIndex, clipIndex);
+    }
+
+    /// <summary>
+    /// Increases the kill score for the attacking player.
+    /// </summary>
+    /// <param name="scoreAttacker">The player who scored the kill.</param>
+    protected virtual void IncrementKillScore(IScore scoreAttacker)
+    {
+        if (_health > 0)
+        {
+            return;
+        }
+
+        scoreAttacker?.UpdateScore(100);
     }
 
     /// <summary>

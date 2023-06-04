@@ -4,6 +4,9 @@ using Pautik;
 
 public class ShootController : MonoBehaviour
 {
+    [Header("Components")]
+    [SerializeField] private ScoreManager _scoreController;
+
     [Header("Shakeable Particle Systems")]
     [SerializeField] private ShakeableParticleSystems _muzzleFlash; 
 
@@ -100,10 +103,19 @@ public class ShootController : MonoBehaviour
         }
 
         _targetDamage = Get<IDamage>.From(_targetCollider.gameObject);
-        _targetDamage?.DealDamage(10);
+        _targetDamage?.DealDamage(10, _scoreController);
         _targetDamage.VisualizeHit(_hit.point);
-
         Reference.Manager.ShootTargetUI.PlayIconShakeEffect();
+        UpdateScore();
+    }
+
+    /// <summary>
+    /// Updates the score with a randomly generated value.
+    /// </summary>
+    private void UpdateScore()
+    {
+        int score = Random.Range(0, 11);
+        _scoreController.UpdateScore(score);
     }
 
     /// <summary>

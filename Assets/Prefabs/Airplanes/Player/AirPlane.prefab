@@ -4798,10 +4798,11 @@ GameObject:
   - component: {fileID: 1513841646229747469}
   - component: {fileID: 1513841646229747507}
   - component: {fileID: 1513841646229747510}
-  - component: {fileID: 1513841646229747511}
   - component: {fileID: 1513841646229747468}
-  - component: {fileID: 1513841646229747505}
   - component: {fileID: 3154745285127633661}
+  - component: {fileID: 8942356744620390140}
+  - component: {fileID: 1513841646229747505}
+  - component: {fileID: 1513841646229747511}
   m_Layer: 8
   m_Name: AirPlane
   m_TagString: Player
@@ -4892,19 +4893,6 @@ MonoBehaviour:
   _externalSoundSource: {fileID: 7321057678076957349}
   _speed: 100
   _rotationSpeed: 2
---- !u!114 &1513841646229747511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513841646229747508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d8a38a8fb2fbb549856e98582f1a3de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 1513841646033540034}
 --- !u!114 &1513841646229747468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4917,10 +4905,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f21c5428708674999e4d004a7d2789, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scoreController: {fileID: 8942356744620390140}
   _muzzleFlash: {fileID: 8154373516858613045}
   _targetLayerMask:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &3154745285127633661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513841646229747508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f443e1cbe3f3a4e40979313be5b43677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _impactManager: {fileID: 0}
+  _health: 100
+--- !u!114 &8942356744620390140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513841646229747508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dc049d8aa29ef74eaa8cb2838e35244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _score: 0
 --- !u!114 &1513841646229747505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4936,7 +4952,7 @@ MonoBehaviour:
   _boxCollider: {fileID: 1513841646229747469}
   _spriteRenderer: {fileID: 1513841646033540035}
   _spriteRendererAnimationManager: {fileID: 1513841646033540061}
---- !u!114 &3154745285127633661
+--- !u!114 &1513841646229747511
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4945,11 +4961,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1513841646229747508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f443e1cbe3f3a4e40979313be5b43677, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d8a38a8fb2fbb549856e98582f1a3de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _impactManager: {fileID: 0}
-  _health: 100
+  _animator: {fileID: 1513841646033540034}
 --- !u!1 &1513841646442468885
 GameObject:
   m_ObjectHideFlags: 0

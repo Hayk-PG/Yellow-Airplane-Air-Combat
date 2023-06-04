@@ -4,10 +4,11 @@
 public interface IDamage 
 {
     /// <summary>
-    /// Deals the specified amount of damage.
+    /// Deals the specified amount of damage to the entity.
     /// </summary>
     /// <param name="damage">The amount of damage to deal.</param>
-    void DealDamage(int damage);
+    /// <param name="attackerScore">Optional: The scoring information associated with the attacker.</param>
+    void DealDamage(int damage, IScore attackerScore = default);
 
     /// <summary>
     /// Visualizes the hit at the specified position.
