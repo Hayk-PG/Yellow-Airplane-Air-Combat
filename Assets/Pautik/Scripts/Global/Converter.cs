@@ -100,6 +100,33 @@ namespace Pautik
         }
 
         /// <summary>
+        /// Casts a 2D ray from the specified origin in the given direction, using the provided contact filter, and stores the results in the specified array.
+        /// </summary>
+        /// <param name="origin">The starting point of the ray.</param>
+        /// <param name="direction">The direction of the ray.</param>
+        /// <param name="contactFilter2D">The contact filter used to determine which colliders to hit.</param>
+        /// <param name="raycastHits">The array to store the results of the raycast.</param>
+        /// <param name="distance">The maximum distance the ray should travel.</param>
+        /// <returns>The number of hits recorded.</returns>
+        public static int RaycastHit2D(UnityEngine.Vector2 origin, UnityEngine.Vector2 direction, UnityEngine.ContactFilter2D contactFilter2D, UnityEngine.RaycastHit2D[] raycastHits, float distance)
+        {
+            return UnityEngine.Physics2D.Raycast(origin, direction, contactFilter2D, raycastHits, distance);
+        }
+
+        /// <summary>
+        /// Casts a 2D ray from the specified origin in the given direction, up to the specified distance, and checks for collisions with objects on the specified layer mask.
+        /// </summary>
+        /// <param name="origin">The starting point of the ray.</param>
+        /// <param name="direction">The direction of the ray.</param>
+        /// <param name="distance">The maximum distance the ray should travel.</param>
+        /// <param name="layerMask">A bitmask defining which layers to include in the raycast.</param>
+        /// <returns>A RaycastHit2D object containing information about the closest hit.</returns>
+        public static UnityEngine.RaycastHit2D RaycastHit2D(UnityEngine.Vector2 origin, UnityEngine.Vector2 direction, float distance, UnityEngine.LayerMask layerMask)
+        {
+            return UnityEngine.Physics2D.Raycast(origin, direction, distance, layerMask);
+        }
+
+        /// <summary>
         /// Formats the provided time values into a string representation in the format "HH:MM:SS".
         /// </summary>
         /// <param name="hours">The hours value.</param>

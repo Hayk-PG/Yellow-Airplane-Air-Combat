@@ -37,7 +37,7 @@ public class EnemyAirPlaneMovement : MonoBehaviour
     private void Update() {
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        canRotate = GetComponent<EnemyShootScript>().canShoot;
+        //canRotate = GetComponent<EnemyShootScript>().canShoot;
 
         //-----------------------------------------------
 

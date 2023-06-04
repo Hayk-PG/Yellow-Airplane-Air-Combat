@@ -6,7 +6,9 @@
 public class BaseHealthManager : MonoBehaviour, IDamage
 {
     [Header("Components")]
-    [SerializeField] private ImpactManager _impactManager;
+    [SerializeField] protected ImpactManager _impactManager;
+    [SerializeField] protected ShakeableParticleSystems _explosion;
+    [SerializeField] protected ParticleSystem _fireTrail;
 
     [Header("Health")]
     [SerializeField] protected int _health = 100;
@@ -35,6 +37,9 @@ public class BaseHealthManager : MonoBehaviour, IDamage
     public virtual void DealDamage(int damage, IScore attackerScore = default)
     {
         DecreaseHealth(damage);
+        PlayImpactSoundEffect();
+        SetFireTrailActive();
+        ExplodeAndDestroy(_explosion);
     }
 
     public void VisualizeHit(Vector2 position)
@@ -45,11 +50,32 @@ public class BaseHealthManager : MonoBehaviour, IDamage
     /// <summary>
     /// Plays the impact sound effect using the specified list index and clip index.
     /// </summary>
-    /// <param name="listIndex">The index of the sound effect list.</param>
-    /// <param name="clipIndex">The index of the sound effect clip within the list.</param>
-    protected virtual void PlayImpactSoundEffect(int listIndex = 0, int clipIndex = 0)
+    protected virtual void PlayImpactSoundEffect()
     {
-        ExplosionsSoundController.PlaySound(listIndex, clipIndex);
+        int randomClipIndex = Random.Range(0, ExplosionsSoundController.Clips[2]._clips.Length);
+        ExplosionsSoundController.PlaySound(2, randomClipIndex);
+    }
+
+    /// <summary>
+    /// Sets the active state of the fire trail particle system based on the current health.
+    /// </summary>
+    protected virtual void SetFireTrailActive()
+    {
+        bool playParticle = _health <= 50;
+
+        if (_fireTrail.isPlaying == playParticle)
+        {
+            return;
+        }
+
+        if (playParticle)
+        {
+            _fireTrail.Play(true);
+        }
+        else
+        {
+            _fireTrail.Stop(true);
+        }
     }
 
     /// <summary>
@@ -87,11 +113,9 @@ public class BaseHealthManager : MonoBehaviour, IDamage
     /// <summary>
     /// Plays the explosion sound effect using the specified list index and clip index.
     /// </summary>
-    /// <param name="listIndex">The index of the sound effect list.</param>
-    /// <param name="clipIndex">The index of the sound effect clip within the list.</param>
-    protected virtual void PlayExplosionSoundEffect(int listIndex = 0, int clipIndex = 0)
+    protected virtual void PlayExplosionSoundEffect()
     {
-        ExplosionsSoundController.PlaySound(listIndex, clipIndex);
+        ExplosionsSoundController.PlaySound(1, 0);
     }
 
     /// <summary>

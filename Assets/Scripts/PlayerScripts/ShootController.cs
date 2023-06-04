@@ -1,46 +1,24 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Pautik;
 
-public class ShootController : MonoBehaviour
+public class ShootController : BaseShootController
 {
     [Header("Components")]
     [SerializeField] private ScoreManager _scoreController;
 
-    [Header("Shakeable Particle Systems")]
-    [SerializeField] private ShakeableParticleSystems _muzzleFlash; 
-
-    [Header("Target Layer Mask")]
-    [SerializeField] private LayerMask _targetLayerMask;
-   
-    private RaycastHit2D[] _raycastHits;
-    private RaycastHit2D _hit;
-    private ContactFilter2D _contactFilter;
-    private Collider2D _targetCollider;
-    private IDamage _targetDamage;
-    private IEnumerator _fireRoutine;
-
-    private float _fireRate = 650f; 
-    private bool _isShooting; 
-
     
 
-
-    private void Awake()
-    {
-        InitializeRaycastParameters();
-    }
 
     private void OnEnable()
     {
         Reference.Manager.InputController.OnInputController += OnInputController;
     }
 
-    private void Update()
-    {
-        DetectTargetCollider();
-    }
-
+    /// <summary>
+    /// Handles the subscription to input events.
+    /// </summary>
+    /// <param name="inputType">The type of input event.</param>
+    /// <param name="data">Additional data associated with the input event.</param>
     private void OnInputController(InputController.InputType inputType, object[] data)
     {
         HandleShootInput(inputType, data);
@@ -62,40 +40,7 @@ public class ShootController : MonoBehaviour
         TryRunCoroutine();
     }
 
-    /// <summary>
-    /// Tries to start the shooting coroutine.
-    /// </summary>
-    private void TryRunCoroutine()
-    {
-        if (_fireRoutine == null)
-        {
-            _fireRoutine = FireRoutine(_isShooting);
-            StartCoroutine(_fireRoutine);
-        }
-    }
-
-    /// <summary>
-    /// Coroutine for continuous shooting.
-    /// </summary>
-    private IEnumerator FireRoutine(bool isShooting)
-    {
-        float elapsedTime = 60f / _fireRate;
-
-        while (_isShooting)
-        {
-            Shoot();
-            ToggleMuzzleFlash();
-            PlaySoundEffect();           
-            yield return new WaitForSeconds(elapsedTime);
-        }
-
-        _fireRoutine = null;
-    }
-
-    /// <summary>
-    /// Performs shooting at the target.
-    /// </summary>
-    private void Shoot()
+    protected override void Shoot()
     {
         if (_targetCollider == null)
         {
@@ -105,12 +50,31 @@ public class ShootController : MonoBehaviour
         _targetDamage = Get<IDamage>.From(_targetCollider.gameObject);
         _targetDamage?.DealDamage(10, _scoreController);
         _targetDamage.VisualizeHit(_hit.point);
-        Reference.Manager.ShootTargetUI.PlayIconShakeEffect();
+
+        SetShootTargetUIActive(true);
         UpdateScore();
     }
 
+    private void SetShootTargetUIActive(bool isActive, bool isShaking = false)
+    {
+        if (!isActive)
+        {
+            Reference.Manager.ShootTargetUI.Deactivate();
+            return;
+        }
+
+        if (isShaking)
+        {
+            Reference.Manager.ShootTargetUI.PlayIconShakeEffect();
+        }
+        else
+        {
+            Reference.Manager.ShootTargetUI.Activate(_targetCollider.transform.position);
+        }      
+    }
+
     /// <summary>
-    /// Updates the score with a randomly generated value.
+    /// Updates the score by generating a random value between 0 and 10 and updating the score controller.
     /// </summary>
     private void UpdateScore()
     {
@@ -118,75 +82,15 @@ public class ShootController : MonoBehaviour
         _scoreController.UpdateScore(score);
     }
 
-    /// <summary>
-    /// Toggles the muzzle flash particle effect.
-    /// </summary>
-    private void ToggleMuzzleFlash()
+    protected override void OnNullHits()
     {
-        _muzzleFlash.Play();
+        base.OnNullHits();
+        SetShootTargetUIActive(false);
     }
 
-    /// <summary>
-    /// Plays the sound effect for shooting.
-    /// </summary>
-    private void PlaySoundEffect()
+    protected override void OnValidateTargetCollider(RaycastHit2D hit)
     {
-        ExplosionsSoundController.PlaySound(0, 0);
-    }
-
-    /// <summary>
-    /// Initializes the raycast parameters.
-    /// </summary>
-    private void InitializeRaycastParameters()
-    {
-        _contactFilter = new ContactFilter2D { useLayerMask = true, layerMask = _targetLayerMask };
-        _raycastHits = new RaycastHit2D[10];
-    }
-
-    /// <summary>
-    /// Detects the target collider using raycast and performs necessary actions based on the result.
-    /// </summary>
-    private void DetectTargetCollider()
-    {
-        int hits = Physics2D.Raycast(transform.position, transform.right, _contactFilter, _raycastHits, 10f);
-        
-        if(hits < 1)
-        {          
-            AssignTargetCollider(null);
-            Reference.Manager.ShootTargetUI.Deactivate();
-            return;
-        }
-
-        foreach (var hit in _raycastHits)
-        {
-            bool isColliderValidAndNotTrigger = hit.collider != null && !hit.collider.isTrigger;
-
-            if (isColliderValidAndNotTrigger)
-            {
-                CacheRaycastHit(hit);
-                AssignTargetCollider(hit.collider);
-                Reference.Manager.ShootTargetUI.Activate(_targetCollider.transform.position);
-                Debug.DrawRay((Vector2)transform.position, (Vector2)transform.right * 10f, Color.red);
-                return;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Caches the RaycastHit2D for later use.
-    /// </summary>
-    /// <param name="raycastHit">The RaycastHit2D to cache.</param>
-    private void CacheRaycastHit(RaycastHit2D raycastHit)
-    {
-        _hit = raycastHit;
-    }
-
-    /// <summary>
-    /// Assigns the target collider.
-    /// </summary>
-    /// <param name="collider">The collider of the target.</param>
-    private void AssignTargetCollider(Collider2D collider)
-    {
-        _targetCollider = collider;
+        base.OnValidateTargetCollider(hit);
+        SetShootTargetUIActive(true, true);
     }
 } 
