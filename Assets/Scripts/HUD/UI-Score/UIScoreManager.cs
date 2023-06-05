@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using TMPro;
 using Pautik;
+using System.Collections;
 
 public class UIScoreManager : MonoBehaviour
 {
     [Header("Tmp Text Component")]
     [SerializeField] private TMP_Text _scoreText;
 
-    [Header("Animator Component")]
-    [SerializeField] private Animator _animator;
+    private IEnumerator _coroutine;
 
-    private const string _animationClipName = "UI Score Text Anim";
     private const string _substringMarker = "Score: ";
+    private const string _greyColorHex = "#BAB7B7";
+    private const string _whiteColorHex = "#FFFFFF";
+    private const string _transparentHex = "#66000000";
+    private string _tempColorHex;
     private string _zeroSequence;
     private string _nonZeroSequence;
 
@@ -39,8 +42,6 @@ public class UIScoreManager : MonoBehaviour
     /// <param name="score">The new score value.</param>
     public void UpdateScoreText(int score)
     {
-        TriggerAnimation();
-
         _scoreText.text = $"{_substringMarker}{Converter.DecimalString(score, 8)}";
         _zeroSequence = "";
 
@@ -55,11 +56,54 @@ public class UIScoreManager : MonoBehaviour
         }
 
         _nonZeroSequence = ExtractedText.Substring(_zeroSequence.Length);
-        _scoreText.text = $"{_substringMarker}{GlobalFunctions.TextWithColorCode("#BAB7B7", _zeroSequence)}{GlobalFunctions.TextWithColorCode("#FFFFFF", _nonZeroSequence)}";
+        TryRunCoroutine();
     }
 
-    private void TriggerAnimation()
+    /// <summary>
+    /// Tries to run the coroutine for animating the score text if it is not already running.
+    /// </summary>
+    private void TryRunCoroutine()
     {
-        _animator.Play(_animationClipName, 0, 0);
+        if (_coroutine == null)
+        {
+            _coroutine = AnimateScoreText();
+            StartCoroutine(_coroutine);
+        }
+    }
+
+    /// <summary>
+    /// Animates the score text by changing the color with a fading effect.
+    /// </summary>
+    private IEnumerator AnimateScoreText()
+    {
+        float threshold = 0.1f;
+        float elapsedTime = 0f;
+        bool shouldBeTransparent = false;
+
+        while (threshold < 0.6f)
+        {
+            elapsedTime += Time.deltaTime;
+
+            if(elapsedTime >= threshold)
+            {
+                if (shouldBeTransparent)
+                {
+                    _tempColorHex = _transparentHex;
+                }
+                else
+                {
+                    _tempColorHex = _whiteColorHex;
+                }
+
+                _scoreText.text = $"{_substringMarker}{GlobalFunctions.TextWithColorCode(_greyColorHex, _zeroSequence)}{GlobalFunctions.TextWithColorCode(_tempColorHex, _nonZeroSequence)}";
+
+                shouldBeTransparent = !shouldBeTransparent;
+                threshold += 0.1f;
+            }
+
+            yield return null;
+        }
+
+        _coroutine = null;
     }
 }
