@@ -38,7 +38,6 @@ public class UIHealthbar : MonoBehaviour
     {
         float fillAmount = (float)value / 100;       
         _imgFillLayer1.fillAmount -= fillAmount;
-        print(_imgFillLayer1.fillAmount);
         _animator.Play(_animationClipName, 0, 0);
     }
 

@@ -99,12 +99,12 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
         if (angleDifference > 0f)
         {
             SetAnimationState(AnimationState.TurnLeft);
-            SetSpeed(_defaultSpeed * 1.5f, 1f, 1.5f, 0.2f);
+            SetSpeed(_defaultSpeed * 1.5f, 1f, 1.5f, 0.001f);
         }
         else if (angleDifference < 0f)
         {
             SetAnimationState(AnimationState.TurnRight);
-            SetSpeed(_defaultSpeed * 1.5f, 1f, 1.5f, 0.2f);
+            SetSpeed(_defaultSpeed * 1.5f, 1f, 1.5f, 0.001f);
         }
 
         _previousRotation = _currentRotation;

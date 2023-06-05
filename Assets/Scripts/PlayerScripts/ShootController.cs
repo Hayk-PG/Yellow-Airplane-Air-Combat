@@ -51,11 +51,11 @@ public class ShootController : BaseShootController
         _targetDamage?.DealDamage(10, _scoreController);
         _targetDamage.VisualizeHit(_hit.point);
 
-        SetShootTargetUIActive(true);
+        ShakeUITarget();
         UpdateScore();
     }
 
-    private void SetShootTargetUIActive(bool isActive, bool isShaking = false)
+    private void SetUITargetActive(bool isActive)
     {
         if (!isActive)
         {
@@ -63,14 +63,12 @@ public class ShootController : BaseShootController
             return;
         }
 
-        if (isShaking)
-        {
-            Reference.Manager.ShootTargetUI.PlayIconShakeEffect();
-        }
-        else
-        {
-            Reference.Manager.ShootTargetUI.Activate(_targetCollider.transform.position);
-        }      
+        Reference.Manager.ShootTargetUI.Activate(_targetCollider.transform.position);
+    }
+
+    private void ShakeUITarget()
+    {
+        Reference.Manager.ShootTargetUI.PlayIconShakeEffect();
     }
 
     /// <summary>
@@ -85,12 +83,12 @@ public class ShootController : BaseShootController
     protected override void OnNullHits()
     {
         base.OnNullHits();
-        SetShootTargetUIActive(false);
+        SetUITargetActive(false);
     }
 
     protected override void OnValidateTargetCollider(RaycastHit2D hit)
     {
         base.OnValidateTargetCollider(hit);
-        SetShootTargetUIActive(true, true);
+        SetUITargetActive(true);
     }
 } 
