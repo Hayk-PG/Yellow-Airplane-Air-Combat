@@ -53,14 +53,14 @@ public abstract class BaseShootController : MonoBehaviour
     /// <param name="isShooting">Determines if the shooting is enabled or disabled.</param>
     protected virtual IEnumerator FireRoutine(bool isShooting)
     {
-        float elapsedTime = 60f / _fireRate;
-
         while (_isShooting)
         {
+            float fireInterval = 60f / _fireRate;
+
             Shoot();
             ToggleMuzzleFlash();
             PlaySoundEffect();
-            yield return new WaitForSeconds(elapsedTime);
+            yield return new WaitForSeconds(fireInterval);
         }
 
         _fireRoutine = null;

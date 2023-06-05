@@ -6,8 +6,17 @@ public class ShootController : BaseShootController
     [Header("Components")]
     [SerializeField] private ScoreManager _scoreController;
 
-    
+    private float _defaultFireRate;
+    private float _gunHeatElapsedTime;
+    private float _gunHeatThreshold = 1f;
 
+
+
+    protected override void Awake()
+    {
+        base.Awake();
+        DefineDefaultFireRate();
+    }
 
     private void OnEnable()
     {
@@ -37,7 +46,9 @@ public class ShootController : BaseShootController
         }
 
         _isShooting = (bool)data[1];
+
         TryRunCoroutine();
+        AdjustFireRateBasedOnHeat();
     }
 
     protected override void Shoot()
@@ -55,6 +66,45 @@ public class ShootController : BaseShootController
         UpdateScore();
     }
 
+    private void DefineDefaultFireRate()
+    {
+        _defaultFireRate = _fireRate;
+    }
+
+    /// <summary>
+    /// Controls the gun heat and adjusts the fire rate accordingly.
+    /// </summary>
+    private void AdjustFireRateBasedOnHeat()
+    {
+        if (_isShooting)
+        {
+            bool isGunHeating = _gunHeatElapsedTime >= _gunHeatThreshold;
+
+            if (isGunHeating)
+            {
+                _fireRate = _fireRate > 0f ? Mathf.Lerp(_fireRate, _fireRate - Mathf.RoundToInt(_gunHeatElapsedTime), 100f * Time.deltaTime) : 0f;
+
+                return;
+            }
+
+            _gunHeatElapsedTime += Time.deltaTime;
+        }
+        else
+        {
+            bool isGunCooling = _gunHeatElapsedTime > 0f;
+
+            if (isGunCooling)
+            {
+                _gunHeatElapsedTime = 0f;
+                _fireRate = _defaultFireRate;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets the visibility of the shoot target UI.
+    /// </summary>
+    /// <param name="isActive">True to activate the UI, false to deactivate it.</param>
     private void SetUITargetActive(bool isActive)
     {
         if (!isActive)
@@ -66,6 +116,9 @@ public class ShootController : BaseShootController
         Reference.Manager.ShootTargetUI.Activate(_targetCollider.transform.position);
     }
 
+    /// <summary>
+    /// Shakes the shoot target UI to create an effect.
+    /// </summary>
     private void ShakeUITarget()
     {
         Reference.Manager.ShootTargetUI.PlayIconShakeEffect();

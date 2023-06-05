@@ -7,6 +7,10 @@ public class UIScoreManager : MonoBehaviour
     [Header("Tmp Text Component")]
     [SerializeField] private TMP_Text _scoreText;
 
+    [Header("Animator Component")]
+    [SerializeField] private Animator _animator;
+
+    private const string _animationClipName = "UI Score Text Anim";
     private const string _substringMarker = "Score: ";
     private string _zeroSequence;
     private string _nonZeroSequence;
@@ -35,6 +39,8 @@ public class UIScoreManager : MonoBehaviour
     /// <param name="score">The new score value.</param>
     public void UpdateScoreText(int score)
     {
+        TriggerAnimation();
+
         _scoreText.text = $"{_substringMarker}{Converter.DecimalString(score, 8)}";
         _zeroSequence = "";
 
@@ -50,5 +56,10 @@ public class UIScoreManager : MonoBehaviour
 
         _nonZeroSequence = ExtractedText.Substring(_zeroSequence.Length);
         _scoreText.text = $"{_substringMarker}{GlobalFunctions.TextWithColorCode("#BAB7B7", _zeroSequence)}{GlobalFunctions.TextWithColorCode("#FFFFFF", _nonZeroSequence)}";
+    }
+
+    private void TriggerAnimation()
+    {
+        _animator.Play(_animationClipName, 0, 0);
     }
 }

@@ -46,5 +46,6 @@ public class AIShootController : BaseShootController
 
         _targetDamage = Get<IDamage>.From(_targetCollider.gameObject);
         _targetDamage?.DealDamage(5);
+        _targetDamage.VisualizeHit(_hit.point); 
     }
 } 
