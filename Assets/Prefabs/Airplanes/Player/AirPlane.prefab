@@ -250,6 +250,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: CFX3_Fire_Explosion
       objectReference: {fileID: 0}
+    - target: {fileID: 3629039301153761008, guid: a7edd86971a753c43875e70b5cd80cba,
+        type: 3}
+      propertyPath: cameraShake.duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3629039301153761008, guid: a7edd86971a753c43875e70b5cd80cba,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3629039301153761008, guid: a7edd86971a753c43875e70b5cd80cba,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3629039301153761008, guid: a7edd86971a753c43875e70b5cd80cba,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7edd86971a753c43875e70b5cd80cba, type: 3}
 --- !u!4 &668602880360193668 stripped
@@ -454,6 +474,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1513841646229747509}
     m_Modifications:
+    - target: {fileID: 640067075096834393, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.duration
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 640067075096834393, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 640067075096834393, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 640067075096834393, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.z
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 1507602349890247151, guid: 39562fa24d755dd4b9631e20ee42ab11,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -513,6 +553,86 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Impact Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4002711187809839859, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.duration
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4002711187809839859, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4002711187809839859, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4002711187809839859, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.z
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948631397714791603, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.duration
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948631397714791603, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948631397714791603, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948631397714791603, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.z
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615729224123177644, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.duration
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615729224123177644, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615729224123177644, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615729224123177644, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.z
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8869192219783333535, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.duration
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8869192219783333535, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8869192219783333535, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8869192219783333535, guid: 39562fa24d755dd4b9631e20ee42ab11,
+        type: 3}
+      propertyPath: cameraShake.shakeStrength.z
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39562fa24d755dd4b9631e20ee42ab11, type: 3}

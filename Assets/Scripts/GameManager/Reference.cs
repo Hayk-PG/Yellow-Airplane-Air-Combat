@@ -8,6 +8,7 @@ public class Reference : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private AISpawnManager _aiSpawnManager;
     [SerializeField] private MapBounds _mapBounds;
+    [SerializeField] private PlayerEventSystem _playerEventSystem;
 
     [Header("HUD")]
     [SerializeField] private InputController _inputController;
@@ -22,6 +23,7 @@ public class Reference : MonoBehaviour
     public GameManager GameManager => Manager._gameManager;
     public AISpawnManager AISpawnManager => Manager._aiSpawnManager;
     public MapBounds MapBounds => Manager._mapBounds;
+    public PlayerEventSystem PlayerEventSystem => Manager._playerEventSystem;
 
     // HUD
     public InputController InputController => Manager._inputController;
