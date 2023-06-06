@@ -127,6 +127,19 @@ namespace Pautik
         }
 
         /// <summary>
+        /// Converts a time value in seconds to a string representation in the format "mm:ss".
+        /// </summary>
+        /// <param name="value">The time value in seconds.</param>
+        /// <returns>The string representation of the time value in "mm:ss" format.</returns>
+        public static string MmSs(float value)
+        {           
+            int minutes = UnityEngine.Mathf.CeilToInt(value) / 60;
+            int seconds  = UnityEngine.Mathf.CeilToInt(value) - minutes * 60;
+
+            return $"{minutes.ToString("D2")}:{seconds .ToString("D2")}";
+        }
+
+        /// <summary>
         /// Formats the provided time values into a string representation in the format "HH:MM:SS".
         /// </summary>
         /// <param name="hours">The hours value.</param>

@@ -3,10 +3,19 @@ public class PlayerHealthManager : BaseHealthManager
 {
     private object[] _data = new object[1];
 
+
+
+
+    public override void Repair(int repairAmount)
+    {
+        UpdateUIHealthbar(PlayerEventType.UpdateHealthbarOnRepair, repairAmount);
+        base.Repair(repairAmount);
+    }
+
     public override void DealDamage(int damage, IScore attackerScore = null)
     {
         ToggleCameraDamageEffect();
-        UpdateUIHealthbar(damage);
+        UpdateUIHealthbar(PlayerEventType.UpdateHealthbarOnDamage, damage);
         base.DealDamage(damage, attackerScore);
     }
 
@@ -19,12 +28,13 @@ public class PlayerHealthManager : BaseHealthManager
     }
 
     /// <summary>
-    /// Updates the UI health bar based on the damage received.
+    /// Updates the UI health bar based on the specified player event type and value.
     /// </summary>
-    /// <param name="damage">The amount of damage received.</param>
-    private void UpdateUIHealthbar(int damage)
+    /// <param name="playerEventType">The type of player event.</param>
+    /// <param name="value">The value associated with the player event.</param>
+    private void UpdateUIHealthbar(PlayerEventType playerEventType, int value)
     {
-        _data[0] = damage;
-        Reference.Manager.PlayerEventSystem.TriggerPlayerEvent(PlayerEventType.UpdateHealthbar, _data);
+        _data[0] = value;
+        Reference.Manager.PlayerEventSystem.TriggerPlayerEvent(playerEventType, _data);
     }
 }

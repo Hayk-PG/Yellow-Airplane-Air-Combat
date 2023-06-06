@@ -14,6 +14,7 @@ public class UIHealthbar : MonoBehaviour
 
 
 
+
     private void OnEnable()
     {
         Reference.Manager.PlayerEventSystem.OnPlayerEventTrigger += OnPlayerEventTrigger;
@@ -21,28 +22,34 @@ public class UIHealthbar : MonoBehaviour
 
     private void OnPlayerEventTrigger(PlayerEventType playerEventType, object[] data)
     {
-        if(playerEventType != PlayerEventType.UpdateHealthbar)
+        UpdateHealthbar(playerEventType, amount: (int)data[0]);
+    }
+
+    /// <summary>
+    /// Updates the health bar based on the player event type and amount.
+    /// </summary>
+    /// <param name="playerEventType">The player event type.</param>
+    /// <param name="amount">The amount to update the health bar by.</param>
+    private void UpdateHealthbar(PlayerEventType playerEventType, int amount)
+    {
+        if (playerEventType != PlayerEventType.UpdateHealthbarOnDamage && playerEventType != PlayerEventType.UpdateHealthbarOnRepair)
         {
             return;
         }
 
-        int damage = (int)data[0];
-        UpdateHealthbar(damage);
+        UpdateFillAmountAndPlayAnimation(isDamage: playerEventType == PlayerEventType.UpdateHealthbarOnDamage, amount: amount);
     }
 
-    /// <summary>
-    /// Updates the health bar based on the amount of damage.
-    /// </summary>
-    /// <param name="damage">The amount of damage to update the health bar with.</param>
-    private void UpdateHealthbar(int value)
+    private void UpdateFillAmountAndPlayAnimation(bool isDamage, int amount)
     {
-        float fillAmount = (float)value / 100;       
-        _imgFillLayer1.fillAmount -= fillAmount;
+        float fillAmount = (float)amount / 100;
+        _imgFillLayer1.fillAmount = isDamage ? _imgFillLayer1.fillAmount - fillAmount : _imgFillLayer1.fillAmount + fillAmount;
         _animator.Play(_animationClipName, 0, 0);
     }
 
     /// <summary>
     /// Matches the fill amount of the second health bar layer to the first layer.
+    /// This method is triggered through an animation event.
     /// </summary>
     public void MatchHealthBarValues()
     {

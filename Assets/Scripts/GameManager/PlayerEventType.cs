@@ -2,5 +2,6 @@
 public enum PlayerEventType 
 {
     ToggleCameraDamageEffect,
-    UpdateHealthbar
+    UpdateHealthbarOnDamage,
+    UpdateHealthbarOnRepair
 }

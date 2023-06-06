@@ -3,7 +3,7 @@
 /// <summary>
 /// Manages the health of an entity and handles damage and healing.
 /// </summary>
-public class BaseHealthManager : MonoBehaviour, IDamage
+public class BaseHealthManager : MonoBehaviour, IHealth, IDamage
 {
     [Header("Components")]
     [SerializeField] protected ImpactManager _impactManager;
@@ -13,9 +13,6 @@ public class BaseHealthManager : MonoBehaviour, IDamage
     [Header("Health")]
     [SerializeField] protected int _health = 100;
 
-    /// <summary>
-    /// The current health value.
-    /// </summary>
     public virtual int Health
     {
         get => _health;
@@ -25,13 +22,9 @@ public class BaseHealthManager : MonoBehaviour, IDamage
 
 
 
-    /// <summary>
-    /// Heals the entity by the specified amount.
-    /// </summary>
-    /// <param name="hp">The amount of health to add.</param>
-    public virtual void Heal(int hp)
+    public virtual void Repair(int repairAmount)
     {
-        IncreaseHealth(hp);
+        IncreaseHealth(repairAmount);
     }
 
     public virtual void DealDamage(int damage, IScore attackerScore = default)

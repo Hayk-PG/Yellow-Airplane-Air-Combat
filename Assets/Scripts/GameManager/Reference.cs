@@ -15,6 +15,7 @@ public class Reference : MonoBehaviour
     [SerializeField] private ShootTargetUI _shootTargetUI;
     [SerializeField] private UIScoreManager _uiScoreManager;
     [SerializeField] private TargetPointerUI _targetPointerUI;
+    [SerializeField] private RepairStationUI _repairStationUI;
 
     [Header("Camera")]
     [SerializeField] private CameraSizeController _cameraSizeController;
@@ -30,6 +31,7 @@ public class Reference : MonoBehaviour
     public ShootTargetUI ShootTargetUI => Manager._shootTargetUI;
     public UIScoreManager UIScoreManager => Manager._uiScoreManager;
     public TargetPointerUI  TargetPointerUI => Manager._targetPointerUI;
+    public RepairStationUI RepairStationUI => Manager._repairStationUI;
 
     // Camera
     public CameraSizeController CameraSizeController => Manager._cameraSizeController;
