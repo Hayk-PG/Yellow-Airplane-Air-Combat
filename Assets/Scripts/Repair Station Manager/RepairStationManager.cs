@@ -4,8 +4,15 @@ using Pautik;
 
 public class RepairStationManager : MonoBehaviour
 {
+    [Header("Animator Component")]
+    [SerializeField] private Animator _animator;
+
     private IHealth _repairTarget;
     private IEnumerator _repairStarterCoroutine;
+
+    private const string _repairStationEnterAnimationStateName = "Repair Station Enter Anim";
+    private const string _rotationAnimationStateName = "rotate";
+
     private bool _canRepair;
 
 
@@ -13,6 +20,7 @@ public class RepairStationManager : MonoBehaviour
 
     private void Start()
     {
+        PlayRotationAnimation(true);
         StartCoroutine(DestroyRepairStationAfterDelay());
     }
 
@@ -27,6 +35,8 @@ public class RepairStationManager : MonoBehaviour
         }
 
         TriggerRepairStarter();
+        TriggerRepairStationEnterAnimation();
+        PlayRotationAnimation(false);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -38,6 +48,7 @@ public class RepairStationManager : MonoBehaviour
         }
 
         AbortRepairing();
+        PlayRotationAnimation(true);
     }
 
     /// <summary>
@@ -46,7 +57,7 @@ public class RepairStationManager : MonoBehaviour
     private void TriggerRepairStarter()
     {
         _canRepair = true;
-        _repairStarterCoroutine = StartRepair();
+        _repairStarterCoroutine = StartRepair();       
         StartCoroutine(_repairStarterCoroutine);
     }
 
@@ -133,6 +144,16 @@ public class RepairStationManager : MonoBehaviour
     private IHealth PotentialRepairTarget(GameObject gameObject)
     {
         return Get<IHealth>.From(gameObject);
+    }
+
+    private void PlayRotationAnimation(bool play)
+    {
+        _animator.SetBool(_rotationAnimationStateName, play);
+    }
+
+    private void TriggerRepairStationEnterAnimation()
+    {
+        _animator.Play(_repairStationEnterAnimationStateName, 0, 0);
     }
 
     /// <summary>
