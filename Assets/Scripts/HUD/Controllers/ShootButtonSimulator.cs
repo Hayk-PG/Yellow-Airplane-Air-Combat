@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
 /// <summary>
 /// Simulates the behavior of a shoot button based on the space key input.
 /// </summary>
@@ -45,3 +46,4 @@ public class ShootButtonSimulator : MonoBehaviour
         _button = _shootButton.GetComponent<Button>();
     }
 }
+#endif
