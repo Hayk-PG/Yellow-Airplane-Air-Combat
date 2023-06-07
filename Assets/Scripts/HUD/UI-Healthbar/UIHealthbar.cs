@@ -22,24 +22,29 @@ public class UIHealthbar : MonoBehaviour
 
     private void OnPlayerEventTrigger(PlayerEventType playerEventType, object[] data)
     {
-        UpdateHealthbar(playerEventType, amount: (int)data[0]);
+        UpdateHealthbar(playerEventType, data);
     }
 
     /// <summary>
-    /// Updates the health bar based on the player event type and amount.
+    /// Updates the health bar based on the specified player event type and data.
     /// </summary>
-    /// <param name="playerEventType">The player event type.</param>
-    /// <param name="amount">The amount to update the health bar by.</param>
-    private void UpdateHealthbar(PlayerEventType playerEventType, int amount)
+    /// <param name="playerEventType">The type of player event.</param>
+    /// <param name="data">The data associated with the player event.</param>
+    private void UpdateHealthbar(PlayerEventType playerEventType, object[] data)
     {
         if (playerEventType != PlayerEventType.UpdateHealthbarOnDamage && playerEventType != PlayerEventType.UpdateHealthbarOnRepair)
         {
             return;
         }
 
-        UpdateFillAmountAndPlayAnimation(isDamage: playerEventType == PlayerEventType.UpdateHealthbarOnDamage, amount: amount);
+        UpdateFillAmountAndPlayAnimation(isDamage: playerEventType == PlayerEventType.UpdateHealthbarOnDamage, amount: (int)data[0]);
     }
 
+    /// <summary>
+    /// Updates the fill amount of the health bar layers and plays the animation.
+    /// </summary>
+    /// <param name="isDamage">Indicates whether the update is for damage.</param>
+    /// <param name="amount">The amount of damage or repair.</param>
     private void UpdateFillAmountAndPlayAnimation(bool isDamage, int amount)
     {
         float fillAmount = (float)amount / 100;

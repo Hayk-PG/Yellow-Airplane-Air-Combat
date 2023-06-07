@@ -13,6 +13,7 @@ public class AIHealthManager : BaseHealthManager
         IncrementKillScore(attackerScore);
         RemoveFromSpawnerList();
         base.DealDamage(damage);
+        TrySpawnRepairStationForPlayer();
     }
 
     /// <summary>
@@ -21,5 +22,18 @@ public class AIHealthManager : BaseHealthManager
     private void RemoveFromSpawnerList()
     {
         _airplaneRemovalController.RemoveFromSpawnerList();
+    }
+
+    /// <summary>
+    /// Tries to spawn a repair station for the player if their health is zero or below.
+    /// </summary>
+    private void TrySpawnRepairStationForPlayer()
+    {
+        if(Health > 0)
+        {
+            return;
+        }
+
+        Reference.Manager.RepairStationSpawnManager.TrySpawnRepairStation();
     }
 }

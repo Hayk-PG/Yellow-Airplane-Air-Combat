@@ -7,7 +7,7 @@ public class RepairStationManager : MonoBehaviour
     [Header("Animator Component")]
     [SerializeField] private Animator _animator;
 
-    private IHealth _repairTarget;
+    private PlayerHealthManager _repairTarget;
     private IEnumerator _repairStarterCoroutine;
 
     private const string _repairStationEnterAnimationStateName = "Repair Station Enter Anim";
@@ -26,15 +26,22 @@ public class RepairStationManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Sets the repair target and triggers the repair starter if conditions are met.
-        _repairTarget = PotentialRepairTarget(collision.gameObject);
-
-        if(_repairTarget == null || _repairStarterCoroutine != null)
+        if(_repairTarget != null)
         {
             return;
         }
 
+        _repairTarget = PotentialRepairTarget(collision.gameObject);
+
+        bool canStartRepairing = _repairTarget == null || _repairStarterCoroutine != null;
+
+        if (canStartRepairing)
+        {
+            return;
+        }
+      
         TriggerRepairStarter();
+        DisplayRepairUITimer(true);
         TriggerRepairStationEnterAnimation();
         PlayRotationAnimation(false);
     }
@@ -47,7 +54,8 @@ public class RepairStationManager : MonoBehaviour
             return;
         }
 
-        AbortRepairing();
+        DisplayRepairUITimer(false);
+        AbortRepairing();        
         PlayRotationAnimation(true);
     }
 
@@ -67,7 +75,7 @@ public class RepairStationManager : MonoBehaviour
     private void AbortRepairing()
     {
         _repairTarget = null;
-        _canRepair = false;
+        _canRepair = false;       
     }
 
     /// <summary>
@@ -82,10 +90,12 @@ public class RepairStationManager : MonoBehaviour
         while (timeRemaining > elapsedTime)
         {
             timeRemaining--;
-            DisplayRepairTime(timeRemaining);
+            UpdateRepairUITimer(timeRemaining);
             yield return new WaitForSeconds(1f);
         }
 
+        RunRepairStationSpawnTimerCountdown();
+        DisplayRepairUITimer(false);
         DestroyRepairStation();
     }
 
@@ -104,6 +114,7 @@ public class RepairStationManager : MonoBehaviour
             {
                 elapsedTime += 0.5f;
                 Repair();
+                PlayRepairSoundEffect();
             }
 
             time += Time.deltaTime;
@@ -122,14 +133,35 @@ public class RepairStationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Displays the remaining repair time on the repair station UI.
+    /// Plays the repair sound effect.
     /// </summary>
-    /// <param name="timeRemaining">The remaining time in seconds.</param>
-    private void DisplayRepairTime(int timeRemaining)
+    private void PlayRepairSoundEffect()
+    {
+        SecondarySoundController.PlaySound(1, 0);
+    }
+
+    /// <summary>
+    /// Displays or hides the repair UI timer.
+    /// </summary>
+    /// <param name="isActive">Determines if the timer should be displayed or hidden.</param>
+    private void DisplayRepairUITimer(bool isActive)
     {
         if (!_canRepair)
         {
-            Reference.Manager.RepairStationUI.RunTimer(timeRemaining, false);
+            return;
+        }
+
+        Reference.Manager.RepairStationUI.SetActivate(isActive);
+    }
+
+    /// <summary>
+    /// Updates the repair UI timer with the specified time remaining.
+    /// </summary>
+    /// <param name="timeRemaining">The time remaining in seconds.</param>
+    private void UpdateRepairUITimer(int timeRemaining)
+    {
+        if (!_canRepair)
+        {
             return;
         }
 
@@ -141,26 +173,41 @@ public class RepairStationManager : MonoBehaviour
     /// </summary>
     /// <param name="gameObject">The GameObject to retrieve the repair target from.</param>
     /// <returns>The IHealth interface of the repair target, or null if it does not exist.</returns>
-    private IHealth PotentialRepairTarget(GameObject gameObject)
+    private PlayerHealthManager PotentialRepairTarget(GameObject gameObject)
     {
-        return Get<IHealth>.From(gameObject);
+        return Get<PlayerHealthManager>.From(gameObject);
     }
 
+    /// <summary>
+    /// Plays or stops the rotation animation.
+    /// </summary>
+    /// <param name="play">Determines if the rotation animation should be played or stopped.</param>
     private void PlayRotationAnimation(bool play)
     {
         _animator.SetBool(_rotationAnimationStateName, play);
     }
 
+    /// <summary>
+    /// Triggers the repair station enter animation.
+    /// </summary>
     private void TriggerRepairStationEnterAnimation()
     {
         _animator.Play(_repairStationEnterAnimationStateName, 0, 0);
     }
 
     /// <summary>
+    /// Runs the repair station spawn timer countdown.
+    /// </summary>
+    private void RunRepairStationSpawnTimerCountdown()
+    {
+        Reference.Manager.RepairStationSpawnManager.RunRepairStationSpawnTimerCountdown();
+    }
+
+    /// <summary>
     /// Destroys the repair station GameObject.
     /// </summary>
     private void DestroyRepairStation()
-    {
+    {       
         Destroy(gameObject);
     }
 }

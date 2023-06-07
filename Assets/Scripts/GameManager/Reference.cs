@@ -7,6 +7,7 @@ public class Reference : MonoBehaviour
     [Header("Game Manager")]
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private AISpawnManager _aiSpawnManager;
+    [SerializeField] private RepairStationSpawnManager _repairStationManager;
     [SerializeField] private MapBounds _mapBounds;
     [SerializeField] private PlayerEventSystem _playerEventSystem;
 
@@ -23,6 +24,7 @@ public class Reference : MonoBehaviour
     //Game Manager
     public GameManager GameManager => Manager._gameManager;
     public AISpawnManager AISpawnManager => Manager._aiSpawnManager;
+    public RepairStationSpawnManager RepairStationSpawnManager => Manager._repairStationManager;
     public MapBounds MapBounds => Manager._mapBounds;
     public PlayerEventSystem PlayerEventSystem => Manager._playerEventSystem;
 

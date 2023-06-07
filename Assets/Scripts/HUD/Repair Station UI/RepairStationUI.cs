@@ -8,20 +8,31 @@ public class RepairStationUI : MonoBehaviour
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private TMP_Text _timerText;
 
+    /// <summary>
+    /// Indicates whether the repair station UI is active.
+    /// </summary>
+    private bool IsActive => _canvasGroup.alpha == 1f;
+
 
 
 
     /// <summary>
-    /// Runs the timer with the specified time and sets the UI element active.
+    /// Sets the activation state of the repair station UI.
     /// </summary>
-    /// <param name="time">The time value for the timer.</param>
-    /// <param name="isActive">Flag indicating whether the UI element should be active.</param>
-    public void RunTimer(float time, bool isActive = true)
+    /// <param name="isActive">The desired activation state. Default is false.</param>
+    public void SetActivate(bool isActive = false)
     {
         GlobalFunctions.CanvasGroupActivity(_canvasGroup, isActive);
+    }
 
-        if (!isActive)
-        {            
+    /// <summary>
+    /// Updates the timer text on the repair station UI.
+    /// </summary>
+    /// <param name="time">The remaining time to display on the timer.</param>
+    public void RunTimer(float time)
+    {
+        if (!IsActive)
+        {
             return;
         }
 

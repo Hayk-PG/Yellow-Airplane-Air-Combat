@@ -25,6 +25,7 @@ public class BaseHealthManager : MonoBehaviour, IHealth, IDamage
     public virtual void Repair(int repairAmount)
     {
         IncreaseHealth(repairAmount);
+        SetFireTrailActive();
     }
 
     public virtual void DealDamage(int damage, IScore attackerScore = default)

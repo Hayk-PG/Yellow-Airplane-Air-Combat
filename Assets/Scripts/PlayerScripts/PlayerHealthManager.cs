@@ -1,10 +1,15 @@
 ﻿
 public class PlayerHealthManager : BaseHealthManager
 {
-    private object[] _data = new object[1];
+    private object[] _data = new object[2];
 
 
 
+
+    private void Start()
+    {
+        PublishPlayerHealthManager();
+    }
 
     public override void Repair(int repairAmount)
     {
@@ -17,6 +22,15 @@ public class PlayerHealthManager : BaseHealthManager
         ToggleCameraDamageEffect();
         UpdateUIHealthbar(PlayerEventType.UpdateHealthbarOnDamage, damage);
         base.DealDamage(damage, attackerScore);
+    }
+
+    /// <summary>
+    /// Publishes the player health manager to the player event system.
+    /// </summary>
+    private void PublishPlayerHealthManager()
+    {
+        _data[1] = this;
+        Reference.Manager.PlayerEventSystem.TriggerPlayerEvent(PlayerEventType.PublishPlayerHealthManager, _data);
     }
 
     /// <summary>
