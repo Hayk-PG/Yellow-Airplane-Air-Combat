@@ -4,12 +4,34 @@ public class MovementController : BaseAirplaneMovementManager
 {
     private void OnEnable()
     {
+        GameEventHandler.OnEvent += OnGameEvent;
         Reference.Manager.InputController.OnInputController += OnInputController;
+    }
+
+    private void OnDisable()
+    {
+        GameEventHandler.OnEvent -= OnGameEvent;
     }
 
     private void FixedUpdate() 
     {
         Move();
+    }
+
+    private void OnGameEvent(GameEventType gameEventType, object[] data)
+    {
+        OnLastHopeDefenderMessageActivity(gameEventType, data);
+    }
+
+    private void OnLastHopeDefenderMessageActivity(GameEventType gameEventType, object[] data)
+    {
+        if (gameEventType != GameEventType.OnLastHopeDefenderMessageActivity)
+        {
+            return;
+        }
+
+        bool? isLastHopeDefenderMessageActive = (bool?)data[0];
+        _externalSoundSource.Volume = isLastHopeDefenderMessageActive.HasValue ? isLastHopeDefenderMessageActive.Value ? 0f : 1f : 0.25f;
     }
 
     /// <summary>

@@ -2,18 +2,18 @@
 using UnityEngine.SceneManagement;
 
 public class MyScene : MonoBehaviour
-{   
-    public enum SceneName { Init, Menu, Game}
+{
+    public enum SceneName { Init, Menu, Game }
 
     public static MyScene Manager { get; private set; }
     public string InitSceneName { get; private set; } = "Init";
     public string MenuSceneName { get; private set; } = "Menu";
     public string GameSceneName { get; private set; } = "Game";
     public Scene CurrentScene { get => SceneManager.GetActiveScene(); }
-    
-    
-    
-    
+
+
+
+
     private void Awake()
     {
         CreateInstance();

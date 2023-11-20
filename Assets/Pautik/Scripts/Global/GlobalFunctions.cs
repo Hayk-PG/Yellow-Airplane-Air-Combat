@@ -48,6 +48,30 @@ namespace Pautik
             return "<color=#00F510>" + text + "</color>";
         }
 
+        public static string WhiteColorText(string text)
+        {
+            return "<color=#FFFFFF>" + text + "</color>";
+        }
+
+        public static string PartiallyTransparentText(string text)
+        {
+            return "<color=#FFFFFFC8>" + text + "</color>";
+        }
+
+        public static string TextWithFontSize(int fontSize, string text)
+        {
+            return $"<size={fontSize}>{text}</size>";
+        }
+
+        /// <summary>
+        /// 0: TriangularBullet 1: WhiteBullet 2: Fisheye 3: BlackSquare 4: WhiteSquare 5: ShadowedWhiteSquare 6: Dot
+        /// </summary>
+        /// <returns></returns>
+        public static string[] UnicodeBulletChars()
+        {
+            return new string[] { "\u2023", "\u25E6", "\u25C9", "\u25A0", "\u25A1", "\u274F", "\u2022" };
+        }
+
         public static bool LocalPlayerChecker(bool isLocalPlayer)
         {
             return isLocalPlayer;

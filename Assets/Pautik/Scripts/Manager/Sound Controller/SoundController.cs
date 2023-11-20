@@ -2,7 +2,8 @@
 using UnityEngine;
 using Pautik;
 
-[Serializable] public struct Clips
+[Serializable]
+public struct Clips
 {
     public AudioClip _clip;
 
@@ -11,9 +12,11 @@ using Pautik;
     public int _score;
 }
 
-[Serializable] public struct SoundsList
+[Serializable]
+public struct SoundsList
 {
-    [Space] [Header("Clips")]
+    [Space]
+    [Header("Clips")]
     public Clips[] _clips;
 }
 
@@ -22,37 +25,32 @@ public class SoundController : MonoBehaviour
 {
     public static SoundController Instance { get; private set; }
 
-    public enum MusicVolume { Down, Up}
+    public enum MusicVolume { Down, Up }
+
+    [Header("Sounds")]
+    [SerializeField] private SoundsList[] _soundsList;
+
+    [Header("Audio Source")]
+    [SerializeField] private AudioSource[] _allAudioSources;
 
     private AudioSource _musicSRC;
     private AudioSource _soundSRC;
-
-    [SerializeField]
-    private AudioSource[] _allAudioSources;
-
     private Animator _musicAnimator;
-
-    [SerializeField]
-    private SoundsList[] _soundsList;
 
     public SoundsList[] SoundsList
     {
         get => _soundsList;
     }
-
     public static bool IsMusicMuted
     {
         get => Instance._musicSRC.mute;
-
         private set => Instance._musicSRC.mute = value;
     }
     public static bool IsSoundMuted
     {
-        get => Instance._soundSRC.mute;
-
-        private set => Instance._soundSRC.mute = value;
+        get => Instance._allAudioSources[0].mute;
+        private set => GlobalFunctions.Loop<AudioSource>.Foreach(Instance._allAudioSources, audioSource => audioSource.mute = value);
     }
-    
 
     public static event Action<bool> onAudioSourceMute;
 
@@ -67,14 +65,12 @@ public class SoundController : MonoBehaviour
 
         _soundSRC = Get<AudioSource>.From(transform.Find("SoundSRC").gameObject);
 
-        _musicAnimator = Get<Animator>.From(_musicSRC.gameObject);       
+        _musicAnimator = Get<Animator>.From(_musicSRC.gameObject);
     }
-
-    private void Start() => GetDefaultSettings();
 
     private void CreateInstance()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
 
@@ -86,48 +82,16 @@ public class SoundController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void GetDefaultSettings()
+    public static void ToggleMusicState(bool isMuted)
     {
-        bool isMusicMuted = PlayerPrefs.GetInt(Keys.IsMusicOn, 1) > 0 ? false : true;
-        bool isSoundMuted = PlayerPrefs.GetInt(Keys.IsSoundOn, 1) > 0 ? false : true;
-
-        ToggleMusicActivity(isMusicMuted);
-
-        ToggleSoundActivity(isSoundMuted);
-    }
-
-    public static void ToggleMusicActivity(bool? isMuted, ISoundController observer = null)
-    {
-        if (isMuted.HasValue)
-            IsMusicMuted = isMuted.Value;
-        else
-            IsMusicMuted = !IsMusicMuted;
-
+        IsMusicMuted = isMuted;
         PlayerPrefs.SetInt(Keys.IsMusicOn, IsMusicMuted ? 0 : 1);
-
-        observer?.Set(IsMusicMuted);
     }
 
-    public static void ToggleSoundActivity(bool? isMuted, ISoundController observer = null)
+    public static void ToggleSoundState(bool isMuted)
     {
-        if (isMuted.HasValue)
-        {
-            IsSoundMuted = isMuted.Value;
-
-            GlobalFunctions.Loop<AudioSource>.Foreach(Instance._allAudioSources, audioSource => { audioSource.mute = IsSoundMuted; });
-        }
-        else
-        {
-            IsSoundMuted = !IsSoundMuted;
-
-            GlobalFunctions.Loop<AudioSource>.Foreach(Instance._allAudioSources, audioSource => { audioSource.mute = IsSoundMuted; });
-        }
-
+        IsSoundMuted = isMuted;
         PlayerPrefs.SetInt(Keys.IsSoundOn, IsSoundMuted ? 0 : 1);
-
-        observer?.Set(IsSoundMuted);
-
-        onAudioSourceMute?.Invoke(IsSoundMuted);
     }
 
     public static void PlaySound(int soundsListIndex, int clipIndex, out float clipLength)
@@ -139,7 +103,7 @@ public class SoundController : MonoBehaviour
             Instance._soundSRC.PlayOneShot(Instance._soundsList[soundsListIndex]._clips[clipIndex]._clip);
 
             clipLength = Instance._soundsList[soundsListIndex]._clips[clipIndex]._clip.length;
-        }            
+        }
     }
 
     public static void MusicSRCVolume(MusicVolume musicVolume)
@@ -148,13 +112,13 @@ public class SoundController : MonoBehaviour
         {
             case MusicVolume.Down:
 
-                Instance._musicAnimator.Play("MusicSRCVolumeDownAnim"); 
+                Instance._musicAnimator.Play("MusicSRCVolumeDownAnim");
 
                 break;
 
             case MusicVolume.Up:
 
-                Instance._musicAnimator.Play("MusicSRCVolumeUpAnim"); 
+                Instance._musicAnimator.Play("MusicSRCVolumeUpAnim");
 
                 break;
         }
