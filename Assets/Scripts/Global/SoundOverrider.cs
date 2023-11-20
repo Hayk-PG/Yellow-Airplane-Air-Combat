@@ -1,9 +1,10 @@
 ﻿
 public static class SoundOverrider 
 {
-    public static void UpdateSoundTrackVolume(SoundController.MusicVolume musicVolume)
+    public static void UpdateSoundTrackVolume(SoundController.MusicVolume musicVolume, float speed = 1f, bool isMuted = false)
     {
-        SoundController.MusicSRCVolume(musicVolume);
+        SoundController.MusicSRCVolume(musicVolume, speed);
+        SoundController.ToggleMusicState(isMuted);
     }
 
     public static void QuickClick()

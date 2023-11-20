@@ -4,6 +4,6 @@ public class SoundtrackDisabler : MonoBehaviour
 {
     private void Start()
     {
-        SoundController.MusicSRCVolume(SoundController.MusicVolume.Down);
+        SoundOverrider.UpdateSoundTrackVolume(SoundController.MusicVolume.Down);
     }
 }

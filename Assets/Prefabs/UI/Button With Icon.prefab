@@ -472,6 +472,11 @@ PrefabInstance:
       propertyPath: m_PixelsPerUnitMultiplier
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6027077821312898213, guid: fe970f98a23bc4944a89fb6baf69c70b,
+        type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8905835267340300371, guid: fe970f98a23bc4944a89fb6baf69c70b,
         type: 3}
       propertyPath: _btnTitle

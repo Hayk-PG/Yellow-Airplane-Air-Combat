@@ -106,20 +106,20 @@ public class SoundController : MonoBehaviour
         }
     }
 
-    public static void MusicSRCVolume(MusicVolume musicVolume)
+    public static void MusicSRCVolume(MusicVolume musicVolume, float speed)
     {
         switch (musicVolume)
         {
             case MusicVolume.Down:
 
                 Instance._musicAnimator.Play("MusicSRCVolumeDownAnim");
-
+                Instance._musicAnimator.speed = speed;
                 break;
 
             case MusicVolume.Up:
 
                 Instance._musicAnimator.Play("MusicSRCVolumeUpAnim");
-
+                Instance._musicAnimator.speed = speed;
                 break;
         }
     }

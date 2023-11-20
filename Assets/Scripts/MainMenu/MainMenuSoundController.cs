@@ -19,7 +19,6 @@ public class MainMenuSoundController : MonoBehaviour
             return;
         }
 
-        SoundOverrider.UpdateSoundTrackVolume(SoundController.MusicVolume.Up);
-        SoundController.ToggleMusicState(false);
+        SoundOverrider.UpdateSoundTrackVolume(SoundController.MusicVolume.Up);       
     }
 }

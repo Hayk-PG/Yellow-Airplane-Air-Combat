@@ -6,6 +6,7 @@ public class SettingsAnimationManager : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     private const string _maskFadeIn = "MaskFadeIn";
+    private const string _buttonsGroupFadeIn = "ButtonsGroupFadeIn";
 
 
 
@@ -38,5 +39,10 @@ public class SettingsAnimationManager : MonoBehaviour
     private void FadeMaskIn()
     {
         _animator.Play(_maskFadeIn, 0, 0);
+    }
+
+    internal void FadeButtonsGroupIn()
+    {
+        _animator.Play(_buttonsGroupFadeIn, 1, 0);
     }
 }

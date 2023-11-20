@@ -4,6 +4,7 @@ public class SettingsManager : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private SettingsInputManager _settingsInputManager;
+    [SerializeField] private SettingsAnimationManager _settingsAnimationManager;
 
 
 
@@ -31,6 +32,7 @@ public class SettingsManager : MonoBehaviour
         }
 
         ActivateButtonsByIndex(new int[] { 1, 2, 3 });
+        _settingsAnimationManager.FadeButtonsGroupIn();
     }
 
     private void ActivateButtonsByIndex(int[] buttonsIndexesToActivate)

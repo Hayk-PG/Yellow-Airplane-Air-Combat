@@ -8,6 +8,7 @@ public class SpeechManager : MonoBehaviour
     [Header("Canvas Group")]
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private CanvasGroup _engageButtonCanvasGroup;
+    [SerializeField] private CanvasGroup _toggleCanvasGroup;
 
     [Header("Text")]
     [SerializeField] private TMP_Text _lastHopeDefenderText;
@@ -112,12 +113,13 @@ public class SpeechManager : MonoBehaviour
 
         while(elapsedTime < threshold)
         {
-            _engageButtonCanvasGroup.alpha += Time.unscaledDeltaTime;
+            _toggleCanvasGroup.alpha = _engageButtonCanvasGroup.alpha += Time.unscaledDeltaTime;
             elapsedTime += Time.unscaledDeltaTime;
             yield return _yieldReturnNull;
         }
 
-        SetCanvasGroupActive(_engageButtonCanvasGroup, true);      
+        SetCanvasGroupActive(_engageButtonCanvasGroup, true);
+        SetCanvasGroupActive(_toggleCanvasGroup, true);
     }
 
     private void SetCanvasGroupActive(CanvasGroup canvasGroup, bool isActive)

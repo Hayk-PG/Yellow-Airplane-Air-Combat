@@ -45,6 +45,7 @@ public class GameOverScreen : MonoBehaviour
             return;
         }
 
+        SoundOverrider.UpdateSoundTrackVolume(SoundController.MusicVolume.Up, 0.05f);
         AnimateGameOverScreen();
     }
 
@@ -59,7 +60,7 @@ public class GameOverScreen : MonoBehaviour
     }
 
     private void AnimateGameOverScreen()
-    {
+    {       
         _animator.Play(_gameOverScreenFade, 0, 0);
     }
 

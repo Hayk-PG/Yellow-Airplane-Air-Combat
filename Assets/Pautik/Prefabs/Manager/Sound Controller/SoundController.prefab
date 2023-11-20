@@ -555,6 +555,10 @@ MonoBehaviour:
     - {fileID: 8300000, guid: a1e845514fdb6c545b5c5e67134ce46c, type: 3}
     - {fileID: 8300000, guid: 4e4fe5e27f7400343b43e6273cbb5a09, type: 3}
     - {fileID: 8300000, guid: ec9b632ca49c85f44a62f3e2de6c0453, type: 3}
+  - _title: Toggle
+    _clips:
+    - {fileID: 8300000, guid: 1a4fec880c536a048a25bd3920527b87, type: 3}
+    - {fileID: 8300000, guid: 7a1565a85f965fd4891b5a377c1135ea, type: 3}
 --- !u!114 &5036155503698902212
 MonoBehaviour:
   m_ObjectHideFlags: 0
