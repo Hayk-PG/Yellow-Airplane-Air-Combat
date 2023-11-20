@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class MainMenuAnimationManager : MonoBehaviour
+public class SettingsAnimationManager : MonoBehaviour
 {
     [Header("Animator")]
     [SerializeField] private Animator _animator;
 
-    private const string _buttonsPopUp = "ButtonsPopUp";
+    private const string _maskFadeIn = "MaskFadeIn";
 
 
 
@@ -32,11 +32,11 @@ public class MainMenuAnimationManager : MonoBehaviour
             return;
         }
 
-        Invoke(nameof(PlayButtonsPopUpAnimation), 3f);
+        Invoke(nameof(FadeMaskIn), 3f);
     }
 
-    private void PlayButtonsPopUpAnimation()
+    private void FadeMaskIn()
     {
-        _animator.Play(_buttonsPopUp, 0, 0);
+        _animator.Play(_maskFadeIn, 0, 0);
     }
 }

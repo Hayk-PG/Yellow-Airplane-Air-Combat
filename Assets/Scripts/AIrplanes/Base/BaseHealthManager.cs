@@ -131,7 +131,13 @@ public class BaseHealthManager : MonoBehaviour, IHealth, IDamage
     /// </summary>
     protected virtual void DestroyObject()
     {
+        PreDestroyAction();
         Destroy(gameObject);
+    }
+
+    protected virtual void PreDestroyAction()
+    {
+        
     }
 
     /// <summary>

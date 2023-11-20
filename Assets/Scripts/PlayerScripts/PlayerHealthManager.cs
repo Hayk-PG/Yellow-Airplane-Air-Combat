@@ -24,6 +24,11 @@ public class PlayerHealthManager : BaseHealthManager
         base.DealDamage(damage, attackerScore);
     }
 
+    protected override void PreDestroyAction()
+    {
+        GameEventHandler.RaiseEvent(GameEventType.OnPlayerDestroy);
+    }
+
     /// <summary>
     /// Publishes the player health manager to the player event system.
     /// </summary>

@@ -2,5 +2,8 @@
 public enum GameEventType 
 {
     OnMainMenuInit,
-    OnLastHopeDefenderMessageActivity
+    OnLastHopeDefenderMessageActivity,
+    OnScored,
+    OnPlayerDestroy,
+    OnGameOverScreenFinalize
 }

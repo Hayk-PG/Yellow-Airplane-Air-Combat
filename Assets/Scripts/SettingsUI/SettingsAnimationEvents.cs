@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MainMenuAnimationEvents : MonoBehaviour
+public class SettingsAnimationEvents : MonoBehaviour
 {
     private void PlayPopUpSoundEffect()
     {

@@ -2,7 +2,10 @@
 
 public class ScoreManager : MonoBehaviour, IScore
 {
+    [Header("Score")]
     [SerializeField] private int _score;
+
+    private object[] _data = new object[1];
 
     public int Score
     {
@@ -25,6 +28,7 @@ public class ScoreManager : MonoBehaviour, IScore
         _score += value;
 
         UpdateUIScore(_score);
+        RaiseOnScoredEvent();
     }
 
     /// <summary>
@@ -34,5 +38,11 @@ public class ScoreManager : MonoBehaviour, IScore
     private void UpdateUIScore(int score)
     {
         Reference.Manager.UIScoreManager.UpdateScoreText(score);
+    }
+
+    private void RaiseOnScoredEvent()
+    {
+        _data[0] = this;
+        GameEventHandler.RaiseEvent(GameEventType.OnScored, _data);
     }
 }
