@@ -12,6 +12,7 @@ public class ShootController : BaseShootController
 
 
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -21,6 +22,11 @@ public class ShootController : BaseShootController
     private void OnEnable()
     {
         Reference.Manager.InputController.OnInputController += OnInputController;
+    }
+
+    private void OnDisable()
+    {
+        Reference.Manager.InputController.OnInputController -= OnInputController;
     }
 
     /// <summary>

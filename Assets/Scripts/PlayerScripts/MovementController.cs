@@ -2,6 +2,11 @@
 
 public class MovementController : BaseAirplaneMovementManager
 {
+    private object[] _movementData = new object[1];
+
+
+
+
     private void OnEnable()
     {
         GameEventHandler.OnEvent += OnGameEvent;
@@ -11,6 +16,7 @@ public class MovementController : BaseAirplaneMovementManager
     private void OnDisable()
     {
         GameEventHandler.OnEvent -= OnGameEvent;
+        Reference.Manager.InputController.OnInputController -= OnInputController;
     }
 
     private void FixedUpdate() 
@@ -50,6 +56,8 @@ public class MovementController : BaseAirplaneMovementManager
     /// </summary>
     private void Move() 
     {
+        _movementData[0] = _rigidbody.position;
+        GameEventHandler.RaiseEvent(GameEventType.PlayerMoveBroadcast, _movementData);
         Vector2 velocity = Velocity(transform.right, _speed);
         Move(velocity);
     }

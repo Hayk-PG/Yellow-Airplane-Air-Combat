@@ -5,5 +5,6 @@ public enum GameEventType
     OnLastHopeDefenderMessageActivity,
     OnScored,
     OnPlayerDestroy,
-    OnGameOverScreenFinalize
+    OnGameOverScreenFinalize,
+    PlayerMoveBroadcast
 }
