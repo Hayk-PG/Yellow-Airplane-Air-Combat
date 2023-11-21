@@ -26,7 +26,7 @@ public class PlayerHealthManager : BaseHealthManager
 
     protected override void PreDestroyAction()
     {
-        GameEventHandler.RaiseEvent(GameEventType.OnPlayerDestroy);
+        GameEventHandler.RaiseEvent(GameEventType.OnPlayerAirplaneDestroy);
     }
 
     /// <summary>

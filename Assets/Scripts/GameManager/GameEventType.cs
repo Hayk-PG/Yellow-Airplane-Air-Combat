@@ -4,7 +4,7 @@ public enum GameEventType
     OnMainMenuInit,
     OnLastHopeDefenderMessageActivity,
     OnScored,
-    OnPlayerDestroy,
+    OnPlayerAirplaneDestroy,
     OnGameOverScreenFinalize,
     PlayerMoveBroadcast,
     OnPauseButtonClick,

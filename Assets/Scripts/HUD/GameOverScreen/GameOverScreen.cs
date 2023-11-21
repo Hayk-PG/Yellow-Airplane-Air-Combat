@@ -40,7 +40,7 @@ public class GameOverScreen : MonoBehaviour
 
     private void DisplayGameOverScreen(GameEventType gameEventType)
     {
-        if (gameEventType != GameEventType.OnPlayerDestroy)
+        if (gameEventType != GameEventType.OnPlayerAirplaneDestroy)
         {
             return;
         }

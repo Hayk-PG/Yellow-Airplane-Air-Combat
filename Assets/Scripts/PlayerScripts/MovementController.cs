@@ -22,6 +22,7 @@ public class MovementController : BaseAirplaneMovementManager
     private void FixedUpdate() 
     {
         Move();
+        PlayerMoveBroadcast();
     }
 
     private void OnGameEvent(GameEventType gameEventType, object[] data)
@@ -66,11 +67,15 @@ public class MovementController : BaseAirplaneMovementManager
     /// Moves the airplane in the current direction.
     /// </summary>
     private void Move() 
+    {      
+        Vector2 velocity = Velocity(transform.right, _speed);
+        Move(velocity);
+    }
+
+    private void PlayerMoveBroadcast()
     {
         _movementData[0] = _rigidbody.position;
         GameEventHandler.RaiseEvent(GameEventType.PlayerMoveBroadcast, _movementData);
-        Vector2 velocity = Velocity(transform.right, _speed);
-        Move(velocity);
     }
 
     /// <summary>
