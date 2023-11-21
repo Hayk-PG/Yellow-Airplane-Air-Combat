@@ -20,8 +20,20 @@ public class GameSpeedHandler : MonoBehaviour
 
     private void OnGameEvent(GameEventType gameEventType, object[] data)
     {
+        ResetGameSpeed(gameEventType);
         OnLastHopeDefenderMessageActivity(gameEventType, data);
         HandlePauseButtonClick(gameEventType);
+    }
+
+    private void ResetGameSpeed(GameEventType gameEventType)
+    {
+        if (gameEventType != GameEventType.ResetGameSpeed)
+        {
+            return;
+        }
+
+        _gameSpeedChangeRequests.Clear();
+        ProcessPendingGameSpeedRequests();
     }
 
     private void OnLastHopeDefenderMessageActivity(GameEventType gameEventType, object[] data)

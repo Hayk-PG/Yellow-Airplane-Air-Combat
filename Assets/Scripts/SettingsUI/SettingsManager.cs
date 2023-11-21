@@ -52,7 +52,7 @@ public class SettingsManager : MonoBehaviour
             },
             delegate
             {
-                _settingsAnimationManager.FadeButtonsGroupIn(-1f, 1f);
+                _settingsAnimationManager.FadeButtonsGroupOut();
             });      
     }
 
@@ -60,6 +60,8 @@ public class SettingsManager : MonoBehaviour
     {
         for (int i = 0; i < _settingsInputManager._buttons.Length; i++)
         {
+            _settingsInputManager._buttons[i].Deselect();
+
             for (int j = 0; j < buttonsIndexesToActivate.Length; j++)
             {
                 if(i == buttonsIndexesToActivate[j])

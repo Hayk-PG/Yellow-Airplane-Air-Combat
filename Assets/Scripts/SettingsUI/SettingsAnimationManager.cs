@@ -7,6 +7,7 @@ public class SettingsAnimationManager : MonoBehaviour
 
     private const string _maskFadeIn = "MaskFadeIn";
     private const string _buttonsGroupFadeIn = "ButtonsGroupFadeIn";
+    private const string _buttonsGroupFadeOut = "ButtonsGroupFadeOut";
 
 
 
@@ -38,12 +39,16 @@ public class SettingsAnimationManager : MonoBehaviour
 
     private void FadeMaskIn()
     {
-        _animator.Play(_maskFadeIn, 0, 0);
+        _animator.Play(_maskFadeIn, 0, 0);      
     }
 
-    internal void FadeButtonsGroupIn(float speed = 1f, float normalizedTime = 0f)
+    internal void FadeButtonsGroupIn()
     {
-        _animator.Play(_buttonsGroupFadeIn, 1, normalizedTime);
-        _animator.speed = speed;
+        _animator.Play(_buttonsGroupFadeIn, 1);
+    }
+
+    internal void FadeButtonsGroupOut()
+    {
+        _animator.Play(_buttonsGroupFadeOut, 1);
     }
 }

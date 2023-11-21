@@ -16,15 +16,37 @@ public class PauseScreenHandler : MonoBehaviour
 
 
     private void OnEnable()
-    {
-        _pauseButton.OnSelect += OnPauseButtonClick;
+    {     
+        GameEventHandler.OnEvent += OnGameEvent;
+        _pauseButton.OnSelect += TogglePauseScreenActiveState;
     }
 
-    private void OnPauseButtonClick()
+    private void OnDisable()
     {
-        PauseButtonClickBroadcast(true);
-        SetCanvasGroupActive(_backgroundCanvasGroup, true);
-        SetCanvasGroupActive(_pauseButtonCanvasGroup, false);        
+        GameEventHandler.OnEvent -= OnGameEvent;
+    }
+
+    private void OnGameEvent(GameEventType gameEventType, object[] data)
+    {
+        HandleResumeButtonClick(gameEventType);
+    }
+
+    private void HandleResumeButtonClick(GameEventType gameEventType)
+    {
+        if (gameEventType != GameEventType.OnResumeButtonClick)
+        {
+            return;
+        }
+
+        TogglePauseScreenActiveState();
+    }
+
+    private void TogglePauseScreenActiveState()
+    {
+        bool isPauseScreenActive = _backgroundCanvasGroup.interactable;
+        SetCanvasGroupActive(_backgroundCanvasGroup, !isPauseScreenActive);
+        SetCanvasGroupActive(_pauseButtonCanvasGroup, isPauseScreenActive);
+        PauseButtonClickBroadcast(!isPauseScreenActive);
     }
 
     private void PauseButtonClickBroadcast(bool isClicked)

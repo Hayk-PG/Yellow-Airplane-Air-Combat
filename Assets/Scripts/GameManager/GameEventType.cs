@@ -7,5 +7,7 @@ public enum GameEventType
     OnPlayerDestroy,
     OnGameOverScreenFinalize,
     PlayerMoveBroadcast,
-    OnPauseButtonClick
+    OnPauseButtonClick,
+    OnResumeButtonClick,
+    ResetGameSpeed
 }

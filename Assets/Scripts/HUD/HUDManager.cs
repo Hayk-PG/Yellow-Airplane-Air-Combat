@@ -6,7 +6,8 @@ public class HUDManager : MonoBehaviour
     [Header("Animator")]
     [SerializeField] private Animator _animator;
 
-    private const string _hudFade = "HUDFade";
+    private const string _fadeHUDOut = "FadeHUDOut";
+    private const string _fadeHUDIn = "FadeHUDIn";
 
 
 
@@ -33,12 +34,11 @@ public class HUDManager : MonoBehaviour
             return;
         }
 
-        Conditions<bool>.Compare((bool)data[0], () => FadeHUD(), () => FadeHUD(-1f, 1f));
+        Conditions<bool>.Compare((bool)data[0], () => FadeHUD(_fadeHUDOut), () => FadeHUD(_fadeHUDIn));
     }
 
-    private void FadeHUD(float speed = 1f, float normalizedTime = 0f)
+    private void FadeHUD(string animationName)
     {
-        _animator.Play(_hudFade, 0, normalizedTime);
-        _animator.speed = speed;
+        _animator.Play(animationName);
     }
 }

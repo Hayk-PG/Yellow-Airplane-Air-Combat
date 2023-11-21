@@ -13,8 +13,9 @@ public class SettingsInputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _buttons[1].OnSelect += () => OnQuickClickWithCallback(() => MyScene.Manager.LoadTargetScene(0));
-        _buttons[2].OnSelect += () => OnImpactClickWithCallback(()=> MyScene.Manager.LoadTargetScene(1));
+        _buttons[0].OnSelect += () => OnQuickClickWithCallback(() => GameEventHandler.RaiseEvent(GameEventType.OnResumeButtonClick));
+        _buttons[1].OnSelect += () => OnQuickClickWithCallback(() => { GameEventHandler.RaiseEvent(GameEventType.ResetGameSpeed); MyScene.Manager.LoadTargetScene(0); });
+        _buttons[2].OnSelect += () => OnImpactClickWithCallback(()=> { GameEventHandler.RaiseEvent(GameEventType.ResetGameSpeed); MyScene.Manager.LoadTargetScene(1); });
         _buttons[3].OnSelect += () => OnQuickClickWithCallback(() => Application.Quit());
     }
 
