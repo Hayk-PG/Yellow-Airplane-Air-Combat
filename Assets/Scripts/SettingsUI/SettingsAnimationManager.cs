@@ -41,8 +41,9 @@ public class SettingsAnimationManager : MonoBehaviour
         _animator.Play(_maskFadeIn, 0, 0);
     }
 
-    internal void FadeButtonsGroupIn()
+    internal void FadeButtonsGroupIn(float speed = 1f, float normalizedTime = 0f)
     {
-        _animator.Play(_buttonsGroupFadeIn, 1, 0);
+        _animator.Play(_buttonsGroupFadeIn, 1, normalizedTime);
+        _animator.speed = speed;
     }
 }

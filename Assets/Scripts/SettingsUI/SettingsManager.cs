@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Pautik;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class SettingsManager : MonoBehaviour
     private void OnGameEvent(GameEventType gameEventType, object[] data)
     {
         HandleGameOverScreenFinalization(gameEventType);
+        HandlePauseButtonClick(gameEventType, data);
     }
 
     private void HandleGameOverScreenFinalization(GameEventType gameEventType)
@@ -33,6 +35,25 @@ public class SettingsManager : MonoBehaviour
 
         ActivateButtonsByIndex(new int[] { 1, 2, 3 });
         _settingsAnimationManager.FadeButtonsGroupIn();
+    }
+
+    private void HandlePauseButtonClick(GameEventType gameEventType, object[] data)
+    {
+        if (gameEventType != GameEventType.OnPauseButtonClick)
+        {
+            return;
+        }
+       
+        Conditions<bool>.Compare((bool)data[0], 
+            delegate 
+            {
+                ActivateButtonsByIndex(new int[] { 0, 1, 2 });
+                _settingsAnimationManager.FadeButtonsGroupIn();
+            },
+            delegate
+            {
+                _settingsAnimationManager.FadeButtonsGroupIn(-1f, 1f);
+            });      
     }
 
     private void ActivateButtonsByIndex(int[] buttonsIndexesToActivate)

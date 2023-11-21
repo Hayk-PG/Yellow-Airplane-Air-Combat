@@ -27,6 +27,7 @@ public class MovementController : BaseAirplaneMovementManager
     private void OnGameEvent(GameEventType gameEventType, object[] data)
     {
         OnLastHopeDefenderMessageActivity(gameEventType, data);
+        HandlePauseButtonClick(gameEventType, data);
     }
 
     private void OnLastHopeDefenderMessageActivity(GameEventType gameEventType, object[] data)
@@ -38,6 +39,16 @@ public class MovementController : BaseAirplaneMovementManager
 
         bool? isLastHopeDefenderMessageActive = (bool?)data[0];
         _externalSoundSource.Volume = isLastHopeDefenderMessageActive.HasValue ? isLastHopeDefenderMessageActive.Value ? 0f : 1f : 0.25f;
+    }
+
+    private void HandlePauseButtonClick(GameEventType gameEventType, object[] data)
+    {
+        if (gameEventType != GameEventType.OnPauseButtonClick)
+        {
+            return;
+        }
+
+        _externalSoundSource.Volume = (bool)data[0] ? 0f : 1f;
     }
 
     /// <summary>

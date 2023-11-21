@@ -22,12 +22,6 @@ public static class SoundOverrider
         UISoundController.PlaySound(1, 0);
     }
 
-    public static void TypeWriter()
-    {
-        int randomSound = UnityEngine.Random.Range(0, 25);
-        UISoundController.PlaySound(2, randomSound);
-    }
-
     public static void TypeWriterSpace()
     {
         UISoundController.PlaySound(2, 25);

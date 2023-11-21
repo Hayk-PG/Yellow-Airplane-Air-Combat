@@ -16,6 +16,9 @@ public class SpeechManager : MonoBehaviour
     [Header("Button")]
     [SerializeField] private Btn _engageButton;
 
+    [Header("Toggle")]
+    [SerializeField] private CustomToggle _toggle;
+
     private string _lastHopeDefenderMessage = $"Pilot, listen carefully! Our nation is on the edge of destruction, with enemy aircraft closing in on our airspace. You are our last hope, our final line of defense. It's up to you to protect our homeland by taking to the skies and defeating the enemy planes that seek to annihilate everything we hold dear. Your courage and determination hold the key to our survival. May the winds be at your back and luck favor your every move. Good luck, brave pilot!";
     private object[] _data = new object[1];
 
@@ -42,11 +45,17 @@ public class SpeechManager : MonoBehaviour
     private void OnEnable()
     {
         _engageButton.OnSelect += OnEngageButtonClick;
+        _toggle.OnValueChange += OnToggleValueChange;
     }
 
     private void Start()
     {
         StartCoroutine(DisplayLastHopeDefenderMessage());
+    }
+
+    private void OnToggleValueChange(bool isOn)
+    {
+        IsLastHopeDefenderMessageEnabled = !isOn;
     }
 
     private IEnumerator DisplayLastHopeDefenderMessage()
@@ -70,7 +79,6 @@ public class SpeechManager : MonoBehaviour
             foreach (var message in _lastHopeDefenderMessage)
             {
                 _lastHopeDefenderText.text += message;
-                Conditions<bool>.Compare(message != ' ', ()=> Conditions<bool>.Compare(message == '!', () => SoundOverrider.TypeWriterSpace(), () => SoundOverrider.TypeWriter()), null);
                 currentIteration ++;
                 yield return _textDisplayInterval;
             }

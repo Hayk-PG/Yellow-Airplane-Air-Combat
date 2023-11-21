@@ -6,5 +6,6 @@ public enum GameEventType
     OnScored,
     OnPlayerDestroy,
     OnGameOverScreenFinalize,
-    PlayerMoveBroadcast
+    PlayerMoveBroadcast,
+    OnPauseButtonClick
 }

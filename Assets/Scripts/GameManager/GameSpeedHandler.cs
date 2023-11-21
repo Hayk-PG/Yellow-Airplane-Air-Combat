@@ -21,6 +21,7 @@ public class GameSpeedHandler : MonoBehaviour
     private void OnGameEvent(GameEventType gameEventType, object[] data)
     {
         OnLastHopeDefenderMessageActivity(gameEventType, data);
+        HandlePauseButtonClick(gameEventType);
     }
 
     private void OnLastHopeDefenderMessageActivity(GameEventType gameEventType, object[] data)
@@ -31,6 +32,16 @@ public class GameSpeedHandler : MonoBehaviour
         }
 
         if (!((bool?)data[0]).HasValue)
+        {
+            return;
+        }
+
+        ManageGameSpeedRequest(gameEventType);
+    }
+
+    private void HandlePauseButtonClick(GameEventType gameEventType)
+    {
+        if (gameEventType != GameEventType.OnPauseButtonClick)
         {
             return;
         }

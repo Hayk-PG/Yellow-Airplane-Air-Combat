@@ -5,21 +5,18 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Pautik;
 
-/// <summary>
-/// Custom toggle component that updates a label and raises an event when the value changes.
-/// </summary>
 public class CustomToggle : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Toggle Component")]
-    [SerializeField] private Toggle _toggle; // Reference to the Toggle component
+    [SerializeField] private Toggle _toggle; 
 
     [Header("Tmp Texts")]
-    [SerializeField] private TMP_Text _label; // Reference to the TMP_Text component for label display
+    [SerializeField] private TMP_Text _label; 
 
     [Header("Label")]
-    [SerializeField] private string _labelIfOn; // Label text when the toggle is on
-    [SerializeField] private string _labelIfOff; // Label text when the toggle is off
-    [SerializeField] private bool _updateLabelOnValueChange; // Flag indicating whether to update the label on value change
+    [SerializeField] private string _labelIfOn; 
+    [SerializeField] private string _labelIfOff; 
+    [SerializeField] private bool _updateLabelOnValueChange; 
 
     [Header("Sound Index")]
     [SerializeField] private int _listIndex;
@@ -28,7 +25,7 @@ public class CustomToggle : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private bool _isPointerEntered;
 
-    public event Action<bool> OnValueChange; // Event raised when the value of the toggle changes
+    public event Action<bool> OnValueChange;
 
 
 
@@ -55,7 +52,6 @@ public class CustomToggle : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         UpdateLabel(_updateLabelOnValueChange);
     }
 
-    // Callback method for the toggle value change event.
     public void OnValueChanged()
     {
         OnValueChange?.Invoke(_toggle.isOn);
@@ -63,7 +59,6 @@ public class CustomToggle : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         UpdateLabel(_updateLabelOnValueChange);
     }
 
-    // Updates the label based on the toggle value.
     private void UpdateLabel(bool updateLabelOnValueChange)
     {
         if (!updateLabelOnValueChange)
