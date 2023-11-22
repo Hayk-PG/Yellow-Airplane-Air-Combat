@@ -16,6 +16,8 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     [SerializeField] protected AirplaneAnimationManager _airplaneAnimationManager;
     [SerializeField] protected ExternalSoundSource _externalSoundSource;
 
+    protected Vector2 _currentVelocity;
+
     protected Quaternion _previousRotation;
     protected Quaternion _currentRotation;
 
@@ -46,7 +48,7 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     /// <param name="velocity">The velocity vector for movement.</param>
     protected virtual void Move(Vector2 velocity)
     {
-        _rigidbody.velocity = velocity;
+        _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, velocity, ref _currentVelocity, 0.1f, 10f, 5f);
     }
 
     /// <summary>

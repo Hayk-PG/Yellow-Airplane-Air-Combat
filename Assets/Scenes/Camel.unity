@@ -2673,6 +2673,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _boxCollider: {fileID: 519420033}
+  _smoothTime: 0.1
+  _maxSpeed: 1
+  _deltaTime: 1
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0

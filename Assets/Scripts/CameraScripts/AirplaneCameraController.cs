@@ -5,6 +5,11 @@ public class AirplaneCameraController : MonoBehaviour
     [Header("Box Collider")]
     [SerializeField] private BoxCollider2D _boxCollider;
 
+    [Header("Smooth Damp Parameters")]
+    [SerializeField] private float _smoothTime;
+    [SerializeField] private float _maxSpeed;
+    [SerializeField] private float _deltaTime;
+    private float _currentVelocity;
     private float _desiredY;
     private float _currentY;
     private float _desiredX;
@@ -35,9 +40,9 @@ public class AirplaneCameraController : MonoBehaviour
             return;
         }
 
+        Vector2 playerRigidbodyPosition = (Vector2)data[0];
         _currentY = transform.position.y;
         _currentX = transform.position.x;
-        Vector2 playerRigidbodyPosition = (Vector2)data[0];
         ClampVerticalPosition();
         ClampHorizontalPosition();
         UpdateDesiredVerticalPosition(playerRigidbodyPosition);
@@ -73,27 +78,25 @@ public class AirplaneCameraController : MonoBehaviour
 
     private void UpdateDesiredVerticalPosition(Vector2 playerRigidbodyPosition)
     {
-        if (playerRigidbodyPosition.y > _boxCollider.bounds.center.y && _currentY <= 43)
-        {
-            _desiredY = Mathf.Lerp(_currentY, playerRigidbodyPosition.y, 10 * Time.deltaTime);
-        }
+        bool isPlayerAboveBoxCenterAndWithinVerticalBounds = playerRigidbodyPosition.y > _boxCollider.bounds.center.y && _currentY <= 43;
+        bool isPlayerBelowBoxCenterAndWithinVerticalBounds = playerRigidbodyPosition.y < _boxCollider.bounds.center.y && _currentY >= -43;
 
-        else if (playerRigidbodyPosition.y < _boxCollider.bounds.center.y && _currentY >= -43)
+        if (isPlayerAboveBoxCenterAndWithinVerticalBounds || isPlayerBelowBoxCenterAndWithinVerticalBounds)
         {
-            _desiredY = Mathf.Lerp(_currentY, playerRigidbodyPosition.y, 10 * Time.deltaTime);
+            //_desiredY = Mathf.Lerp(_currentY, playerRigidbodyPosition.y, 10 * Time.fixedDeltaTime);
+            _desiredY = Mathf.SmoothDamp(_currentY, playerRigidbodyPosition.y, ref _currentVelocity, _smoothTime, _maxSpeed, _deltaTime);
         }
     }
 
     private void UpdateDesiredHorizontalPosition(Vector2 playerRigidbodyPosition)
     {
-        if (playerRigidbodyPosition.x > _boxCollider.bounds.center.x && _currentX <= 40)
-        {
-            _desiredX = Mathf.Lerp(_currentX, playerRigidbodyPosition.x, 10 * Time.deltaTime);
-        }
+        bool isPlayerRightOfBoxCenterAndWithinHorizontalBounds = playerRigidbodyPosition.x > _boxCollider.bounds.center.x && _currentX <= 40;
+        bool isPlayerLeftOfBoxCenterAndWithinHorizontalBounds = playerRigidbodyPosition.x < _boxCollider.bounds.center.x && _currentX >= -40;
 
-        else if (playerRigidbodyPosition.x < _boxCollider.bounds.center.x && _currentX >= -40)
+        if (isPlayerRightOfBoxCenterAndWithinHorizontalBounds || isPlayerLeftOfBoxCenterAndWithinHorizontalBounds)
         {
-            _desiredX = Mathf.Lerp(_currentX, playerRigidbodyPosition.x, 10 * Time.deltaTime);
+            //_desiredX = Mathf.Lerp(_currentX, playerRigidbodyPosition.x, 10 * Time.fixedDeltaTime);
+            _desiredX = Mathf.SmoothDamp(_currentX, playerRigidbodyPosition.x, ref _currentVelocity, _smoothTime, _maxSpeed, _deltaTime);
         }
     }
 
