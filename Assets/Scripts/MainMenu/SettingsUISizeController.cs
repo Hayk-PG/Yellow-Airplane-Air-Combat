@@ -26,7 +26,8 @@ public class SettingsUISizeController : MonoBehaviour
 
     private void SetBlurredBackgroundSize()
     {
-        _blurredBackgroundRTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
+        Canvas canvas = FindObjectOfType<Canvas>();
+        _blurredBackgroundRTransform.sizeDelta = new Vector2(canvas.pixelRect.width, canvas.pixelRect.height);
     }
 
     private void UpdateMaskSize()

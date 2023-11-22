@@ -6,6 +6,7 @@ public class ShootController : BaseShootController
     [Header("Components")]
     [SerializeField] private ScoreManager _scoreController;
 
+    private object[] _fireRateData = new object[1];
     private float _defaultFireRate;
     private float _gunHeatElapsedTime;
     private float _gunHeatThreshold = 1f;
@@ -21,38 +22,32 @@ public class ShootController : BaseShootController
 
     private void OnEnable()
     {
-        Reference.Manager.InputController.OnInputController += OnInputController;
+        GameEventHandler.OnEvent += OnGameEvent;
     }
 
     private void OnDisable()
     {
-        Reference.Manager.InputController.OnInputController -= OnInputController;
+        GameEventHandler.OnEvent -= OnGameEvent;
     }
 
-    /// <summary>
-    /// Handles the subscription to input events.
-    /// </summary>
-    /// <param name="inputType">The type of input event.</param>
-    /// <param name="data">Additional data associated with the input event.</param>
-    private void OnInputController(InputController.InputType inputType, object[] data)
+    private void OnGameEvent(GameEventType gameEventType, object[] data)
     {
-        HandleShootInput(inputType, data);
+        HandleShootInput(gameEventType, data);
     }
 
-    /// <summary>
-    /// Handles the shoot input based on the input type.
-    /// </summary>
-    /// <param name="inputType">The input type.</param>
-    /// <param name="data">Additional data associated with the input.</param>
-    private void HandleShootInput(InputController.InputType inputType, object[] data) 
+    private void HandleShootInput(GameEventType gameEventType, object[] data)
     {
-        if(inputType != InputController.InputType.PressShootButton)
+        if (gameEventType != GameEventType.OnShootButtonState)
         {
             return;
         }
 
-        _isShooting = (bool)data[1];
+        HandleShootInput(isShooting: (bool)data[0]);
+    }
 
+    private void HandleShootInput(bool isShooting) 
+    {
+        _isShooting = isShooting;
         TryRunCoroutine();
         AdjustFireRateBasedOnHeat();
     }
@@ -75,6 +70,7 @@ public class ShootController : BaseShootController
     private void DefineDefaultFireRate()
     {
         _defaultFireRate = _fireRate;
+        GunfireBroadcast(GameEventType.OnGunfireDefaultRateInit);
     }
 
     /// <summary>
@@ -83,13 +79,13 @@ public class ShootController : BaseShootController
     private void AdjustFireRateBasedOnHeat()
     {
         if (_isShooting)
-        {
+        {         
             bool isGunHeating = _gunHeatElapsedTime >= _gunHeatThreshold;
+            GunfireBroadcast(GameEventType.OnGunFire);
 
             if (isGunHeating)
             {
                 _fireRate = _fireRate > 0f ? Mathf.Lerp(_fireRate, _fireRate - Mathf.RoundToInt(_gunHeatElapsedTime), 100f * Time.deltaTime) : 0f;
-
                 return;
             }
 
@@ -103,8 +99,15 @@ public class ShootController : BaseShootController
             {
                 _gunHeatElapsedTime = 0f;
                 _fireRate = _defaultFireRate;
+                GunfireBroadcast(GameEventType.OnGunFire);
             }
         }
+    }
+
+    private void GunfireBroadcast(GameEventType gameEventType)
+    {
+        _fireRateData[0] = _fireRate;
+        GameEventHandler.RaiseEvent(gameEventType, _fireRateData);
     }
 
     /// <summary>

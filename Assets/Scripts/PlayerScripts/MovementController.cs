@@ -10,13 +10,11 @@ public class MovementController : BaseAirplaneMovementManager
     private void OnEnable()
     {
         GameEventHandler.OnEvent += OnGameEvent;
-        Reference.Manager.InputController.OnInputController += OnInputController;
     }
 
     private void OnDisable()
     {
         GameEventHandler.OnEvent -= OnGameEvent;
-        Reference.Manager.InputController.OnInputController -= OnInputController;
     }
 
     private void FixedUpdate() 
@@ -27,8 +25,30 @@ public class MovementController : BaseAirplaneMovementManager
 
     private void OnGameEvent(GameEventType gameEventType, object[] data)
     {
+        HandleJoystickMovement(gameEventType, data);
+        HandleJoystickRelease(gameEventType);
         OnLastHopeDefenderMessageActivity(gameEventType, data);
         HandlePauseButtonClick(gameEventType, data);
+    }
+
+    private void HandleJoystickMovement(GameEventType gameEventType, object[] data)
+    {
+        if (gameEventType != GameEventType.OnJoystickMove)
+        {
+            return;
+        }
+
+        Rotate(direction: (Vector2)data[0]);
+    }
+
+    private void HandleJoystickRelease(GameEventType gameEventType)
+    {
+        if (gameEventType != GameEventType.OnJoystickRelease)
+        {
+            return;
+        }
+
+        HandleJoystickRelease();
     }
 
     private void OnLastHopeDefenderMessageActivity(GameEventType gameEventType, object[] data)
@@ -53,17 +73,6 @@ public class MovementController : BaseAirplaneMovementManager
     }
 
     /// <summary>
-    /// Event handler for the InputController's input events.
-    /// </summary>
-    /// <param name="inputType">The type of input.</param>
-    /// <param name="data">Additional data associated with the input.</param>
-    private void OnInputController(InputController.InputType inputType, object[] data)
-    {
-        Rotate(inputType, data);
-        HandleJoystickRelease(inputType);
-    }
-
-    /// <summary>
     /// Moves the airplane in the current direction.
     /// </summary>
     private void Move() 
@@ -78,35 +87,15 @@ public class MovementController : BaseAirplaneMovementManager
         GameEventHandler.RaiseEvent(GameEventType.PlayerMoveBroadcast, _movementData);
     }
 
-    /// <summary>
-    /// Rotates the airplane based on joystick input.
-    /// </summary>
-    /// <param name="inputType">The type of input.</param>
-    /// <param name="data">Additional data associated with the input.</param>
-    private void Rotate(InputController.InputType inputType, object[] data) 
+    private void Rotate(Vector2 direction) 
     {
-        if (inputType != InputController.InputType.MoveJoystick)
-        {
-            return;
-        }
-
-        Vector2 joystickInput = (Vector2)data[0];
-        float angle = Angle(joystickInput);
+        float angle = Angle(direction);
         Rotate(angle);
         UpdateRotationDirection();
     }
 
-    /// <summary>
-    /// Handles the release of the joystick input.
-    /// </summary>
-    /// <param name="inputType">The type of input.</param>
-    private void HandleJoystickRelease(InputController.InputType inputType)
+    private void HandleJoystickRelease()
     {
-        if(inputType != InputController.InputType.ReleaseJoystick)
-        {
-            return;
-        }
-
         SetAnimationState(AnimationState.Idle);
         SetSpeed(_defaultSpeed, 3f, _propellerDefaultRate, 1f);
     }
