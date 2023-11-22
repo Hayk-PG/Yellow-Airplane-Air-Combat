@@ -36,7 +36,7 @@ public class GoogleInterstitialAdManager  : GoogleAdBaseHandler<GoogleInterstiti
             return;
         }
 
-        LoadAndDisplay();
+        Invoke(nameof(LoadAndDisplay), 0.25f);
     }
 
     private void LoadAndDisplay()

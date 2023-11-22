@@ -52,50 +52,48 @@ public class AirplaneCameraController : MonoBehaviour
 
     private void ClampVerticalPosition()
     {
-        if (_currentY >= 43)
+        if (_currentY >= Reference.Manager.MapBounds.Max.y)
         {
-            _currentY = 43;
+            _currentY = Reference.Manager.MapBounds.Max.y;
         }
 
-        else if (_currentY <= -43)
+        else if (_currentY <= Reference.Manager.MapBounds.Min.y)
         {
-            _currentY = -43;
+            _currentY = Reference.Manager.MapBounds.Min.y;
         }
     }
 
     private void ClampHorizontalPosition()
     {
-        if (_currentX >= 40)
+        if (_currentX >= Reference.Manager.MapBounds.Max.x)
         {
-            _currentX = 40;
+            _currentX = Reference.Manager.MapBounds.Max.x;
         }
 
-        else if (_currentX <= -40)
+        else if (_currentX <= Reference.Manager.MapBounds.Min.x)
         {
-            _currentX = -40;
+            _currentX = Reference.Manager.MapBounds.Min.x;
         }
     }
 
     private void UpdateDesiredVerticalPosition(Vector2 playerRigidbodyPosition)
     {
-        bool isPlayerAboveBoxCenterAndWithinVerticalBounds = playerRigidbodyPosition.y > _boxCollider.bounds.center.y && _currentY <= 43;
-        bool isPlayerBelowBoxCenterAndWithinVerticalBounds = playerRigidbodyPosition.y < _boxCollider.bounds.center.y && _currentY >= -43;
+        bool isPlayerAboveBoxCenterAndWithinVerticalBounds = playerRigidbodyPosition.y > _boxCollider.bounds.center.y && _currentY <= Reference.Manager.MapBounds.Max.y;
+        bool isPlayerBelowBoxCenterAndWithinVerticalBounds = playerRigidbodyPosition.y < _boxCollider.bounds.center.y && _currentY >= Reference.Manager.MapBounds.Min.y;
 
         if (isPlayerAboveBoxCenterAndWithinVerticalBounds || isPlayerBelowBoxCenterAndWithinVerticalBounds)
         {
-            //_desiredY = Mathf.Lerp(_currentY, playerRigidbodyPosition.y, 10 * Time.fixedDeltaTime);
             _desiredY = Mathf.SmoothDamp(_currentY, playerRigidbodyPosition.y, ref _currentVelocity, _smoothTime, _maxSpeed, _deltaTime);
         }
     }
 
     private void UpdateDesiredHorizontalPosition(Vector2 playerRigidbodyPosition)
     {
-        bool isPlayerRightOfBoxCenterAndWithinHorizontalBounds = playerRigidbodyPosition.x > _boxCollider.bounds.center.x && _currentX <= 40;
-        bool isPlayerLeftOfBoxCenterAndWithinHorizontalBounds = playerRigidbodyPosition.x < _boxCollider.bounds.center.x && _currentX >= -40;
+        bool isPlayerRightOfBoxCenterAndWithinHorizontalBounds = playerRigidbodyPosition.x > _boxCollider.bounds.center.x && _currentX <= Reference.Manager.MapBounds.Max.x;
+        bool isPlayerLeftOfBoxCenterAndWithinHorizontalBounds = playerRigidbodyPosition.x < _boxCollider.bounds.center.x && _currentX >= Reference.Manager.MapBounds.Min.x;
 
         if (isPlayerRightOfBoxCenterAndWithinHorizontalBounds || isPlayerLeftOfBoxCenterAndWithinHorizontalBounds)
         {
-            //_desiredX = Mathf.Lerp(_currentX, playerRigidbodyPosition.x, 10 * Time.fixedDeltaTime);
             _desiredX = Mathf.SmoothDamp(_currentX, playerRigidbodyPosition.x, ref _currentVelocity, _smoothTime, _maxSpeed, _deltaTime);
         }
     }
