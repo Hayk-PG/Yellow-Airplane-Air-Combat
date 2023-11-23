@@ -11,6 +11,8 @@
     public static string Quits { get; private set; } = "Quits";
     public static string SelectedTankIndex { get; private set; } = "SelectedTankIndex";
     public static string Id { get; private set; } = "Id";
+    public static string AccountCreationAskPrompt { get; private set; } = "AccountCreationAskPrompt";
+    public static string Username { get; private set; } = "Username";
     public static string Password { get; private set; } = "Password";
     public static string RoomName { get; private set; } = "Room name";
     public static string RoomFakeName { get; private set; } = "Room fake name";   

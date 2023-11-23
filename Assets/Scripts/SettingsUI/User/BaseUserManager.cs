@@ -3,6 +3,11 @@ using Pautik;
 
 public class BaseUserManager : MonoBehaviour
 {
+    protected bool IsAutoLoginEnabled => ProfileData.Manager.IsAutoLoginEnabled;
+
+
+
+
     protected virtual void OnEnable()
     {
         GameEventHandler.OnEvent += OnGameEvent;

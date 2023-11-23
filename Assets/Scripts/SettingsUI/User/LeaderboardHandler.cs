@@ -1,5 +1,6 @@
 using PlayFab.ClientModels;
 using UnityEngine;
+using Pautik;
 
 public class LeaderboardHandler : BaseUserManager
 {
@@ -10,8 +11,7 @@ public class LeaderboardHandler : BaseUserManager
     [SerializeField] private Btn _leaderboardButton;
 
     private PlayfabLeaderboardHandler _playfabLeaderboardHandler;
-    private GetLeaderboardResult _leaderboardResult;
-    private string _username;
+    private bool _isLeaderboardButtonClicked;
 
 
 
@@ -25,13 +25,9 @@ public class LeaderboardHandler : BaseUserManager
 
     private void OnLeaderboardButtonClick()
     {
-        if (!PlayfabLoginVerifier.IsLoggedIn)
-        {
-            GameEventHandler.RaiseEvent(GameEventType.RequestUserAuth);
-            return;
-        }
+        _isLeaderboardButtonClicked = true;
 
-        SetLeaderboardActive();
+        Conditions<bool>.Compare(PlayfabLoginVerifier.IsLoggedIn, ()=> SetLeaderboardActive(), () => GameEventHandler.RaiseEvent(GameEventType.RequestUserAuth));
     }
 
     protected override void OnGameEvent(GameEventType gameEventType, object[] data)
@@ -48,7 +44,6 @@ public class LeaderboardHandler : BaseUserManager
             return;
         }
 
-        _username = (string)data[0];
         _playfabLeaderboardHandler = new PlayfabLeaderboardHandler();
     }
 
@@ -59,8 +54,7 @@ public class LeaderboardHandler : BaseUserManager
             return;
         }
 
-        _leaderboardResult = (GetLeaderboardResult)data[0];
-
+        ProfileData.Manager.CacheLeaderboardResult(leaderboardResult: (GetLeaderboardResult)data[0]);
         SetLeaderboardActive();
     }
 
@@ -76,13 +70,13 @@ public class LeaderboardHandler : BaseUserManager
 
     private void SetLeaderboardActive(bool isActive = true)
     {
-        bool isActiveCheck = _leaderboardResult != null ? isActive : false;
+        bool isActiveCheck = ProfileData.Manager.LeaderboardResult != null ? isActive : false;
 
         print($"Leaderboard activity: {isActiveCheck}");
 
         foreach (var canvasGroup in _canvasGroups)
         {
-            SetCanvasGroupActive(canvasGroup, isActiveCheck);
+            SetCanvasGroupActive(canvasGroup, isActiveCheck && _isLeaderboardButtonClicked);
         }
 
         if (!isActiveCheck)
@@ -90,7 +84,7 @@ public class LeaderboardHandler : BaseUserManager
             return;
         }
 
-        foreach (var leaderboard in _leaderboardResult.Leaderboard)
+        foreach (var leaderboard in ProfileData.Manager.LeaderboardResult.Leaderboard)
         {
             print($"Position: {leaderboard.Position}/Name: {leaderboard.DisplayName }");
         }

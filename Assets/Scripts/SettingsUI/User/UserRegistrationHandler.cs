@@ -10,6 +10,8 @@ public class UserRegistrationHandler : BaseUserSignupManager
     {
         base.OnEnable();
         _buttons[1].OnSelect += OnLoginButtonClick;
+        _buttons[2].OnSelect += CleanClose;
+        _toggles[0].OnValueChange += OnAskPromptToggleValueChanged;
     }
 
     protected override void HandleRequest(GameEventType gameEventType, object[] data)
@@ -31,9 +33,8 @@ public class UserRegistrationHandler : BaseUserSignupManager
             return;
         }
 
-        ResetToDefault();
-        SetCanvasGroupActive(_canvasGroups[0], false);
-        SetCanvasGroupActive(_canvasGroups[1], false);
+        CleanClose();
+        ProfileData.Manager.CacheUserCredentials(username: (string)data[0], password: (string)data[1], email: data[2] != null ? (string)data[2] : null);
     }
 
     protected override void HandleOperationFailure(GameEventType gameEventType, object[] data)
@@ -44,23 +45,33 @@ public class UserRegistrationHandler : BaseUserSignupManager
         }
 
         ResetToDefault();
-        ToggleCurrentTabInteractability();
-
-        print($"Failed to create an account!: {(string)data[0]}");
+        SetCanvasGroupActive(_canvasGroups[0]);
+        SetCanvasGroupActive(_canvasGroups[1]);
     }
 
     private void OnLoginButtonClick()
     {
+        CleanClose();
+        GameEventHandler.RaiseEvent(GameEventType.RequestUserLogin);
+    }
+
+    private void CleanClose()
+    {
         ResetToDefault();
         SetCanvasGroupActive(_canvasGroups[0], false);
         SetCanvasGroupActive(_canvasGroups[1], false);
+    }
 
-        GameEventHandler.RaiseEvent(GameEventType.RequestUserLogin);
+    private void OnAskPromptToggleValueChanged(bool isOn)
+    {
+        ProfileData.Manager.SetAccountCreationAskPromptState(isOn);
     }
 
     protected override void OnMainButtonClick()
     {
         base.OnMainButtonClick();
+        ProfileData.Manager.SaveOrDeleteUserCredentials(null, null, true);
+
         _playfabResgistration = new PlayfabRegistrationHandler(Email, Username, Password);
     }
 }

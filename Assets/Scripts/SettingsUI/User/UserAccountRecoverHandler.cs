@@ -15,6 +15,7 @@ public class UserAccountRecoverHandler : MonoBehaviour
 
     [Header("Button")]
     [SerializeField] private Btn _confirmButton;
+    [SerializeField] private Btn _closeButton;
 
     private string _requestEmailforPasswordReset = GlobalFunctions.PartiallyTransparentText("Please enter the email address associated with your account. We'll send you instructions to reset your password.");
     private string _invalidEmailAddressError => GlobalFunctions.TextWithColorCode("#FF005B", "Oops! The entered email address doesn't seem to be valid. Please double-check and try again.");
@@ -28,6 +29,7 @@ public class UserAccountRecoverHandler : MonoBehaviour
     {
         GameEventHandler.OnEvent += OnGameEvent;
         _confirmButton.OnSelect += OnConfirmButtonClick;
+        _closeButton.OnSelect += CleanClose;
     }
 
     private void OnDisable()
@@ -79,6 +81,11 @@ public class UserAccountRecoverHandler : MonoBehaviour
     private void OnConfirmButtonClick()
     {
         new PlayfabAccountRecoverHandler(Email);
+    }
+
+    private void CleanClose()
+    {
+        ToggleCanvasGroupsActivity();
     }
 
     private void ResetToDefault()

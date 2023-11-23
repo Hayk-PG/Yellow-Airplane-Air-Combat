@@ -1,10 +1,21 @@
+using Pautik;
 
 public class UserAuthManager : BaseUserManager
 {
-    private bool IsAutoLoginEnabled { get; set; }
+    private void Start()
+    {
+        if (ProfileData.Manager.IsCreatingAccountPromptDisabled)
+        {
+            return;
+        }
 
+        if (PlayfabLoginVerifier.IsLoggedIn)
+        {
+            return;
+        }
 
-
+        RequestAuth();
+    }
 
     protected override void OnGameEvent(GameEventType gameEventType, object[] data)
     {
@@ -18,12 +29,11 @@ public class UserAuthManager : BaseUserManager
             return;
         }
 
-        if (IsAutoLoginEnabled)
-        {
-            GameEventHandler.RaiseEvent(GameEventType.RequestUserLogin);
-            return;
-        }
+        RequestAuth();
+    }
 
-        GameEventHandler.RaiseEvent(GameEventType.RequestUserRegistration);
+    private void RequestAuth()
+    {
+        Conditions<bool>.Compare(IsAutoLoginEnabled, () => GameEventHandler.RaiseEvent(GameEventType.RequestUserLogin), () => GameEventHandler.RaiseEvent(GameEventType.RequestUserRegistration));
     }
 }
