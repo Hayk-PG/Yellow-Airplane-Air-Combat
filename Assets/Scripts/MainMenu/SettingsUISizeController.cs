@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Pautik;
 
 public class SettingsUISizeController : MonoBehaviour
 {
@@ -8,31 +9,35 @@ public class SettingsUISizeController : MonoBehaviour
     [SerializeField] private RectTransform _buttonsGroupRTransform;
     [SerializeField] private RectTransform _blurredBackgroundRTransform;
 
+    private RectTransform _canvasRTransform;
+
+    private Vector2 CanvasSize => _canvasRTransform.rect.size;
+
 
 
 
     private void Start()
     {
+        _canvasRTransform = Get<RectTransform>.From(FindObjectOfType<Canvas>().gameObject);
         SetBlurredBackgroundSize();
         StartCoroutine(Test());
     }
 
     private IEnumerator Test()
     {
-        yield return null;        
+        yield return null;
         UpdateMaskSize();
         UpdateBlurredBackgroundPosition();
     }
 
     private void SetBlurredBackgroundSize()
     {
-        Canvas canvas = FindObjectOfType<Canvas>();
-        _blurredBackgroundRTransform.sizeDelta = new Vector2(canvas.pixelRect.width, canvas.pixelRect.height);
+        _blurredBackgroundRTransform.sizeDelta = CanvasSize;
     }
 
     private void UpdateMaskSize()
     {
-        _maskRTransform.sizeDelta = new Vector2(Screen.width, _buttonsGroupRTransform.sizeDelta.y);
+        _maskRTransform.sizeDelta = new Vector2(CanvasSize.x, _buttonsGroupRTransform.sizeDelta.y);
     }
 
     private void UpdateBlurredBackgroundPosition()
