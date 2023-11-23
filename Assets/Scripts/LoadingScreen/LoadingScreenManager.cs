@@ -31,7 +31,7 @@ public class LoadingScreenManager : MonoBehaviour
 
     private void HandleLoading(GameEventType gameEventType)
     {
-        if (gameEventType != GameEventType.UserRegistrationProceed && gameEventType != GameEventType.UserLoginProceed)
+        if (gameEventType != GameEventType.UserRegistrationProceed && gameEventType != GameEventType.UserLoginProceed && gameEventType != GameEventType.LeaderboardProceed)
         {
             return;
         }
@@ -41,7 +41,7 @@ public class LoadingScreenManager : MonoBehaviour
 
     private void DisableLoadingOnSucceed(GameEventType gameEventType)
     {
-        if (gameEventType != GameEventType.UserRegistrationSucceed && gameEventType != GameEventType.UserLoginSucceed)
+        if (gameEventType != GameEventType.UserRegistrationSucceed && gameEventType != GameEventType.UserLoginSucceed && gameEventType != GameEventType.LeaderboardSucceed)
         {
             return;
         }
@@ -51,7 +51,7 @@ public class LoadingScreenManager : MonoBehaviour
 
     private void DisableLoadingOnFailed(GameEventType gameEventType)
     {
-        if (gameEventType != GameEventType.UserRegistrationFailed && gameEventType != GameEventType.UserLoginFailed)
+        if (gameEventType != GameEventType.UserRegistrationFailed && gameEventType != GameEventType.UserLoginFailed && gameEventType != GameEventType.LeaderboardFailed)
         {
             return;
         }

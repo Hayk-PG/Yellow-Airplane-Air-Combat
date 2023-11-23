@@ -4828,7 +4828,7 @@ RectTransform:
   - {fileID: 737348041}
   - {fileID: 1245600566}
   m_Father: {fileID: 1932339040}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4877,7 +4877,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1932339040}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6435,8 +6435,8 @@ RectTransform:
   m_Children:
   - {fileID: 99753617}
   - {fileID: 1291474026}
-  - {fileID: 1693943376}
   - {fileID: 1626472276}
+  - {fileID: 1693943376}
   m_Father: {fileID: 587778095}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6466,9 +6466,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1932339039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4cec1acc366b3d42978dd1a3e1f3cef, type: 3}
+  m_Script: {fileID: 11500000, guid: 26b2accab45164a20badf0bfd9e65d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvasGroups:
+  - {fileID: 1291474029}
+  - {fileID: 1693943377}
   _leaderboardButton: {fileID: 99753618}
 --- !u!114 &1932339043
 MonoBehaviour:

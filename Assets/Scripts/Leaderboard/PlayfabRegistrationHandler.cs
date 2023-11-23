@@ -38,10 +38,10 @@ public class PlayfabRegistrationHandler : BasePlayfabHandler<RegisterPlayFabUser
     protected override void OnSucceed(RegisterPlayFabUserResult result)
     {
         result.PlayFabId = _username;
-
-        _data[0] = _email;
-        _data[1] = _username;
-        _data[2] = _password;
+    
+        _data[0] = _username;
+        _data[1] = _password;
+        _data[2] = _email;
         GameEventHandler.RaiseEvent(GameEventType.UserRegistrationSucceed, _data);
     }
 
