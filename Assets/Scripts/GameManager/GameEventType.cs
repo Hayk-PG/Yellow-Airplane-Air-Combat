@@ -1,6 +1,17 @@
 
 public enum GameEventType 
 {
+    RequestUserAuth,    
+    RequestUserRegistration,
+    RequestUserLogin,
+    RequestAccountRecover,
+    UserRegistrationSucceed,
+    UserRegistrationFailed,
+    UserLoginSucceed,
+    UserLoginFailed,
+    UserAccountRecoverySucceed,
+    UserAccountRecoveryFailed,
+
     OnMainMenuInit,
     OnLastHopeDefenderMessageActivity,
     OnJoystickMove,
