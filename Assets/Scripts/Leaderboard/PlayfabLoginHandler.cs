@@ -12,7 +12,9 @@ public class PlayfabLoginHandler : BasePlayfabHandler<LoginWithPlayFabRequest, L
     public PlayfabLoginHandler(string username, string password)
     {
         _request = new LoginWithPlayFabRequest { Username = _username = username, Password = _password = password };
-        PlayFabClientAPI.LoginWithPlayFab(_request, OnSucceed, OnFailed);      
+        
+        PlayFabClientAPI.LoginWithPlayFab(_request, OnSucceed, OnFailed);
+        GameEventHandler.RaiseEvent(GameEventType.UserLoginProceed);
     }
 
     protected override void OnSucceed(LoginResult result)

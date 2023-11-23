@@ -30,8 +30,9 @@ public class PlayfabRegistrationHandler : BasePlayfabHandler<RegisterPlayFabUser
         _request.DisplayName = _username = username;
         _request.Username = username;      
         _request.Password = _password = password;
-
+     
         PlayFabClientAPI.RegisterPlayFabUser(_request, OnSucceed, OnFailed);
+        GameEventHandler.RaiseEvent(GameEventType.UserRegistrationProceed);
     }
 
     protected override void OnSucceed(RegisterPlayFabUserResult result)

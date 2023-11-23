@@ -23,7 +23,7 @@ public class UserAuthManager : BaseUserManager
             GameEventHandler.RaiseEvent(GameEventType.RequestUserLogin);
             return;
         }
-        print("a");
+
         GameEventHandler.RaiseEvent(GameEventType.RequestUserRegistration);
     }
 }

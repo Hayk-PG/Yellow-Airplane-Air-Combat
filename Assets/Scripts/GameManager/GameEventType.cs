@@ -5,6 +5,10 @@ public enum GameEventType
     RequestUserRegistration,
     RequestUserLogin,
     RequestAccountRecover,
+
+    UserRegistrationProceed,
+    UserLoginProceed,
+
     UserRegistrationSucceed,
     UserRegistrationFailed,
     UserLoginSucceed,
