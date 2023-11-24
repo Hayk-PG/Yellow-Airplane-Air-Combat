@@ -90,7 +90,6 @@ public class SpeechManager : MonoBehaviour
     private void OnEngageButtonClick()
     {
         _engageButton.IsInteractable = false;
-        SoundOverrider.ImpactClick();
         StartCoroutine(CloseWithDelay());
     }
 

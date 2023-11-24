@@ -365,6 +365,11 @@ PrefabInstance:
       propertyPath: m_textInfo.characterCount
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6251764843360054339, guid: 5f6683f701c658c4d947766b1eac7459,
+        type: 3}
+      propertyPath: _clipIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7499783282915509018, guid: 5f6683f701c658c4d947766b1eac7459,
         type: 3}
       propertyPath: m_Sprite
@@ -756,6 +761,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2889967328142067740, guid: fe970f98a23bc4944a89fb6baf69c70b,
+        type: 3}
+      propertyPath: OnClickSoundEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3342429457721354462, guid: fe970f98a23bc4944a89fb6baf69c70b,
         type: 3}

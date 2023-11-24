@@ -3,21 +3,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Pautik;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Button))]
 
 public class Btn : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public enum ButtonClickType { ChangeSprite, ChangeColor, Both, None, OnlyInvokeEvent}
+    public enum ButtonClickType { ChangeSprite, ChangeColor, Both, None, OnlyInvokeEvent }
     public ButtonClickType _buttonClickType;
 
-    protected Btn[] _siblings;
-
-    [SerializeField] private Sprite _sprtPressed;
+    [Header("Sprite And Color")]
+    [SerializeField] protected Sprite _sprtPressed;
+    [SerializeField] protected Color _clrPressed;
     protected Sprite _sprtReleased;
-
-    [SerializeField] private Color _clrPressed;
     protected Color _clrReleased;
+
+    [Header("Click Sound")]
+    [SerializeField] protected UnityEvent OnClickSoundEvent;
+
+    protected Btn[] _siblings;
 
     protected Button Button { get; set; }
     protected Sprite ButtonSprite
@@ -127,7 +131,7 @@ public class Btn : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             IsSelected = true;
             OnSelect?.Invoke();
-
+            OnClickSoundEvent?.Invoke();
             ChangeBuutonLook(_sprtPressed, _clrPressed);
             Conditions<bool>.Compare(_buttonClickType == ButtonClickType.OnlyInvokeEvent, Deselect, DeselectAllSiblings);
         }

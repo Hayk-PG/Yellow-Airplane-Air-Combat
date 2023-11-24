@@ -94,7 +94,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.25
+  m_fontSize: 54.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 6027077821312898212}
   - component: {fileID: 6027077821312898213}
   - component: {fileID: 2889967328142067740}
+  - component: {fileID: 2604083692782892416}
   m_Layer: 5
   m_Name: Btn
   m_TagString: Untagged
@@ -380,3 +381,32 @@ MonoBehaviour:
   _buttonClickType: 4
   _sprtPressed: {fileID: 0}
   _clrPressed: {r: 1, g: 0.9858491, b: 0.9858491, a: 1}
+  OnClickSoundEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2604083692782892416}
+        m_TargetAssemblyTypeName: Button_Sound, Assembly-CSharp
+        m_MethodName: OnButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2604083692782892416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6027077821312898211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd077f0061c06e74daaf97fe8e882970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _listIndex: 0
+  _clipIndex: 0
