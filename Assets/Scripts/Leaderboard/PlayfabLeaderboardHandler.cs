@@ -3,11 +3,6 @@ using PlayFab.ClientModels;
 
 public class PlayfabLeaderboardHandler : BasePlayfabHandler<GetLeaderboardRequest, GetLeaderboardResult>
 {
-    private const string _leaderboardName = "Leaderboard";
-
-
-
-
     public PlayfabLeaderboardHandler()
     {
         _request = new GetLeaderboardRequest { MaxResultsCount = 10, StartPosition = 0, StatisticName = _leaderboardName };

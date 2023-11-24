@@ -3,7 +3,7 @@
 public class SettingsInputManager : MonoBehaviour
 {
     /// <summary>
-    /// 0: Resume, 1: Home, 2: Play or Replay, 3: Quit 4: Logout
+    /// 0: Resume, 1: Home, 2: Play or Replay, 3: Quit 4: Logout 5: Leaderboard (Not included)
     /// </summary>
     [Header("Button")]
     [SerializeField] internal Btn[] _buttons;

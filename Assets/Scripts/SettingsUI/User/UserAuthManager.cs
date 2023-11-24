@@ -2,8 +2,20 @@ using Pautik;
 
 public class UserAuthManager : BaseUserManager
 {
-    private void Start()
+    protected override void OnGameEvent(GameEventType gameEventType, object[] data)
     {
+        HandleMainMenuInitialization(gameEventType);
+        HandleUserAuthRequest(gameEventType, data);
+        HandleLogoutRequest(gameEventType, data);
+    }
+
+    private void HandleMainMenuInitialization(GameEventType gameEventType)
+    {
+        if (gameEventType != GameEventType.OnMainMenuInit)
+        {
+            return;
+        }
+
         if (ProfileData.Manager.IsCreatingAccountPromptDisabled)
         {
             return;
@@ -15,12 +27,6 @@ public class UserAuthManager : BaseUserManager
         }
 
         RequestAuth();
-    }
-
-    protected override void OnGameEvent(GameEventType gameEventType, object[] data)
-    {
-        HandleUserAuthRequest(gameEventType, data);
-        HandleLogoutRequest(gameEventType, data);
     }
 
     private void HandleUserAuthRequest(GameEventType gameEventType, object[] data)

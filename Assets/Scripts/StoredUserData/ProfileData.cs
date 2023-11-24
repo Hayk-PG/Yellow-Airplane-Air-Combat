@@ -27,6 +27,12 @@ public class ProfileData : MonoBehaviour
         get => PlayerPrefs.GetInt(Keys.AccountCreationAskPrompt, 1) < 1;
         private set => PlayerPrefs.SetInt(Keys.AccountCreationAskPrompt, value ? 0 : 1);
     }
+    public bool IsLoginReminderDisabled
+    {
+        get => PlayerPrefs.GetInt(Keys.LoginReminder, 1) < 1;
+        private set => PlayerPrefs.SetInt(Keys.LoginReminder, value ? 0 : 1);
+    }
+
     public bool IsAutoLoginEnabled => !string.IsNullOrEmpty(SavedUsername) && !string.IsNullOrEmpty(SavedPassword);
 
 
@@ -74,15 +80,21 @@ public class ProfileData : MonoBehaviour
         SavedPassword = password;
     }
 
-    public void SetAccountCreationAskPromptState(bool isCreatingAccountPromptDisabled)
+    public void SetAccountCreationAskPromptState(bool isDisabled)
     {
-        IsCreatingAccountPromptDisabled = isCreatingAccountPromptDisabled;
+        IsCreatingAccountPromptDisabled = isDisabled;
+    }
+
+    public void SetLoginReminderState(bool isDisabled)
+    {
+        IsLoginReminderDisabled = isDisabled;
     }
 
     public void ResetToDefault()
     {
         SaveOrDeleteUserCredentials(null, null, true);
         SetAccountCreationAskPromptState(false);
+        SetLoginReminderState(false);
 
         Username = null;
         Password = null;

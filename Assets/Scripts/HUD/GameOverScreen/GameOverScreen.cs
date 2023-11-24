@@ -13,6 +13,8 @@ public class GameOverScreen : MonoBehaviour
 
     private WaitForSecondsRealtime _scoreTextAnimationInterval = new WaitForSecondsRealtime(0.05f);
 
+    private object[] _data = new object[1];
+
     private const string _gameOverScreenFade = "GameOverScreenFade";
     private const string _gameOverTextFade = "GameOverTextFade";
     private const string _scoreTextBounceAndMoveLeft = "ScoreTextBounceAndMoveLeft";
@@ -46,7 +48,7 @@ public class GameOverScreen : MonoBehaviour
         }
 
         SoundOverrider.UpdateSoundTrackVolume(SoundController.MusicVolume.Up, 0.05f);
-        AnimateGameOverScreen();
+        AnimateGameOverScreen();       
     }
 
     private void TrackPlayerFinalScore(GameEventType gameEventType, object[] data)
@@ -79,7 +81,8 @@ public class GameOverScreen : MonoBehaviour
     // Animation Event
     private void FinalizeGameOverScreen()
     {
-        GameEventHandler.RaiseEvent(GameEventType.OnGameOverScreenFinalize);
+        _data[0] = _playerFinalScore;
+        GameEventHandler.RaiseEvent(GameEventType.OnGameOverScreenFinalize, _data);
     }
 
     private IEnumerator AnimateScoreText()

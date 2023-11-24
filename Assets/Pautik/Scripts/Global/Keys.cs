@@ -12,6 +12,7 @@
     public static string SelectedTankIndex { get; private set; } = "SelectedTankIndex";
     public static string Id { get; private set; } = "Id";
     public static string AccountCreationAskPrompt { get; private set; } = "AccountCreationAskPrompt";
+    public static string LoginReminder { get; private set; } = "LoginReminder";
     public static string Username { get; private set; } = "Username";
     public static string Password { get; private set; } = "Password";
     public static string RoomName { get; private set; } = "Room name";

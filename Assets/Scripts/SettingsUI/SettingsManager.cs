@@ -33,7 +33,7 @@ public class SettingsManager : MonoBehaviour
             return;
         }
 
-        ActivateButtonsByIndex(new int[] { 1, 2, 3 });
+        ActivateButtonsByIndex(new int[] { 1, 2, 3, 5 });
         _settingsAnimationManager.FadeButtonsGroupIn();
     }
 
