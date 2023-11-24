@@ -100,6 +100,32 @@ namespace Pautik
         }
 
         /// <summary>
+        /// Scales the given <paramref name="target"/> up to the specified target aspect ratio using the provided <paramref name="defaultSize"/>.
+        /// </summary>
+        /// <param name="target">The Transform to be scaled.</param>
+        /// <param name="targetAspectRatio">The target aspect ratio.</param>
+        /// <param name="defaultSize">The default size used for scaling.</param>
+        public static void ScaleUpToTargetAspect(UnityEngine.Transform target, float targetAspectRatio, float defaultSize)
+        {
+            float currentAspectRatio = (float)UnityEngine.Screen.width / UnityEngine.Screen.height;
+            float scaleFactor = currentAspectRatio / targetAspectRatio;
+            target.localScale = new UnityEngine.Vector2(defaultSize * scaleFactor, defaultSize * scaleFactor);
+        }
+
+        /// <summary>
+        /// Scales the given <paramref name="target"/> down to the specified target aspect ratio using the provided <paramref name="defaultSize"/>.
+        /// </summary>
+        /// <param name="target">The Transform to be scaled.</param>
+        /// <param name="targetAspectRatio">The target aspect ratio.</param>
+        /// <param name="defaultSize">The default size used for scaling.</param>
+        public static void ScaleDownToTargetAspect(UnityEngine.Transform target, float targetAspectRatio, float defaultSize)
+        {
+            float currentAspectRatio = (float)UnityEngine.Screen.width / UnityEngine.Screen.height;
+            float scaleFactor = currentAspectRatio / targetAspectRatio;
+            target.localScale = new UnityEngine.Vector2(defaultSize / scaleFactor, defaultSize / scaleFactor);
+        }
+
+        /// <summary>
         /// Casts a 2D ray from the specified origin in the given direction, using the provided contact filter, and stores the results in the specified array.
         /// </summary>
         /// <param name="origin">The starting point of the ray.</param>

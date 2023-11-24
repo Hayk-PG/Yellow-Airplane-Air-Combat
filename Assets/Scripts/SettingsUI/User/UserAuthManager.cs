@@ -20,6 +20,7 @@ public class UserAuthManager : BaseUserManager
     protected override void OnGameEvent(GameEventType gameEventType, object[] data)
     {
         HandleUserAuthRequest(gameEventType, data);
+        HandleLogoutRequest(gameEventType, data);
     }
 
     private void HandleUserAuthRequest(GameEventType gameEventType, object[] data)
@@ -29,6 +30,17 @@ public class UserAuthManager : BaseUserManager
             return;
         }
 
+        RequestAuth();
+    }
+
+    private void HandleLogoutRequest(GameEventType gameEventType, object[] data)
+    {
+        if (gameEventType != GameEventType.RequestUserLogout)
+        {
+            return;
+        }
+
+        ProfileData.Manager.ResetToDefault();
         RequestAuth();
     }
 

@@ -5,6 +5,7 @@ public enum GameEventType
     RequestUserRegistration,
     RequestUserLogin,
     RequestAccountRecover,
+    RequestUserLogout,
 
     UserRegistrationProceed,
     UserLoginProceed,
@@ -17,7 +18,7 @@ public enum GameEventType
     UserAccountRecoverySucceed,
     UserAccountRecoveryFailed,
     LeaderboardSucceed,
-    LeaderboardFailed,
+    LeaderboardFailed,   
 
     OnMainMenuInit,
     OnLastHopeDefenderMessageActivity,

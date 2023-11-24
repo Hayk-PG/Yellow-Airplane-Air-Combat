@@ -78,4 +78,16 @@ public class ProfileData : MonoBehaviour
     {
         IsCreatingAccountPromptDisabled = isCreatingAccountPromptDisabled;
     }
+
+    public void ResetToDefault()
+    {
+        SaveOrDeleteUserCredentials(null, null, true);
+        SetAccountCreationAskPromptState(false);
+
+        Username = null;
+        Password = null;
+        Email = null;
+
+        LeaderboardResult = null;
+    }
 }

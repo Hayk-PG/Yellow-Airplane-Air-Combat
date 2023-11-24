@@ -3,7 +3,7 @@
 public class SettingsInputManager : MonoBehaviour
 {
     /// <summary>
-    /// 0: Resume, 1: Home, 2: Play or Replay, 3: Quit
+    /// 0: Resume, 1: Home, 2: Play or Replay, 3: Quit 4L Logout
     /// </summary>
     [Header("Button")]
     [SerializeField] internal Btn[] _buttons;
@@ -17,6 +17,7 @@ public class SettingsInputManager : MonoBehaviour
         _buttons[1].OnSelect += () => OnQuickClickWithCallback(() => { GameEventHandler.RaiseEvent(GameEventType.ResetGameSpeed); MyScene.Manager.LoadTargetScene(0); });
         _buttons[2].OnSelect += () => OnImpactClickWithCallback(()=> { GameEventHandler.RaiseEvent(GameEventType.ResetGameSpeed); MyScene.Manager.LoadTargetScene(1); });
         _buttons[3].OnSelect += () => OnQuickClickWithCallback(() => Application.Quit());
+        _buttons[4].OnSelect += () => GameEventHandler.RaiseEvent(GameEventType.RequestUserLogout);
     }
 
     private void OnQuickClickWithCallback(System.Action callback)
