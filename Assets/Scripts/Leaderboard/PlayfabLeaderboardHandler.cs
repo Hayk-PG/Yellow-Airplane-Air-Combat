@@ -5,7 +5,7 @@ public class PlayfabLeaderboardHandler : BasePlayfabHandler<GetLeaderboardReques
 {
     public PlayfabLeaderboardHandler()
     {
-        _request = new GetLeaderboardRequest { MaxResultsCount = 10, StartPosition = 0, StatisticName = _leaderboardName };
+        _request = new GetLeaderboardRequest { MaxResultsCount = 100, StartPosition = 0, StatisticName = _leaderboardName };
 
         PlayFabClientAPI.GetLeaderboard(_request, OnSucceed, OnFailed);
         GameEventHandler.RaiseEvent(GameEventType.LeaderboardProceed);

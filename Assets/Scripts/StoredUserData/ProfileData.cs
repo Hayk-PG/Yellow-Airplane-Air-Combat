@@ -5,8 +5,6 @@ public class ProfileData : MonoBehaviour
 {
     public static ProfileData Manager { get; private set; }
 
-    public GetLeaderboardResult LeaderboardResult { get; private set; }
-
     public string Username { get; private set; }
     public string Password { get; private set; }
     public string Email { get; private set; }
@@ -62,11 +60,6 @@ public class ProfileData : MonoBehaviour
         Email = email != null ? email : Email;
     }
 
-    public void CacheLeaderboardResult(GetLeaderboardResult leaderboardResult)
-    {
-        LeaderboardResult = leaderboardResult;
-    }
-
     public void SaveOrDeleteUserCredentials(string username, string password, bool delete = false)
     {
         if (delete)
@@ -99,7 +92,5 @@ public class ProfileData : MonoBehaviour
         Username = null;
         Password = null;
         Email = null;
-
-        LeaderboardResult = null;
     }
 }
