@@ -122,7 +122,7 @@ public class LeaderboardHandler : BaseUserManager
             }
 
             isUser = _leaderboardResult.Leaderboard[i].DisplayName == ProfileData.Manager.Username;
-            isUserInTopTen = isUser;
+            isUserInTopTen = isUser ? true: isUserInTopTen;
             position = _leaderboardResult.Leaderboard[i].Position + 1;
 
             _rows[i].Display(rank: $"{position}.", name: _leaderboardResult.Leaderboard[i].DisplayName, value: Converter.ThousandsSeparatorString(_leaderboardResult.Leaderboard[i].StatValue), isUser);
