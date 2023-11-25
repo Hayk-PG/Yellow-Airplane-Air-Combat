@@ -2310,10 +2310,10 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
   - component: {fileID: 519420038}
+  - component: {fileID: 519420035}
+  - component: {fileID: 519420036}
   - component: {fileID: 519420030}
   - component: {fileID: 519420034}
-  - component: {fileID: 519420036}
-  - component: {fileID: 519420035}
   - component: {fileID: 519420039}
   - component: {fileID: 519420037}
   m_Layer: 11
