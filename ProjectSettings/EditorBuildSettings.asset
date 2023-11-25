@@ -6,9 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Init.unity
+    guid: 24450796f6d3ebd45965b85d916f7dab
+  - enabled: 1
     path: Assets/Scenes/Cover.unity
     guid: 7296414299dff6a4f9b3497e9ebbc3f1
   - enabled: 1
     path: Assets/Scenes/Camel.unity
     guid: 9dc7e4b191662074883f2314e4c66079
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 068a45657792f784ea07a63f15734943,
+      type: 2}
