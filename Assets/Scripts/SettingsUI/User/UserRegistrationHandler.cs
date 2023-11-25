@@ -3,6 +3,8 @@ public class UserRegistrationHandler : BaseUserSignupManager
 {
     private PlayfabRegistrationHandler _playfabResgistration;
 
+    private const string _commonErrorMessage = "The display name entered is not available.";
+
 
 
 
@@ -34,6 +36,7 @@ public class UserRegistrationHandler : BaseUserSignupManager
         }
 
         CleanClose();
+        SoundOverrider.Success();
         ProfileData.Manager.CacheUserCredentials(username: (string)data[0], password: (string)data[1], email: data[2] != null ? (string)data[2] : null);
     }
 
@@ -47,6 +50,8 @@ public class UserRegistrationHandler : BaseUserSignupManager
         ResetToDefault();
         SetCanvasGroupActive(_canvasGroups[0]);
         SetCanvasGroupActive(_canvasGroups[1]);
+        UpdateTitle(text: (string)data[0] == _commonErrorMessage ? _errors[0] : _errors[2]);
+        SoundOverrider.Fail();
     }
 
     private void OnLoginButtonClick()

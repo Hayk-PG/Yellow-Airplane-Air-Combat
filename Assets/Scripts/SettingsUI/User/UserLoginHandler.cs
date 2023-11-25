@@ -3,7 +3,7 @@ using Pautik;
 public class UserLoginHandler : BaseUserSignupManager
 {
     private PlayfabLoginHandler _playfabLoginHandler;
-
+    private const string _commonErrorMessage = "User not found";
     private bool _isAutoLoginToggleOn;
 
 
@@ -42,8 +42,9 @@ public class UserLoginHandler : BaseUserSignupManager
         }
 
         CleanClose();
-        SaveUserCredentials(username: (string)data[0], password: (string)data[1]);
+        SaveUserCredentials(username: (string)data[0], password: (string)data[1]);        
         ProfileData.Manager.CacheUserCredentials(username: (string)data[0], password: (string)data[1]);
+        SoundOverrider.Success();
     }
 
     protected override void HandleOperationFailure(GameEventType gameEventType, object[] data)
@@ -56,6 +57,8 @@ public class UserLoginHandler : BaseUserSignupManager
         ResetToDefault();
         SetCanvasGroupActive(_canvasGroups[0]);
         SetCanvasGroupActive(_canvasGroups[1]);
+        UpdateTitle(text: (string)data[0] == _commonErrorMessage ? _errors[1] : _errors[2]);
+        SoundOverrider.Fail();
     }
 
     protected override void OnMainButtonClick()

@@ -12,8 +12,13 @@ public static class SoundOverrider
         UISoundController.PlaySound(1, 0);
     }
 
-    public static void TypeWriterSpace()
+    public static void Success()
     {
-        UISoundController.PlaySound(2, 25);
+        UISoundController.PlaySound(4, 0);
+    }
+
+    public static void Fail()
+    {
+        UISoundController.PlaySound(4, 1);
     }
 }

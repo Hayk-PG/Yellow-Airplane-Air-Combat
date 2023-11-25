@@ -1,10 +1,14 @@
 using UnityEngine;
 using TMPro;
+using Pautik;
 
 public abstract class BaseUserSignupManager : BaseUserManager
 {
     [Header("Canvas Group")]
     [SerializeField] protected CanvasGroup[] _canvasGroups;
+
+    [Header("Text")]
+    [SerializeField] protected TMP_Text[] _texts;
 
     [Header("Input Field")]
     [SerializeField] protected TMP_InputField[] _inputFields;
@@ -15,6 +19,8 @@ public abstract class BaseUserSignupManager : BaseUserManager
     [Header("Toggle")]
     [SerializeField] protected CustomToggle[] _toggles;
 
+    protected string[] _errors = new string[] { "Sorry, this username is already taken. Try another one.", "Username not found. Verify your entry and retry.", "Action couldn't be completed. Check data and retry." };
+    protected string _defaultTitle;
     protected bool _isUserNameInputFieldFilled;
     protected bool _isPasswordInputFieldFilled;
 
@@ -25,6 +31,12 @@ public abstract class BaseUserSignupManager : BaseUserManager
 
 
 
+
+
+    protected virtual void Start()
+    {
+        InitializeDefaultTitle();
+    }
 
     protected override void OnEnable()
     {
@@ -73,17 +85,21 @@ public abstract class BaseUserSignupManager : BaseUserManager
 
     protected virtual void OnEmailInputFieldValueChanged(string text)
     {
-
+        UpdateTitle();
     }
 
     protected virtual void OnUserNameInputFieldValueChanged(string text)
     {
+        UpdateTitle();
+
         _isUserNameInputFieldFilled = text.Length >= 3 && text.Length <= 20;
         _buttons[0].IsInteractable = IsMainButtonInteractable;
     }
 
     protected virtual void OnPasswordInputFieldValueChanged(string text)
     {
+        UpdateTitle();
+
         _isPasswordInputFieldFilled = text.Length >= 6 && text.Length <= 25;
         _buttons[0].IsInteractable = IsMainButtonInteractable;
     }
@@ -98,8 +114,30 @@ public abstract class BaseUserSignupManager : BaseUserManager
         _canvasGroups[1].interactable = !_canvasGroups[1].interactable;
     }
 
+    protected void InitializeDefaultTitle()
+    {
+        if (_texts.Length < 1 || _texts[0] == null)
+        {
+            return;
+        }
+
+        _defaultTitle = _texts[0].text;
+    }
+
+    protected void UpdateTitle(string text = null)
+    {
+        if (_texts.Length < 1 || _texts[0] == null)
+        {
+            return;
+        }
+
+        Conditions<bool>.Compare(text == null, () => _texts[0].text = _defaultTitle, () => _texts[0].text = text);
+    }
+
     protected virtual void ResetToDefault()
     {
+        UpdateTitle();
+
         _buttons[0].Deselect();
         _buttons[0].IsInteractable = false;
 

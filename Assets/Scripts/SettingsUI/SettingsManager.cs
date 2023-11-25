@@ -47,7 +47,7 @@ public class SettingsManager : MonoBehaviour
         Conditions<bool>.Compare((bool)data[0], 
             delegate 
             {
-                ActivateButtonsByIndex(new int[] { 0, 1, 2 });
+                ActivateButtonsByIndex(new int[] { 0, 1, 3 });
                 _settingsAnimationManager.FadeButtonsGroupIn();
             },
             delegate
