@@ -46,6 +46,6 @@ public class GameInitVerifier : MonoBehaviour
             }
         }
 
-        MyScene.Manager.LoadSceneAsync(0);
+        MyScene.Manager.LoadTargetScene(1);
     }
 }
