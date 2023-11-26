@@ -6,59 +6,29 @@ public class ColliderSizeManager : MonoBehaviour
     [Header("Collider Component")]
     [SerializeField] private BoxCollider2D _boxCollider;
 
+    [Header("Sprite Renderer Component")]
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+
+    [Header("Sprite Renderer Animation Manager Component")]
+    [SerializeField] private SpriteRendererAnimationManager _spriteRendererAnimationManager;
+
     private Vector2 ColliderSize
     {
         get => _boxCollider.size;
         set => _boxCollider.size = value;
     }
-    private Vector2 SpriteRendererSize { get; set; }
+    private Vector2 SpriteRendererSize => _spriteRenderer.bounds.size;
 
 
 
 
     private void OnEnable()
     {
-        GameEventHandler.OnEvent += OnGameEvent;
+        _spriteRendererAnimationManager.OnAnimationFrameChange += OnSpriteRendererAnimationChange;
     }
 
-    private void OnDisable()
+    private void OnSpriteRendererAnimationChange()
     {
-        GameEventHandler.OnEvent -= OnGameEvent;
-    }
-
-    private void OnGameEvent(GameEventType gameEventType, object[] data)
-    {
-        HandleRendererCreation(gameEventType, data);
-        HandleFrameChange(gameEventType, data);
-    }
-
-    private void HandleRendererCreation(GameEventType gameEventType, object[] data)
-    {
-        if (gameEventType != GameEventType.AirplaneRendererCreated)
-        {
-            return;
-        }
-
-        if ((Transform)data[0] != transform)
-        {
-            return;
-        }
-
-        SpriteRendererSize = ((SpriteRenderer)data[1]).bounds.size;
-    }
-
-    private void HandleFrameChange(GameEventType gameEventType, object[] data)
-    {
-        if (gameEventType != GameEventType.AirplaneFrameChanged)
-        {
-            return;
-        }
-
-        if ((Transform)data[0] != transform)
-        {
-            return;
-        }
-
         StartCoroutine(ExecuteAfterDelay());
     }
 

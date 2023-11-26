@@ -4,6 +4,9 @@ using Pautik;
 
 public abstract class BaseShootController : MonoBehaviour
 {
+    [Header("Shakeable Particle Systems")]
+    [SerializeField] protected ShakeableParticleSystems _muzzleFlash;
+
     [Header("Target Layer Mask")]
     [SerializeField] protected LayerMask _targetLayerMask;
 
@@ -13,8 +16,6 @@ public abstract class BaseShootController : MonoBehaviour
     protected Collider2D _targetCollider;
     protected IDamage _targetDamage;
     protected IEnumerator _fireRoutine;
-
-    protected object[] _data = new object[1];
 
     [Header("Rate Of Fire")]
     [SerializeField] protected float _fireRate = 650f;
@@ -64,7 +65,7 @@ public abstract class BaseShootController : MonoBehaviour
             if (elapsedTime >= fireInterval)
             {
                 Shoot();
-                TriggerMuzzleFlash();
+                ToggleMuzzleFlash();
                 PlaySoundEffect();
                 elapsedTime = 0f;
             }
@@ -80,10 +81,12 @@ public abstract class BaseShootController : MonoBehaviour
     /// </summary>
     protected abstract void Shoot();
 
-    protected virtual void TriggerMuzzleFlash()
+    /// <summary>
+    /// Toggles the muzzle flash effect.
+    /// </summary>
+    protected virtual void ToggleMuzzleFlash()
     {
-        _data[0] = transform;
-        GameEventHandler.RaiseEvent(GameEventType.MuzzleFlashTriggered, _data);
+        _muzzleFlash.Play();
     }
 
     /// <summary>

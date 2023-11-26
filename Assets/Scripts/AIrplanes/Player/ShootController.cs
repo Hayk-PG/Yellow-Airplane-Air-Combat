@@ -17,7 +17,7 @@ public class ShootController : BaseShootController
     protected override void Awake()
     {
         base.Awake();
-        Invoke(nameof(DefineDefaultFireRate), 0.02f);
+        DefineDefaultFireRate();
     }
 
     private void OnEnable()
@@ -98,7 +98,7 @@ public class ShootController : BaseShootController
             if (isGunCooling)
             {
                 _gunHeatElapsedTime = 0f;
-                _fireRate = _defaultFireRate;               
+                _fireRate = _defaultFireRate;
                 GunfireBroadcast(GameEventType.OnGunFire);
             }
         }

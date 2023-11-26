@@ -2,7 +2,8 @@
 
 public class AirplaneAnimationManager : MonoBehaviour
 {
-    private object[] _data = new object[3];
+    [Header("Animator Component")]
+    [SerializeField] private Animator _animator;
 
     private const string _turnRight = "turnRight";
     private const string _turnLeft = "turnLeft";
@@ -17,6 +18,10 @@ public class AirplaneAnimationManager : MonoBehaviour
 
 
 
+    /// <summary>
+    /// Plays the idle animation if the provided boolean value is true.
+    /// </summary>
+    /// <param name="play">True to play the idle animation, false to stop it.</param>
     public void PlayIdleAnimation(bool play)
     {
         if(_isIdleAnimationPlayed == play)
@@ -26,9 +31,13 @@ public class AirplaneAnimationManager : MonoBehaviour
 
         _isIdleAnimationPlayed = play;
 
-        AnimateAirplane(_idle, _isIdleAnimationPlayed);
+        _animator.SetBool(_idle, _isIdleAnimationPlayed);
     }
 
+    /// <summary>
+    /// Plays the turn right animation if the provided boolean value is true.
+    /// </summary>
+    /// <param name="play">True to play the turn right animation, false to stop it.</param>
     public void PlayRightTurnAnimation(bool play)
     {
         if(_isRightTurnAnimationPlayed == play)
@@ -38,9 +47,13 @@ public class AirplaneAnimationManager : MonoBehaviour
 
         _isRightTurnAnimationPlayed = play;
 
-        AnimateAirplane(_turnRight, _isRightTurnAnimationPlayed);
+        _animator.SetBool(_turnRight, _isRightTurnAnimationPlayed);
     }
 
+    /// <summary>
+    /// Plays the turn left animation if the provided boolean value is true.
+    /// </summary>
+    /// <param name="play">True to play the turn left animation, false to stop it.</param>
     public void PlayLeftTurnAnimation(bool play)
     {
         if(_isLeftTurnAnimationPlayed == play)
@@ -50,9 +63,13 @@ public class AirplaneAnimationManager : MonoBehaviour
 
         _isLeftTurnAnimationPlayed = play;
 
-        AnimateAirplane(_turnLeft, _isLeftTurnAnimationPlayed);
+        _animator.SetBool(_turnLeft, _isLeftTurnAnimationPlayed);
     }
 
+    /// <summary>
+    /// Plays the dodge animation if the provided boolean value is true.
+    /// </summary>
+    /// <param name="play">True to play the dodge animation, false to stop it.</param>
     public void PlayDodgeAnimation(bool play)
     {
         if (_isDodgeAnimationPlayed == play)
@@ -62,14 +79,6 @@ public class AirplaneAnimationManager : MonoBehaviour
 
         _isDodgeAnimationPlayed = play;
 
-        AnimateAirplane(_dodge, _isDodgeAnimationPlayed);
-    }
-
-    private void AnimateAirplane(string parameter, bool state)
-    {
-        _data[0] = transform;
-        _data[1] = parameter;
-        _data[2] = state;
-        GameEventHandler.RaiseEvent(GameEventType.AnimateAirplane, _data);
+        _animator.SetBool(_dodge, _isDodgeAnimationPlayed);
     }
 }

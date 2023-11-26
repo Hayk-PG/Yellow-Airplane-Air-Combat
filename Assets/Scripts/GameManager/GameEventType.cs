@@ -4,7 +4,6 @@ public enum GameEventType
     BackgroundSpritesInit,
     CloudSpritesInit,
     CrosshairSpriteInit,
-    AirplaneAssetInit,
 
     RequestUserAuth,    
     RequestUserRegistration,
@@ -27,12 +26,6 @@ public enum GameEventType
     LeaderboardFailed,
     UserStatisticsUpdateSucceed,
     UserStatisticsUpdateFailed,
-
-    AirplaneRendererCreated,
-    AirplaneFrameChanged,
-    AnimateAirplane,
-    UpdateAirplaneColor,
-    MuzzleFlashTriggered,
 
     OnMainMenuInit,
     OnLastHopeDefenderMessageActivity,
