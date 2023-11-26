@@ -17,7 +17,7 @@ public class ShootController : BaseShootController
     protected override void Awake()
     {
         base.Awake();
-        DefineDefaultFireRate();
+        Invoke(nameof(DefineDefaultFireRate), 0.15f);
     }
 
     private void OnEnable()

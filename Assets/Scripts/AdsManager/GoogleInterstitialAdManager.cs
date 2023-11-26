@@ -26,17 +26,17 @@ public class GoogleInterstitialAdManager  : GoogleAdBaseHandler<GoogleInterstiti
 
     private void OnGameEvent(GameEventType gameEventType, object[] data)
     {
-        HandlePlayerDestroyEvent(gameEventType);
+        HandleAdDisplay(gameEventType);
     }
 
-    private void HandlePlayerDestroyEvent(GameEventType gameEventType)
+    private void HandleAdDisplay(GameEventType gameEventType)
     {
-        if (gameEventType != GameEventType.OnPlayerAirplaneDestroy)
+        if (gameEventType != GameEventType.DisplayInterstitialAd)
         {
             return;
         }
 
-        Invoke(nameof(LoadAndDisplay), 0.25f);
+        Invoke(nameof(LoadAndDisplay), 0.5f);
     }
 
     private void LoadAndDisplay()

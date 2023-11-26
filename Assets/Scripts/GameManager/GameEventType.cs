@@ -23,6 +23,8 @@ public enum GameEventType
     UserStatisticsUpdateSucceed,
     UserStatisticsUpdateFailed,
 
+    DisplayInterstitialAd,
+
     OnMainMenuInit,
     OnLastHopeDefenderMessageActivity,
     OnJoystickMove,
