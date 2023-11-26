@@ -433,6 +433,7 @@ GameObject:
   - component: {fileID: 1449523756}
   - component: {fileID: 1449523758}
   - component: {fileID: 1449523759}
+  - component: {fileID: 1449523761}
   m_Layer: 0
   m_Name: Asset Loader
   m_TagString: Untagged
@@ -538,6 +539,23 @@ MonoBehaviour:
     m_SubObjectName: crosshair
     m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+--- !u!114 &1449523761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449523755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f9e7db3e19028b49b75e8d946cec54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _assetReferences:
+  - m_AssetGUID: 4ab7483bc51f14643a166e90f872707e
+    m_SubObjectName: 
+    m_SubObjectType: 
     m_EditorAssetChanged: 0
 --- !u!1001 &1722523954
 PrefabInstance:

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameInitVerifier : MonoBehaviour
 {
-    private bool[] _assetsLoadStatus = new bool[3];
+    private bool[] _assetsLoadStatus = new bool[4];
 
 
 
@@ -22,6 +22,7 @@ public class GameInitVerifier : MonoBehaviour
         HandleAssetStatus(gameEventType, GameEventType.BackgroundSpritesInit, 0);
         HandleAssetStatus(gameEventType, GameEventType.CloudSpritesInit, 1);
         HandleAssetStatus(gameEventType, GameEventType.CrosshairSpriteInit, 2);
+        HandleAssetStatus(gameEventType, GameEventType.AirplaneAssetInit, 3);
     }
 
     private void HandleAssetStatus(GameEventType gameEventType, GameEventType targetEventType, int assetLoadStatusIndex)
