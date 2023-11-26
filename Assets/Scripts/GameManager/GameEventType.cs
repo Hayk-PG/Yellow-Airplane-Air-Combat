@@ -1,10 +1,6 @@
 
 public enum GameEventType 
 {
-    BackgroundSpritesInit,
-    CloudSpritesInit,
-    CrosshairSpriteInit,
-
     RequestUserAuth,    
     RequestUserRegistration,
     RequestUserLogin,

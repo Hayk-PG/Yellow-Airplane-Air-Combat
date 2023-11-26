@@ -440,7 +440,6 @@ GameObject:
   - component: {fileID: 1291474028}
   - component: {fileID: 1291474027}
   - component: {fileID: 1291474029}
-  - component: {fileID: 1487014044372463195}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -496,7 +495,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: ea69e08485d746541b5a29ed531e6841, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -518,20 +517,6 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
---- !u!114 &1487014044372463195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1291474025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83f555b47db21e4a9926280162be933, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _image: {fileID: 1291474027}
-  _assetIndex: 2
 --- !u!1 &1439147569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,7 +1638,6 @@ GameObject:
   - component: {fileID: 1487014044822289565}
   - component: {fileID: 1487014044822289564}
   - component: {fileID: 1487014044822289567}
-  - component: {fileID: 1487014044372463196}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -1709,7 +1693,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: ea69e08485d746541b5a29ed531e6841, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1738,20 +1722,6 @@ MonoBehaviour:
   m_ColorMode: 0
   m_BlurMode: 3
   m_AdvancedBlur: 0
---- !u!114 &1487014044372463196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1487014044822289553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83f555b47db21e4a9926280162be933, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _image: {fileID: 1487014044822289564}
-  _assetIndex: 2
 --- !u!1 &1487014044893095544
 GameObject:
   m_ObjectHideFlags: 0
