@@ -2,103 +2,32 @@
 
 public class AirplaneCameraController : MonoBehaviour
 {
-    [Header("Box Collider")]
-    [SerializeField] private BoxCollider2D _boxCollider;
-
-    private float _desiredY;
-    private float _currentY;
-    private float _desiredX;
-    private float _currentX;
+    private MovementController _airplane;
 
 
 
 
-    private void OnEnable()
+    private void Awake()
     {
-        GameEventHandler.OnEvent += OnGameEvent;
+        _airplane = FindObjectOfType<MovementController>();
     }
 
-    private void OnDisable()
+    private void Update()
     {
-        GameEventHandler.OnEvent -= OnGameEvent;
+        TrackPlayerAirplane();
     }
 
-    private void OnGameEvent(GameEventType gameEventType, object[] data)
+    private void TrackPlayerAirplane()
     {
-        TrackPlayerAirplane(gameEventType, data);
-    }
-
-    private void TrackPlayerAirplane(GameEventType gameEventType, object[] data)
-    {
-        if (gameEventType != GameEventType.PlayerMoveBroadcast)
+        if (_airplane == null)
         {
             return;
         }
 
-        _currentY = transform.position.y;
-        _currentX = transform.position.x;
-        Vector2 playerRigidbodyPosition = (Vector2)data[0];
-        ClampVerticalPosition();
-        ClampHorizontalPosition();
-        UpdateDesiredVerticalPosition(playerRigidbodyPosition);
-        UpdateDesiredHorizontalPosition(playerRigidbodyPosition);
-        UpdateCameraPosition();
-    }
-
-    private void ClampVerticalPosition()
-    {
-        if (_currentY >= 43)
-        {
-            _currentY = 43;
-        }
-
-        else if (_currentY <= -43)
-        {
-            _currentY = -43;
-        }
-    }
-
-    private void ClampHorizontalPosition()
-    {
-        if (_currentX >= 40)
-        {
-            _currentX = 40;
-        }
-
-        else if (_currentX <= -40)
-        {
-            _currentX = -40;
-        }
-    }
-
-    private void UpdateDesiredVerticalPosition(Vector2 playerRigidbodyPosition)
-    {
-        if (playerRigidbodyPosition.y > _boxCollider.bounds.center.y && _currentY <= 43)
-        {
-            _desiredY = Mathf.Lerp(_currentY, playerRigidbodyPosition.y, 10 * Time.deltaTime);
-        }
-
-        else if (playerRigidbodyPosition.y < _boxCollider.bounds.center.y && _currentY >= -43)
-        {
-            _desiredY = Mathf.Lerp(_currentY, playerRigidbodyPosition.y, 10 * Time.deltaTime);
-        }
-    }
-
-    private void UpdateDesiredHorizontalPosition(Vector2 playerRigidbodyPosition)
-    {
-        if (playerRigidbodyPosition.x > _boxCollider.bounds.center.x && _currentX <= 40)
-        {
-            _desiredX = Mathf.Lerp(_currentX, playerRigidbodyPosition.x, 10 * Time.deltaTime);
-        }
-
-        else if (playerRigidbodyPosition.x < _boxCollider.bounds.center.x && _currentX >= -40)
-        {
-            _desiredX = Mathf.Lerp(_currentX, playerRigidbodyPosition.x, 10 * Time.deltaTime);
-        }
-    }
-
-    private void UpdateCameraPosition()
-    {
-        transform.position = new Vector3(_desiredX, _desiredY, -10);
+        Vector3 targetPosition = Vector2.Lerp(transform.position, _airplane.Rigidbody.position, 5 * Time.deltaTime);
+        targetPosition.x = Mathf.Clamp(targetPosition.x, Reference.Manager.MapBounds.Min.x, Reference.Manager.MapBounds.Max.x);
+        targetPosition.y = Mathf.Clamp(targetPosition.y, Reference.Manager.MapBounds.Min.y, Reference.Manager.MapBounds.Max.y);
+        targetPosition.z = -10;
+        transform.position = targetPosition;
     }
 }

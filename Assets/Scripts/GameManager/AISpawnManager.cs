@@ -7,8 +7,9 @@ public class AISpawnManager : MonoBehaviour
     [Header("Enemy Airplane Prefab")]
     [SerializeField] private AIMovementManager _aiAirplanePrefab;
 
+    private WaitForSeconds _airplaneSpawnCheckInterval = new WaitForSeconds(2f);
+    private WaitForSeconds _airplaneSpawnInterval = new WaitForSeconds(1f);
     private Transform _playerAirplane;
-
     private List<AIMovementManager> _aiAirplanes = new List<AIMovementManager>();
 
     public event System.Action<AISpawnManagerCommand, AIMovementManager> OnManageList;
@@ -33,13 +34,11 @@ public class AISpawnManager : MonoBehaviour
     /// <returns>An enumerator for the coroutine.</returns>
     private IEnumerator CheckAirplaneSpawn()
     {
-        while (true)
+        while (_playerAirplane != null)
         {
-            yield return new WaitForSeconds(2f);
+            yield return _airplaneSpawnCheckInterval;
 
-            bool isAirplanesListEmpty = _aiAirplanes.Count == 0;
-
-            if (isAirplanesListEmpty)
+            if (_aiAirplanes.Count == 0)
             {
                 StartCoroutine(Spawn());
             }
@@ -52,7 +51,7 @@ public class AISpawnManager : MonoBehaviour
     /// <returns>An enumerator for the coroutine.</returns>
     private IEnumerator Spawn()
     {
-        while (_aiAirplanes.Count < 3)
+        while (_aiAirplanes.Count < 3 && _playerAirplane != null)
         {
             float randomX = Random.Range(10f, 20f);
             float randomY = Random.Range(10f, 20f);
@@ -60,7 +59,7 @@ public class AISpawnManager : MonoBehaviour
             float randomVerticalOffset = Random.Range(-1f, 1f) <= 0 ? -randomY : randomY;
 
             InstantiateAIAirplane(randomHorizontalOffset, randomVerticalOffset);
-            yield return new WaitForSeconds(1f);
+            yield return _airplaneSpawnInterval;
         }
     }
 

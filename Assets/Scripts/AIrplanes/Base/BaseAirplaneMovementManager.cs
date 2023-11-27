@@ -16,6 +16,8 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     [SerializeField] protected AirplaneAnimationManager _airplaneAnimationManager;
     [SerializeField] protected ExternalSoundSource _externalSoundSource;
 
+    protected Vector2 _currentVelocity;
+
     protected Quaternion _previousRotation;
     protected Quaternion _currentRotation;
 
@@ -29,6 +31,8 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     protected float _propellerDefaultRate;
     protected float _propellerNewRate;
     protected float _propellerRateChangeTime;
+
+    public Rigidbody2D Rigidbody => _rigidbody;
 
 
 
@@ -46,7 +50,7 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     /// <param name="velocity">The velocity vector for movement.</param>
     protected virtual void Move(Vector2 velocity)
     {
-        _rigidbody.velocity = velocity;
+        _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, velocity, ref _currentVelocity, 0.1f, 10f, 5f);
     }
 
     /// <summary>
@@ -55,7 +59,7 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     /// <param name="angle">The target rotation angle.</param>
     protected virtual void Rotate(float angle)
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, angle), _rotationSpeed * Time.deltaTime);
+        _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.transform.rotation, Quaternion.Euler(0, 0, angle), _rotationSpeed * Time.fixedDeltaTime));
     }
 
     /// <summary>
@@ -84,7 +88,7 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     /// </summary>
     protected virtual void InitializePreviousRotation()
     {
-        _previousRotation = transform.rotation;
+        _previousRotation = _rigidbody.transform.rotation;
     }
 
     /// <summary>
@@ -92,7 +96,7 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     /// </summary>
     protected virtual void UpdateRotationDirection()
     {
-        _currentRotation = transform.rotation;
+        _currentRotation = _rigidbody.transform.rotation;
 
         float angleDifference = Converter.GetAngleDifference(_currentRotation.eulerAngles.z, _previousRotation.eulerAngles.z);
 

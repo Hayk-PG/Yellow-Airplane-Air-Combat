@@ -1,59 +1,49 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
-    public enum InputType { PressShootButton, MoveJoystick, ReleaseJoystick}
-
     [Header("Joystick")]
-    [SerializeField] private FixedJoystick _fixedJoystick; // Reference to the FixedJoystick component for movement input
+    [SerializeField] private FixedJoystick _fixedJoystick; 
 
     [Header("Shoot Button")]
-    [SerializeField] private Btn _shootButton; // Reference to the Btn component for shoot button input
-
+    [SerializeField] private Btn _shootButton; 
+   
+    private object[] _joystickInputData = new object[1];
     private bool _isJoystickReleaseEventInvoked;
-
-    private object[] _data = new object[2]; // Array to hold input data
+    private bool _isShootButtonHeld;
 
     private bool IsJoystickReleased
     {
         get => Mathf.Abs(_fixedJoystick.Direction.x) < 0.1f && Mathf.Abs(_fixedJoystick.Direction.y) < 0.1f;
     }
 
-    public event Action<InputType, object[]> OnInputController; // Event triggered when input is received
-
 
 
 
     private void OnEnable()
     {
-        _shootButton.OnPointerDownHandler += ()=> OnShootButtonHold(true);
-        _shootButton.OnPointerUpHandler += () => OnShootButtonHold(false);
+        _shootButton.OnPointerDownHandler += ()=> UpdateShootButtonHoldState(true);
+        _shootButton.OnPointerUpHandler += () => UpdateShootButtonHoldState(false);
     }
 
     private void Update()
     {
         OnJoystickMove();
+        HandleShootButtonHold();
     }
 
-    // Handles the joystick movement input.
     private void OnJoystickMove()
     {
         if (IsJoystickReleased)
         {
             OnJoystickRelease();
-
             return;
         }
 
+        RegisterAndPublishJoystickInputData(GameEventType.OnJoystickMove, _fixedJoystick.Direction);
         _isJoystickReleaseEventInvoked = false;
-
-        _data[0] = _fixedJoystick.Direction;
-
-        OnInputController?.Invoke(InputType.MoveJoystick, _data);
     }
 
-    // Invokes the release joystick event.
     private void OnJoystickRelease()
     {
         if (_isJoystickReleaseEventInvoked)
@@ -61,16 +51,35 @@ public class InputController : MonoBehaviour
             return;
         }
 
+        RegisterAndPublishJoystickInputData(GameEventType.OnJoystickRelease, _fixedJoystick.Direction);
         _isJoystickReleaseEventInvoked = true;
-
-        OnInputController?.Invoke(InputType.ReleaseJoystick, null);
     }
 
-    // Handles the shoot button input.
-    public void OnShootButtonHold(bool isPointerDown)
+    private void HandleShootButtonHold()
     {
-        _data[1] = isPointerDown;
+        if (!_isShootButtonHeld)
+        {
+            return;
+        }
 
-        OnInputController?.Invoke(InputType.PressShootButton, _data);
+        RegisterAndPublishJoystickInputData(GameEventType.OnShootButtonState, true);
+    }
+
+    public void UpdateShootButtonHoldState(bool isShootButtonHeld)
+    {
+        _isShootButtonHeld = isShootButtonHeld;
+        RegisterAndPublishJoystickInputData(GameEventType.OnShootButtonState, isShootButtonHeld);
+    }
+
+    private void RegisterAndPublishJoystickInputData(GameEventType gameEventType, Vector2 direction)
+    {
+        _joystickInputData[0] = direction;
+        GameEventHandler.RaiseEvent(gameEventType, _joystickInputData);
+    }
+
+    private void RegisterAndPublishJoystickInputData(GameEventType gameEventType, bool isShootButtonHeld)
+    {
+        _joystickInputData[0] = isShootButtonHeld;
+        GameEventHandler.RaiseEvent(gameEventType, _joystickInputData);
     }
 }

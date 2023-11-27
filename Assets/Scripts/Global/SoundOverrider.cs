@@ -7,23 +7,18 @@ public static class SoundOverrider
         SoundController.ToggleMusicState(isMuted);
     }
 
-    public static void QuickClick()
-    {
-        UISoundController.PlaySound(0, 0);
-    }
-
-    public static void ImpactClick()
-    {
-        UISoundController.PlaySound(0, 1);
-    }
-
     public static void PopUp()
     {
         UISoundController.PlaySound(1, 0);
     }
 
-    public static void TypeWriterSpace()
+    public static void Success()
     {
-        UISoundController.PlaySound(2, 25);
+        UISoundController.PlaySound(4, 0);
+    }
+
+    public static void Fail()
+    {
+        UISoundController.PlaySound(4, 1);
     }
 }

@@ -30,11 +30,11 @@ public class ShootButtonSimulator : MonoBehaviour
         if (isHoldingSpaceKey)
         {
             _button.OnSubmit(_ped);
-            Reference.Manager.InputController.OnShootButtonHold(true);
+            Reference.Manager.InputController.UpdateShootButtonHoldState(true);
             return;
         }
 
-        Reference.Manager.InputController.OnShootButtonHold(false);
+        Reference.Manager.InputController.UpdateShootButtonHoldState(false);
     }
 
     /// <summary>

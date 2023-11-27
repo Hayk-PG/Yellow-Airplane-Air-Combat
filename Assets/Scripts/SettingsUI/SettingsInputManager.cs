@@ -3,7 +3,7 @@
 public class SettingsInputManager : MonoBehaviour
 {
     /// <summary>
-    /// 0: Resume, 1: Home, 2: Play or Replay, 3: Quit
+    /// 0: Resume, 1: Home, 2: Play or Replay, 3: Quit 4: Logout 5: Leaderboard (Not included)
     /// </summary>
     [Header("Button")]
     [SerializeField] internal Btn[] _buttons;
@@ -13,21 +13,10 @@ public class SettingsInputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _buttons[0].OnSelect += () => OnQuickClickWithCallback(() => GameEventHandler.RaiseEvent(GameEventType.OnResumeButtonClick));
-        _buttons[1].OnSelect += () => OnQuickClickWithCallback(() => { GameEventHandler.RaiseEvent(GameEventType.ResetGameSpeed); MyScene.Manager.LoadTargetScene(0); });
-        _buttons[2].OnSelect += () => OnImpactClickWithCallback(()=> { GameEventHandler.RaiseEvent(GameEventType.ResetGameSpeed); MyScene.Manager.LoadTargetScene(1); });
-        _buttons[3].OnSelect += () => OnQuickClickWithCallback(() => Application.Quit());
-    }
-
-    private void OnQuickClickWithCallback(System.Action callback)
-    {
-        SoundOverrider.QuickClick();
-        callback?.Invoke();
-    }
-
-    private void OnImpactClickWithCallback(System.Action callback)
-    {
-        SoundOverrider.ImpactClick();
-        callback?.Invoke();
+        _buttons[0].OnSelect += () => GameEventHandler.RaiseEvent(GameEventType.OnResumeButtonClick);
+        _buttons[1].OnSelect += () => { GameEventHandler.RaiseEvent(GameEventType.ResetGameSpeed); MyScene.Manager.LoadTargetScene(1); };
+        _buttons[2].OnSelect += () => { GameEventHandler.RaiseEvent(GameEventType.ResetGameSpeed); MyScene.Manager.LoadTargetScene(2); };
+        _buttons[3].OnSelect += () => Application.Quit();
+        _buttons[4].OnSelect += () => GameEventHandler.RaiseEvent(GameEventType.RequestUserLogout);
     }
 }

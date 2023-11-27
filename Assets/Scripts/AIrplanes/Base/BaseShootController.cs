@@ -40,11 +40,13 @@ public abstract class BaseShootController : MonoBehaviour
     /// </summary>
     protected virtual void TryRunCoroutine()
     {
-        if (_fireRoutine == null)
+        if (_fireRoutine != null)
         {
-            _fireRoutine = FireRoutine(_isShooting);
-            StartCoroutine(_fireRoutine);
+            return;
         }
+
+        _fireRoutine = FireRoutine(_isShooting);
+        StartCoroutine(_fireRoutine);
     }
 
     /// <summary>
@@ -53,14 +55,22 @@ public abstract class BaseShootController : MonoBehaviour
     /// <param name="isShooting">Determines if the shooting is enabled or disabled.</param>
     protected virtual IEnumerator FireRoutine(bool isShooting)
     {
+        float elapsedTime = 0f;
+
         while (_isShooting)
         {
             float fireInterval = 60f / _fireRate;
+            elapsedTime += Time.deltaTime;
 
-            Shoot();
-            ToggleMuzzleFlash();
-            PlaySoundEffect();
-            yield return new WaitForSeconds(fireInterval);
+            if (elapsedTime >= fireInterval)
+            {
+                Shoot();
+                ToggleMuzzleFlash();
+                PlaySoundEffect();
+                elapsedTime = 0f;
+            }
+
+            yield return null;
         }
 
         _fireRoutine = null;

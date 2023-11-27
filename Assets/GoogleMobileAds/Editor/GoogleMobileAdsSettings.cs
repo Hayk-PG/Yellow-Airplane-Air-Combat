@@ -1,30 +1,36 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-
 using UnityEditor;
 using UnityEngine;
 
 namespace GoogleMobileAds.Editor
 {
-
     internal class GoogleMobileAdsSettings : ScriptableObject
     {
-        private const string MobileAdsSettingsDir = "Assets/GoogleMobileAds";
-
         private const string MobileAdsSettingsResDir = "Assets/GoogleMobileAds/Resources";
 
-        private const string MobileAdsSettingsFile =
-            "Assets/GoogleMobileAds/Resources/GoogleMobileAdsSettings.asset";
+        private const string MobileAdsSettingsFile = "GoogleMobileAdsSettings";
 
-        private static GoogleMobileAdsSettings instance;
+        private const string MobileAdsSettingsFileExtension = ".asset";
 
-        [SerializeField]
-        private bool isAdManagerEnabled = false;
+        internal static GoogleMobileAdsSettings LoadInstance()
+        {
+            //Read from resources.
+            var instance = Resources.Load<GoogleMobileAdsSettings>(MobileAdsSettingsFile);
 
-        [SerializeField]
-        private bool isAdMobEnabled = false;
+            //Create instance if null.
+            if (instance == null)
+            {
+                Directory.CreateDirectory(MobileAdsSettingsResDir);
+                instance = ScriptableObject.CreateInstance<GoogleMobileAdsSettings>();
+                string assetPath = Path.Combine(
+                    MobileAdsSettingsResDir,
+                    MobileAdsSettingsFile + MobileAdsSettingsFileExtension);
+                AssetDatabase.CreateAsset(instance, assetPath);
+                AssetDatabase.SaveAssets();
+            }
+
+            return instance;
+        }
 
         [SerializeField]
         private string adMobAndroidAppId = string.Empty;
@@ -33,100 +39,57 @@ namespace GoogleMobileAds.Editor
         private string adMobIOSAppId = string.Empty;
 
         [SerializeField]
-        private bool delayAppMeasurementInit = false;
+        private bool delayAppMeasurementInit;
 
-        public bool IsAdManagerEnabled
+        [SerializeField]
+        private bool optimizeInitialization;
+
+        [SerializeField]
+        private bool optimizeAdLoading;
+
+        [SerializeField]
+        private string userTrackingUsageDescription;
+
+        public string GoogleMobileAdsAndroidAppId
         {
-            get
-            {
-                return Instance.isAdManagerEnabled;
-            }
+            get { return adMobAndroidAppId; }
 
-            set
-            {
-                Instance.isAdManagerEnabled = value;
-            }
+            set { adMobAndroidAppId = value; }
         }
 
-        public bool IsAdMobEnabled
+        public string GoogleMobileAdsIOSAppId
         {
-            get
-            {
-                return Instance.isAdMobEnabled;
-            }
+            get { return adMobIOSAppId; }
 
-            set
-            {
-                Instance.isAdMobEnabled = value;
-            }
-        }
-
-        public string AdMobAndroidAppId
-        {
-            get
-            {
-                return Instance.adMobAndroidAppId;
-            }
-
-            set
-            {
-                Instance.adMobAndroidAppId = value;
-            }
-        }
-
-        public string AdMobIOSAppId
-        {
-            get
-            {
-                return Instance.adMobIOSAppId;
-            }
-
-            set
-            {
-                Instance.adMobIOSAppId = value;
-            }
+            set { adMobIOSAppId = value; }
         }
 
         public bool DelayAppMeasurementInit
         {
-            get
-            {
-                return Instance.delayAppMeasurementInit;
-            }
+            get { return delayAppMeasurementInit; }
 
-            set
-            {
-                Instance.delayAppMeasurementInit = value;
-            }
+            set { delayAppMeasurementInit = value; }
         }
 
-        public static GoogleMobileAdsSettings Instance
+        public bool OptimizeInitialization
         {
-            get
-            {
-                if (instance == null)
-                {
-                    if (!AssetDatabase.IsValidFolder(MobileAdsSettingsResDir))
-                    {
-                        AssetDatabase.CreateFolder(MobileAdsSettingsDir, "Resources");
-                    }
+            get { return optimizeInitialization; }
 
-                    instance = (GoogleMobileAdsSettings) AssetDatabase.LoadAssetAtPath(
-                        MobileAdsSettingsFile, typeof(GoogleMobileAdsSettings));
-
-                    if (instance == null)
-                    {
-                        instance = ScriptableObject.CreateInstance<GoogleMobileAdsSettings>();
-                        AssetDatabase.CreateAsset(instance, MobileAdsSettingsFile);
-                    }
-                }
-                return instance;
-            }
+            set { optimizeInitialization = value; }
         }
 
-        internal void WriteSettingsToFile()
+        public bool OptimizeAdLoading
         {
-            AssetDatabase.SaveAssets();
+            get { return optimizeAdLoading; }
+
+            set { optimizeAdLoading = value; }
+        }
+
+        public string UserTrackingUsageDescription
+        {
+            get { return userTrackingUsageDescription; }
+
+            set { userTrackingUsageDescription = value; }
         }
     }
 }
