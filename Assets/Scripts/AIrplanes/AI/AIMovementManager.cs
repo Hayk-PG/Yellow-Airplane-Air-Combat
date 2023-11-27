@@ -4,7 +4,8 @@ using Pautik;
 
 public class AIMovementManager : BaseAirplaneMovementManager, IAIMovementManager
 {
-    private IEnumerator _avoidCollisionCoroutine;   
+    private IEnumerator _avoidCollisionCoroutine;
+    private MovementController _playerAirplane;
     private Vector2 _lookDirection;
     private float _distanceFromPlayer;
 
@@ -14,49 +15,46 @@ public class AIMovementManager : BaseAirplaneMovementManager, IAIMovementManager
 
 
 
-    private void OnEnable()
+    protected override void Start()
     {
-        GameEventHandler.OnEvent += OnGameEvent;
-    }
-
-    private void OnDisable()
-    {
-        GameEventHandler.OnEvent -= OnGameEvent;
+        base.Start();
+        _playerAirplane = FindObjectOfType<MovementController>();
     }
 
     private void FixedUpdate()
     {
+        SetMovementDirection();
+        GetDistanceFromPlayer();
         TrackCurrentPosition();
         Move();
         Rotate();
-        CheckOutOfBounds();        
-    }
-
-    private void OnGameEvent(GameEventType gameEventType, object[] data)
-    {
-        if (gameEventType != GameEventType.PlayerMoveBroadcast)
-        {
-            return;
-        }
-
-        SetMovementDirection((Vector2)data[0]);
-        GetDistanceFromPlayer((Vector2)data[0]);         
+        CheckOutOfBounds();
     }
 
     /// <summary>
     /// Sets the movement direction based on the player's position.
     /// </summary>
-    private void SetMovementDirection(Vector2 playerAirplanePosition)
+    private void SetMovementDirection()
     {
-        _lookDirection = playerAirplanePosition - _rigidbody.position;
+        if (_playerAirplane == null)
+        {
+            return;
+        }
+
+        _lookDirection = _playerAirplane.Rigidbody.position - _rigidbody.position;
     }
 
     /// <summary>
     /// Calculates the distance between the AI and the player.
     /// </summary>
-    private void GetDistanceFromPlayer(Vector2 playerAirplanePosition)
+    private void GetDistanceFromPlayer()
     {
-        _distanceFromPlayer = Vector2.Distance(_rigidbody.position, playerAirplanePosition);
+        if (_playerAirplane == null)
+        {
+            return;
+        }
+
+        _distanceFromPlayer = Vector2.Distance(_rigidbody.position, _playerAirplane.Rigidbody.position);
     }
 
     /// <summary>

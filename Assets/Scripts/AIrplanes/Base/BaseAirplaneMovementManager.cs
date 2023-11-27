@@ -32,6 +32,8 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     protected float _propellerNewRate;
     protected float _propellerRateChangeTime;
 
+    public Rigidbody2D Rigidbody => _rigidbody;
+
 
 
 

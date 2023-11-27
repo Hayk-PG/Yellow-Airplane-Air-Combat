@@ -34,7 +34,6 @@ public enum GameEventType
     OnScored,
     OnPlayerAirplaneDestroy,
     OnGameOverScreenFinalize,
-    PlayerMoveBroadcast,
     OnPauseButtonClick,
     OnResumeButtonClick,
     ResetGameSpeed,
