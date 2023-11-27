@@ -6,7 +6,6 @@ public class AIMovementManager : BaseAirplaneMovementManager, IAIMovementManager
 {
     private IEnumerator _avoidCollisionCoroutine;   
     private Vector2 _lookDirection;
-
     private float _distanceFromPlayer;
 
     public bool CanChaseTarget { get; set; }
@@ -25,6 +24,14 @@ public class AIMovementManager : BaseAirplaneMovementManager, IAIMovementManager
         GameEventHandler.OnEvent -= OnGameEvent;
     }
 
+    private void FixedUpdate()
+    {
+        TrackCurrentPosition();
+        Move();
+        Rotate();
+        CheckOutOfBounds();        
+    }
+
     private void OnGameEvent(GameEventType gameEventType, object[] data)
     {
         if (gameEventType != GameEventType.PlayerMoveBroadcast)
@@ -33,11 +40,7 @@ public class AIMovementManager : BaseAirplaneMovementManager, IAIMovementManager
         }
 
         SetMovementDirection((Vector2)data[0]);
-        GetDistanceFromPlayer((Vector2)data[0]);
-        TrackCurrentPosition();
-        Move();
-        Rotate();
-        CheckOutOfBounds();
+        GetDistanceFromPlayer((Vector2)data[0]);         
     }
 
     /// <summary>

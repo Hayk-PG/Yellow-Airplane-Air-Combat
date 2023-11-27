@@ -57,7 +57,7 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     /// <param name="angle">The target rotation angle.</param>
     protected virtual void Rotate(float angle)
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, angle), _rotationSpeed * Time.deltaTime);
+        _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.transform.rotation, Quaternion.Euler(0, 0, angle), _rotationSpeed * Time.fixedDeltaTime));
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     /// </summary>
     protected virtual void InitializePreviousRotation()
     {
-        _previousRotation = transform.rotation;
+        _previousRotation = _rigidbody.transform.rotation;
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ public abstract class BaseAirplaneMovementManager : MonoBehaviour
     /// </summary>
     protected virtual void UpdateRotationDirection()
     {
-        _currentRotation = transform.rotation;
+        _currentRotation = _rigidbody.transform.rotation;
 
         float angleDifference = Converter.GetAngleDifference(_currentRotation.eulerAngles.z, _previousRotation.eulerAngles.z);
 

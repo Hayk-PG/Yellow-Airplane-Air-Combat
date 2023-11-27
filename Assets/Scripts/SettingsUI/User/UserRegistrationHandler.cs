@@ -1,9 +1,11 @@
+using Pautik;
 
 public class UserRegistrationHandler : BaseUserSignupManager
 {
     private PlayfabRegistrationHandler _playfabResgistration;
 
     private const string _commonErrorMessage = "The display name entered is not available.";
+    private const string _invalidCharacterError = "Username contains invalid characters.";
 
 
 
@@ -50,8 +52,8 @@ public class UserRegistrationHandler : BaseUserSignupManager
         ResetToDefault();
         SetCanvasGroupActive(_canvasGroups[0]);
         SetCanvasGroupActive(_canvasGroups[1]);
-        UpdateTitle(text: (string)data[0] == _commonErrorMessage ? _errors[0] : _errors[2]);
         SoundOverrider.Fail();
+        Conditions<bool>.Compare(data[1] == null, () => UpdateTitle(text: (string)data[0] == _commonErrorMessage ? _errors[0] : _errors[2]), ()=> UpdateTitle(text: (string)data[1] == _invalidCharacterError ? _errors[3] : _errors[2]));      
     }
 
     private void OnLoginButtonClick()

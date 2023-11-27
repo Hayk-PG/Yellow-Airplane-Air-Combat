@@ -22,6 +22,7 @@ public enum GameEventType
     LeaderboardFailed,
     UserStatisticsUpdateSucceed,
     UserStatisticsUpdateFailed,
+    ForceLeaderboardUpdate,
 
     DisplayInterstitialAd,
 

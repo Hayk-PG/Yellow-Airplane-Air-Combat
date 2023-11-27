@@ -19,7 +19,8 @@ public abstract class BaseUserSignupManager : BaseUserManager
     [Header("Toggle")]
     [SerializeField] protected CustomToggle[] _toggles;
 
-    protected string[] _errors = new string[] { "Sorry, this username is already taken. Try another one.", "Username not found. Verify your entry and retry.", "Action couldn't be completed. Check data and retry." };
+    protected string[] _errors = new string[] { "Sorry, this username is already taken. Try another one.", "Username not found. Verify your entry and retry.", "Action couldn't be completed. Check data and retry.",
+                                                "Invalid input. Special characters are not permitted."};
     protected string _defaultTitle;
     protected bool _isUserNameInputFieldFilled;
     protected bool _isPasswordInputFieldFilled;

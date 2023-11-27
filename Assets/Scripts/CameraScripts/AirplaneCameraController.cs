@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
+using Pautik;
 
 public class AirplaneCameraController : MonoBehaviour
 {
     [Header("Box Collider")]
     [SerializeField] private BoxCollider2D _boxCollider;
 
-    [Header("Smooth Damp Parameters")]
-    [SerializeField] private float _smoothTime;
-    [SerializeField] private float _maxSpeed;
-    [SerializeField] private float _deltaTime;
-    private float _currentVelocity;
+    private Rigidbody2D _airplaneRigidbody;
+
     private float _desiredY;
     private float _currentY;
     private float _desiredX;
@@ -18,35 +16,25 @@ public class AirplaneCameraController : MonoBehaviour
 
 
 
-    private void OnEnable()
+    private void Awake()
     {
-        GameEventHandler.OnEvent += OnGameEvent;
+        _airplaneRigidbody = Get<Rigidbody2D>.From(FindObjectOfType<MovementController>().gameObject);
     }
 
-    private void OnDisable()
+    private void Update()
     {
-        GameEventHandler.OnEvent -= OnGameEvent;
+        TrackPlayerAirplane();
     }
 
-    private void OnGameEvent(GameEventType gameEventType, object[] data)
+    private void TrackPlayerAirplane()
     {
-        TrackPlayerAirplane(gameEventType, data);
-    }
-
-    private void TrackPlayerAirplane(GameEventType gameEventType, object[] data)
-    {
-        if (gameEventType != GameEventType.PlayerMoveBroadcast)
-        {
-            return;
-        }
-
-        Vector2 playerRigidbodyPosition = (Vector2)data[0];
         _currentY = transform.position.y;
         _currentX = transform.position.x;
+
         ClampVerticalPosition();
         ClampHorizontalPosition();
-        UpdateDesiredVerticalPosition(playerRigidbodyPosition);
-        UpdateDesiredHorizontalPosition(playerRigidbodyPosition);
+        UpdateDesiredVerticalPosition(_airplaneRigidbody.position);
+        UpdateDesiredHorizontalPosition(_airplaneRigidbody.position);
         UpdateCameraPosition();
     }
 
@@ -83,7 +71,7 @@ public class AirplaneCameraController : MonoBehaviour
 
         if (isPlayerAboveBoxCenterAndWithinVerticalBounds || isPlayerBelowBoxCenterAndWithinVerticalBounds)
         {
-            _desiredY = Mathf.SmoothDamp(_currentY, playerRigidbodyPosition.y, ref _currentVelocity, _smoothTime, _maxSpeed, _deltaTime);
+            _desiredY = Mathf.Lerp(_currentY, playerRigidbodyPosition.y, 5 * Time.deltaTime);
         }
     }
 
@@ -94,7 +82,7 @@ public class AirplaneCameraController : MonoBehaviour
 
         if (isPlayerRightOfBoxCenterAndWithinHorizontalBounds || isPlayerLeftOfBoxCenterAndWithinHorizontalBounds)
         {
-            _desiredX = Mathf.SmoothDamp(_currentX, playerRigidbodyPosition.x, ref _currentVelocity, _smoothTime, _maxSpeed, _deltaTime);
+            _desiredX = Mathf.Lerp(_currentX, playerRigidbodyPosition.x, 5 * Time.deltaTime);
         }
     }
 

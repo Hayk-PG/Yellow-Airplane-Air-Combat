@@ -7,7 +7,6 @@ public class PlayfabRegistrationHandler : BasePlayfabHandler<RegisterPlayFabUser
     private readonly string _email;
     private readonly string _username;
     private readonly string _password;
-    private const string _nameNotAvailableError = "The display name entered is not available.";
 
 
 
@@ -48,6 +47,16 @@ public class PlayfabRegistrationHandler : BasePlayfabHandler<RegisterPlayFabUser
     protected override void OnFailed(PlayFabError error)
     {
         _data[0] = error.ErrorMessage;
+
+        if (error.ErrorDetails != null)
+        {
+            foreach (var item in error.ErrorDetails)
+            {
+                _data[1] = item.Value[0];
+                break;
+            }
+        }
+
         GameEventHandler.RaiseEvent(GameEventType.UserRegistrationFailed, _data);        
     }
 }

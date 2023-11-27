@@ -6,7 +6,6 @@ public class MovementController : BaseAirplaneMovementManager
 
 
 
-
     private void OnEnable()
     {
         GameEventHandler.OnEvent += OnGameEvent;

@@ -56,6 +56,7 @@ public class LeaderboardHandler : BaseUserManager
         HandleAuthenticationSuccess(gameEventType, data);
         HandlerLeaderboardSuccess(gameEventType, data);
         HandleLeaderboardFailure(gameEventType, data);
+        HandleLeaderboardForcedUpdate(gameEventType);
     }
 
     private void HandleAuthenticationSuccess(GameEventType gameEventType, object[] data)
@@ -88,6 +89,16 @@ public class LeaderboardHandler : BaseUserManager
         }
 
         SetLeaderboardActive(false);
+    }
+
+    private void HandleLeaderboardForcedUpdate(GameEventType gameEventType)
+    {
+        if (gameEventType != GameEventType.ForceLeaderboardUpdate)
+        {
+            return;
+        }
+
+        InitializeLeaderboardHandler();
     }
 
     private void InitializeLeaderboardHandler()

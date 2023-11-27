@@ -20,7 +20,8 @@ public class UserStatisticsHandler : BaseUserManager
     private string _message = GlobalFunctions.TextWithColorCode("#FF005B","To update your score on the leaderboard and compete with other players, you need to be logged in. ") +
                               GlobalFunctions.WhiteColorText("Would you like to log in now and showcase your gaming prowess?");
 
-    private int? _score;
+    private int _score = 0;
+    private bool _needExplicitLeaderboardUpdate = false;
 
 
 
@@ -40,8 +41,8 @@ public class UserStatisticsHandler : BaseUserManager
         HandleGameOverScreenFinalization(gameEventType, data);
         HandleStatisticsUpdateSuccess(gameEventType);
         HandleStatisticsUpdateFailure(gameEventType, data);
-        UpdateQueuedScoreOnRegistrationSucceed(gameEventType);
-        UpdateQueuedScoreOnLoginSucceed(gameEventType);
+        UpdateStatisticsOnRegistrationSucceed(gameEventType);
+        UpdateStatisticsOnLoginSucceed(gameEventType);
     }
 
     private void HandleGameOverScreenFinalization(GameEventType gameEventType, object[] data)
@@ -55,12 +56,14 @@ public class UserStatisticsHandler : BaseUserManager
 
         if (!PlayfabLoginVerifier.IsLoggedIn)
         {
+            _needExplicitLeaderboardUpdate = true;
+
             if (ProfileData.Manager.IsLoginReminderDisabled)
             {
                 return;
             }
 
-            SetScreenActiveAndUpdateMessage(true);
+            SetScreenActiveAndUpdateMessage(true);            
             return;
         }
 
@@ -74,7 +77,12 @@ public class UserStatisticsHandler : BaseUserManager
             return;
         }
 
-        print($"Update statistics: Success");
+        if (!_needExplicitLeaderboardUpdate)
+        {
+            return;
+        }
+
+        Invoke(nameof(ForceLeaderboardUpdate), 1f);
     }
 
     private void HandleStatisticsUpdateFailure(GameEventType gameEventType, object[] data)
@@ -83,11 +91,9 @@ public class UserStatisticsHandler : BaseUserManager
         {
             return;
         }
-
-        print($"Update statistics: Failed\n{(string)data[0]}");
     }
 
-    private void UpdateQueuedScoreOnRegistrationSucceed(GameEventType gameEventType)
+    private void UpdateStatisticsOnRegistrationSucceed(GameEventType gameEventType)
     {
         if (gameEventType != GameEventType.UserRegistrationSucceed)
         {
@@ -97,7 +103,7 @@ public class UserStatisticsHandler : BaseUserManager
         RequestStatisticsUpdate();
     }
 
-    private void UpdateQueuedScoreOnLoginSucceed(GameEventType gameEventType)
+    private void UpdateStatisticsOnLoginSucceed(GameEventType gameEventType)
     {
         if (gameEventType != GameEventType.UserLoginSucceed)
         {
@@ -109,13 +115,17 @@ public class UserStatisticsHandler : BaseUserManager
 
     private void RequestStatisticsUpdate()
     {
-        if (_score == null)
+        if (_score == 0)
         {
             return;
         }
 
-        _playfabStatsUpdater = new PlayfabStatsUpdater(score: _score.Value);
-        _score = null;
+        _playfabStatsUpdater = new PlayfabStatsUpdater(score: _score);
+    }
+
+    private void ForceLeaderboardUpdate()
+    {
+        GameEventHandler.RaiseEvent(GameEventType.ForceLeaderboardUpdate);
     }
 
     private void OnLoginButtonClick()
